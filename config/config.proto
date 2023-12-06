@@ -1,0 +1,162 @@
+syntax = "proto3";
+package yimoko.config;
+
+option go_package = "github.com/yimoka/go/config;config";
+option java_multiple_files = true;
+option java_package = "com.github.yimoko.config";
+option objc_class_prefix = "YimokoConfig";
+
+import "google/protobuf/duration.proto";
+
+message Config {
+  string name = 1;
+  Server server = 2;
+  Data data = 3;
+  Trace trace = 4;
+  MQ mq = 5;
+  Upload upload = 6;
+  Services services = 7; // 连接其他服务
+  string callbackURL = 8; // 回调地址 用于与第三方如微信支付宝等 接收回调
+  Logger logger = 9;
+}
+
+// 服务配置
+message Server {
+  string id = 1;
+  string name = 2;
+  string version = 3;
+  string appid = 4;
+  // grpc 服务 默认用于微服务内部通信
+  ServerItem grpc = 5;
+  // http 服务 默认用于管理后台 API
+  ServerItem http = 6;
+  // bff 服务 默认用于前端(通常指的是 C 端用户，如 app、小程序之类的调用) API
+  // 如果有独立的 bff 服务，建议不开启，
+  // 如果是单体服务，建议开启，用于前端调用
+  // 如果是微服务，又相对比较独立，BFF 层只是单纯的转发，可配合网关开启使用。
+  ServerItem bff = 7;
+}
+
+// 服务配置项 当不配置 addr 时，默认不开启服务
+message ServerItem {
+  string network = 1;
+  string addr = 2;
+  google.protobuf.Duration timeout = 3;
+  bool isLog = 4;
+  bool isTrace = 5;
+  string authServer = 6;
+  string accessServer = 7;
+  repeated string authWhiteList = 8;
+  repeated string accessWhiteList = 9;
+  string accessPrefix = 10;
+}
+
+// 数据配置
+message Data {
+  Database database = 1;
+  Redis redis = 2;
+  Cache cache = 3;
+  Search search = 4;
+
+  // 密钥，用于落库加密
+  // 默认密钥
+  string secret = 5;
+  // 自定义密钥，不同库或者表可以使用不同的密钥
+  map<string, string> secrets = 6;
+}
+
+message Database {
+  string driver = 1;
+  string source = 2;
+  bool isTrace = 3;
+}
+
+message Redis {
+  string addr = 1;
+  string password = 2;
+  int32 db = 3;
+  google.protobuf.Duration dial_timeout = 4;
+  google.protobuf.Duration read_timeout = 5;
+  google.protobuf.Duration write_timeout = 6;
+  bool isTrace = 7;
+}
+
+message Cache {
+  string prefix = 1;
+  int32 expiration = 2;
+  // 默认 redis
+  string driver = 3;
+}
+
+message Search {
+  string addr = 1;
+  repeated string addrs = 2; // es 集群
+  string user = 3;
+  string password = 4;
+}
+
+message MQ {
+  Pulsar pulsar = 1;
+  map<string, Consumer> consumers = 2;
+  map<string, Producer> producers = 3;
+}
+
+message Pulsar {
+  string url = 1;
+  string authentication = 2;
+  int32 operationTimeout = 3;
+  int32 connectionTimeout = 4;
+}
+
+message Consumer {
+  message DLQ {
+    uint32 maxDeliveries = 1;
+    string deadLetterTopic = 2;
+    string retryLetterTopic = 3;
+  }
+  int32 channelNum = 1;
+  int64 reconsumeDelay = 2;
+  string topic = 3;
+  repeated string topics = 4;
+  string subscriptionName = 5;
+  string type = 6;
+  DLQ dlq = 7;
+}
+
+message Producer {
+  string topic = 1;
+  string name = 2;
+}
+
+// 日志配置
+message Logger {
+  // 服务商
+  string provider = 1;
+  string topicID = 2;
+  string accessKey = 3;
+  string accessSecret = 4;
+  string endpoint = 5;
+}
+
+message Trace {
+  string endpoint = 1;
+  float samplingRate = 2;
+  string service = 3;
+  string env = 4;
+  TraceAuth auth = 5;
+}
+
+message TraceAuth {
+  string token = 1;
+  string name = 2;
+  string password = 3;
+}
+
+message Upload {
+  string url = 1;
+  string secretID = 2;
+  string secretKey = 3;
+  string cdn = 4;
+}
+
+message Services { map<string, string> services = 1; }

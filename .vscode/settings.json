@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "otlp",
+    "otlptrace",
+    "otlptracegrpc",
+    "redisotel",
+    "semconv",
+    "stretchr",
+    "tracesdk"
+  ]
+}
