@@ -37,6 +37,8 @@ func (Mail) Fields() []ent.Field {
 
 		field.String("mailCipher").
 			MaxLen(255).
+			Optional().
+			Default("").
 			Sensitive().
 			Annotations(
 				ann.Field{

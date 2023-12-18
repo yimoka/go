@@ -54,6 +54,8 @@ func (Phone) Fields() []ent.Field {
 		field.String("phoneCipher").
 			MaxLen(255).
 			Sensitive().
+			Optional().
+			Default("").
 			Annotations(
 				ann.Field{
 					OnlyData: true,
