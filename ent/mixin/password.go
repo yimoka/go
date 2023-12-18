@@ -25,6 +25,11 @@ func (Password) Fields() []ent.Field {
 				ann.Field{
 					PbIndex:                210,
 					RowIrreversibleEncrypt: true,
+					NotQueryReply:          true,
+					NotDetailReply:         true,
+					NotBffQuery:            true,
+					NotBffQueryReply:       true,
+					NotBffDetailReply:      true,
 					Query: ann.FieldQuery{
 						Disabled: true,
 					},

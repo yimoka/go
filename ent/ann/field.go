@@ -64,12 +64,12 @@ type Field struct {
 	// 当有值时 pb 使用 int64 并根据值是 秒还是毫秒在 service 层转换 time.Time
 	PBTimeToType PBTimeType
 
-	// 表示该字段存储需要加密, 仅在 data 层使用
+	// 表示该字段存储需要加密
 	Encrypt bool
-	// 掩码存储, 用于存储敏感数据, 仅在 data 层使用 如手机号
+	// 掩码存储, 用于存储敏感数据, 如手机号
 	// 请确保有 字段名 + Cipher 的字段用于存储加密后的数据 并确保 onlyData 为 true
 	MaskEncrypt utils.MaskType
-	// 独立加密, 用于存储敏感数据, 仅在 data 层使用 如 密码通过生成每一行独立的 nonce 保证安全
+	// 独立加密, 用于存储敏感数据, 如 密码通过生成每一行独立的 nonce 保证安全
 	// 请确保有 字段名 + Nonce 的字段用于存储随机生成的 nonce 并确保 onlyData 为 true
 	// 请确保有 字段名 + Cipher 的字段用于存储加密后的数据 并确保 onlyData 为 true
 	RowIrreversibleEncrypt bool
