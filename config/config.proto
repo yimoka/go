@@ -15,9 +15,11 @@ message Config {
   Trace trace = 4;
   MQ mq = 5;
   Upload upload = 6;
-  Services services = 7; // 连接其他服务
+  map<string, string> services = 7; // 连接其他服务
   string callbackURL = 8; // 回调地址 用于与第三方如微信支付宝等 接收回调
   Logger logger = 9;
+
+  map<string, string> extra = 20; // 扩展配置
 }
 
 // 服务配置
@@ -158,5 +160,3 @@ message Upload {
   string secretKey = 3;
   string cdn = 4;
 }
-
-message Services { map<string, string> services = 1; }
