@@ -4,6 +4,7 @@ package mixin
 import (
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"entgo.io/ent/schema/mixin"
 	"github.com/yimoka/go/ent/ann"
 )
@@ -31,5 +32,7 @@ func (Title) Fields() []ent.Field {
 
 // Index _
 func (Title) Index() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("title"),
+	}
 }
