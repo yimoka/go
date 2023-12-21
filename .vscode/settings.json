@@ -1,6 +1,7 @@
 {
   "editor.formatOnSave": true,
   "cSpell.words": [
+    "customsql",
     "otlp",
     "otlptrace",
     "otlptracegrpc",
