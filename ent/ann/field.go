@@ -73,6 +73,8 @@ type Field struct {
 	// 请确保有 字段名 + Nonce 的字段用于存储随机生成的 nonce 并确保 onlyData 为 true
 	// 请确保有 字段名 + Cipher 的字段用于存储加密后的数据 并确保 onlyData 为 true
 	RowIrreversibleEncrypt bool
+	// 是否需要 xss 过滤
+	XSSFilter bool
 }
 
 // PBTimeType pb 的时间类型

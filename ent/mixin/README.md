@@ -16,4 +16,9 @@
 | secretKey | 212 | 密钥 |
 | switch | 213 | 开关 |
 | remark | 214 | 备注 用于后台管理 BFF 不返回 |
+| extra | 215 | 扩展信息 |
+| content | 216 | 内容 html |
+| summary | 217 | 简介 markdown |
+| cover | 218 | 封面 |
+| title | 219 | 标题 |
 
