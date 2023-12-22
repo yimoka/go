@@ -21,4 +21,6 @@
 | summary | 217 | 简介 markdown |
 | cover | 218 | 封面 |
 | title | 219 | 标题 |
+| creatorByStaff |  220 | 创建人 - 员工 |
+| updaterByStaff |  210 | 更新人 - 员工 |
 

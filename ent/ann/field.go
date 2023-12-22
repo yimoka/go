@@ -57,25 +57,70 @@ type Field struct {
 	AutoUpdate bool
 
 	// 默认值 用于 生成默认值的方法 ent 默认值不带 ctx，无法获取用户相关的数据
-	DefaultFn string
+	DefaultFn *FieldFunc
 	// 更新值 用于 生成更新值的方法 ent 默认值不带 ctx，无法获取用户相关的数据
-	UpdateFn string
+	UpdateFn *FieldFunc
 
 	// 当有值时 pb 使用 int64 并根据值是 秒还是毫秒在 service 层转换 time.Time
 	PBTimeToType PBTimeType
 
-	// 表示该字段存储需要加密
+	// 表示该字段存储需要加密, 仅在 data 层使用
 	Encrypt bool
-	// 掩码存储, 用于存储敏感数据, 如手机号
+	// 掩码存储, 用于存储敏感数据, 仅在 data 层使用 如手机号
 	// 请确保有 字段名 + Cipher 的字段用于存储加密后的数据 并确保 onlyData 为 true
 	MaskEncrypt utils.MaskType
-	// 独立加密, 用于存储敏感数据, 如 密码通过生成每一行独立的 nonce 保证安全
+	// 独立加密, 用于存储敏感数据, 仅在 data 层使用 如 密码通过生成每一行独立的 nonce 保证安全
 	// 请确保有 字段名 + Nonce 的字段用于存储随机生成的 nonce 并确保 onlyData 为 true
 	// 请确保有 字段名 + Cipher 的字段用于存储加密后的数据 并确保 onlyData 为 true
 	RowIrreversibleEncrypt bool
+
 	// 是否需要 xss 过滤
 	XSSFilter bool
 }
+
+// FnHandleType 处理方式
+type FnHandleType string
+
+const (
+	// TError 返回错误
+	TError FnHandleType = "error"
+	// TIgnore 忽略
+	TIgnore FnHandleType = "ignore"
+	// TDefault 默认值
+	TDefault FnHandleType = "default"
+)
+
+// FieldFunc 字段取值的方法
+// 示例
+//
+//	 &ann.FieldFunc{
+//		PkgPath: `"github.com/yimoka/go/middleware/meta"`,
+//		Place:   ann.PlaceData,
+//		GetStr:  "userID,_:=meta.GetUserID(ctx)",
+//		SetStr:  `if b.Creator==nil && userID != "" {b.Creator = &userID}`, service 的写法 b.Field=xxx
+//		SetStr: `if b.Creator==nil && userID != "" {db.SetCreator(userID)}`, data 层的写法 db.SetField(xxx)
+//	}
+type FieldFunc struct {
+	PkgPath []string
+	// 执行的方法
+	GetStr string
+	SetStr string
+	// 执行的层  TODO biz 层待支持
+	Place Place
+	BFF   FnBFFType
+}
+
+// FnBFFType BFF 层的执行方式
+type FnBFFType string
+
+const (
+	// FnBFFTypeDefault 默认 都执行
+	FnBFFTypeDefault FnBFFType = ""
+	// FnBFFTypeOnly 只在 BFF 层执行
+	FnBFFTypeOnly FnBFFType = "only"
+	// FnBFFTypeNot 不在 BFF 层执行
+	FnBFFTypeNot FnBFFType = "not"
+)
 
 // PBTimeType pb 的时间类型
 type PBTimeType string
@@ -105,16 +150,17 @@ type FieldQuery struct {
 	Range bool
 }
 
-const fieldNameKey = "Field"
+// FieldNameKey 字段的注解名称
+const FieldNameKey = "Field"
 
 // Name of the annotation. Used by the codegen templates.
 func (Field) Name() string {
-	return fieldNameKey
+	return FieldNameKey
 }
 
 // GetFieldConfig 获取字段的配置
 func GetFieldConfig(node *gen.Field) *Field {
-	ann := node.Annotations[fieldNameKey]
+	ann := node.Annotations[FieldNameKey]
 	if ann == nil {
 		return &Field{}
 	}

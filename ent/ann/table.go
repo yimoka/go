@@ -43,6 +43,20 @@ type Table struct {
 	SecretKey string `json:"secretKey"`
 }
 
+// Place 代码生成的层
+type Place string
+
+const (
+	// PlaceProto proto 层
+	PlaceProto Place = "proto"
+	// PlaceService service 层
+	PlaceService Place = "service"
+	// PlaceBiz biz 层
+	PlaceBiz Place = "biz"
+	// PlaceData data 层
+	PlaceData Place = "data"
+)
+
 const tableNameKey = "Table"
 
 // Name _
