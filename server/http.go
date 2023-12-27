@@ -11,6 +11,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/validate"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/yimoka/go/config"
+	"github.com/yimoka/go/middleware/trace"
 	"go.opentelemetry.io/otel"
 )
 
@@ -34,6 +35,7 @@ func CreateHTTPServer(conf *config.ServerItem, logger log.Logger, ms ...middlewa
 	}
 	if conf.IsTrace {
 		use = append(use, tracing.Server(tracing.WithTracerProvider(otel.GetTracerProvider())))
+		use = append(use, trace.WithReplyMiddleware())
 	}
 	use = append(use, metadata.Server(), validate.Validator())
 	if len(ms) > 0 {
