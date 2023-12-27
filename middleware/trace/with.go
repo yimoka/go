@@ -17,7 +17,7 @@ func WithReplyMiddleware() middleware.Middleware {
 			if tr, ok := transport.FromServerContext(ctx); ok {
 				x := tracing.TraceID()(ctx)
 				traceID, _ := x.(string)
-				tr.ReplyHeader().Set("X-Trace-ID", traceID)
+				tr.ReplyHeader().Set("X-Trace-Id", traceID)
 			}
 			return
 		}
