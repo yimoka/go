@@ -12,23 +12,27 @@ import (
 
 // Encrypt 加密字符串
 func Encrypt(str string, secret string) (string, error) {
+	//  生成随机字符串 做为  iv
+	iv := utils.RandomStr(16)
 	src := []byte(str)
 	key := []byte(secret)
-	dst, err := openssl.AesECBEncrypt(src, key, openssl.PKCS7_PADDING)
+	dst, err := openssl.AesCBCEncrypt(src, key, []byte(iv), openssl.PKCS7_PADDING)
 	if err != nil {
 		return "", err
 	}
-	return base64.StdEncoding.EncodeToString(dst), nil
+	return iv + base64.StdEncoding.EncodeToString(dst), nil
 }
 
 // Decrypt 解密字符串
 func Decrypt(str string, secret string) (string, error) {
+	iv := str[:16]
+	str = str[16:]
 	src, err := base64.StdEncoding.DecodeString(str)
 	if err != nil {
 		return "", err
 	}
 	key := []byte(secret)
-	dst, err := openssl.AesECBDecrypt(src, key, openssl.PKCS7_PADDING)
+	dst, err := openssl.AesCBCDecrypt(src, key, []byte(iv), openssl.PKCS7_PADDING)
 	if err != nil {
 		return "", err
 	}
