@@ -9,11 +9,6 @@ import (
 	"github.com/yimoka/api/fault"
 )
 
-const (
-	globalPrefix = "x-md-global-"
-	localPrefix  = "x-md-local-"
-)
-
 // GetValue 获取元数据
 func GetValue(ctx context.Context, key string) (string, error) {
 	if md, ok := metadata.FromServerContext(ctx); ok {

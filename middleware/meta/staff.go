@@ -3,8 +3,6 @@ package meta
 
 import "context"
 
-const staffIDKey = globalPrefix + "staff-id"
-
 // GetStaffID 获取员工 id
 func GetStaffID(ctx context.Context) (string, error) {
 	return GetValue(ctx, staffIDKey)

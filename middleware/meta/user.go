@@ -3,8 +3,6 @@ package meta
 
 import "context"
 
-const userIDKey = globalPrefix + "user-id"
-
 // GetUserID 获取用户 id
 func GetUserID(ctx context.Context) (string, error) {
 	return GetValue(ctx, userIDKey)
