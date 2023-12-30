@@ -39,6 +39,31 @@ func Decrypt(str string, secret string) (string, error) {
 	return string(dst), nil
 }
 
+// ECBEncrypt 加密字符串
+func ECBEncrypt(str string, secret string) (string, error) {
+	src := []byte(str)
+	key := []byte(secret)
+	dst, err := openssl.AesECBEncrypt(src, key, openssl.PKCS7_PADDING)
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(dst), nil
+}
+
+// ECBDecrypt 解密字符串
+func ECBDecrypt(str string, secret string) (string, error) {
+	src, err := base64.StdEncoding.DecodeString(str)
+	if err != nil {
+		return "", err
+	}
+	key := []byte(secret)
+	dst, err := openssl.AesECBDecrypt(src, key, openssl.PKCS7_PADDING)
+	if err != nil {
+		return "", err
+	}
+	return string(dst), nil
+}
+
 // IrreversibleEncrypt 不可逆加密
 func IrreversibleEncrypt(str string, secret string) (string, string) {
 	nonce := utils.RandomStr(8)
