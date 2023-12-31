@@ -6,56 +6,56 @@ const (
 	localPrefix  = "x-md-local-"
 )
 
-const staffIDKey = globalPrefix + "staff-id"
-const userIDKey = globalPrefix + "user-id"
+const staffIDKey = "staff-id"
+const userIDKey = "user-id"
 
 // 客户端 ID
-const clientIDKey = globalPrefix + "client-id"
+const clientIDKey = "client-id"
 
 // 签名
-const signKey = globalPrefix + "sign"
+const signKey = "sign"
 
 // 认证信息
-const authKey = globalPrefix + "auth"
+const authKey = "auth"
 
 // 平台
-const platformKey = globalPrefix + "platform"
+const platformKey = "platform"
 
 // 渠道
-const channelKey = globalPrefix + "channel"
+const channelKey = "channel"
 
 // 用户类型
-const userTypeKey = globalPrefix + "user-type"
+const userTypeKey = "user-type"
 
 // 业务
-const businessKey = globalPrefix + "business"
+const businessKey = "business"
 
 // 微信小程序 appid
-const wechatMiniAppIDKey = globalPrefix + "wechat-mini-appid"
+const wechatMiniAppIDKey = "wechat-mini-appid"
 
 // 微信小程序 openid
-const wechatMiniOpenIDKey = globalPrefix + "wechat-mini-openid"
+const wechatMiniOpenIDKey = "wechat-mini-openid"
 
 // 微信公众号 appid
-const wechatOfficialAccountAppIDKey = globalPrefix + "wechat-offiaccount-appid"
+const wechatOfficialAccountAppIDKey = "wechat-offiaccount-appid"
 
 // 微信公众号 openid
-const wechatOfficialAccountOpenIDKey = globalPrefix + "wechat-offiaccount-openid"
+const wechatOfficialAccountOpenIDKey = "wechat-offiaccount-openid"
 
 // 微信开放平台 appid
-const wechatPlatformAppIDKey = globalPrefix + "wechat-platform-appid"
+const wechatPlatformAppIDKey = "wechat-platform-appid"
 
 // 微信开放平台 openid
-const wechatPlatformOpenIDKey = globalPrefix + "wechat-platform-openid"
+const wechatPlatformOpenIDKey = "wechat-platform-openid"
 
 // 企业微信 appid
-const wechatWorkAppIDKey = globalPrefix + "wechat-work-appid"
+const wechatWorkAppIDKey = "wechat-work-appid"
 
 // 企业微信 openid
-const wechatWorkOpenIDKey = globalPrefix + "wechat-work-openid"
+const wechatWorkOpenIDKey = "wechat-work-openid"
 
 // 支付宝小程序 appid
-const alipayMiniAppIDKey = globalPrefix + "alipay-mini-appid"
+const alipayMiniAppIDKey = "alipay-mini-appid"
 
 // 支付宝小程序 openid
-const alipayMiniOpenIDKey = globalPrefix + "alipay-mini-openid"
+const alipayMiniOpenIDKey = "alipay-mini-openid"
