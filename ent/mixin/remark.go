@@ -27,6 +27,11 @@ func (Remark) Fields() []ent.Field {
 					Query: ann.FieldQuery{
 						Like: true,
 					},
+					NotBffAdd:         true,
+					NotBffEdit:        true,
+					NotBffQuery:       true,
+					NotBffQueryReply:  true,
+					NotBffDetailReply: true,
 				},
 			),
 	}
