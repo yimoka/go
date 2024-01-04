@@ -24,14 +24,11 @@ func SetValue(ctx context.Context, kv ...string) context.Context {
 	if !ok {
 		return ctx
 	}
-	useKV := make([]string, len(kv))
 	for i, v := range kv {
 		if i%2 != 0 {
-			useKV[i-1] = v
-			md.Set(globalPrefix+v, kv[i])
+			md.Set(globalPrefix+kv[i-1], v)
 		}
 	}
-
 	return metadata.NewServerContext(ctx, md)
 }
 
