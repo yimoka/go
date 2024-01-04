@@ -20,16 +20,19 @@ func GetValue(ctx context.Context, key string) (string, error) {
 
 // SetValue 设置元数据
 func SetValue(ctx context.Context, kv ...string) context.Context {
-	// 对 kv 中的 key 添加前缀 x-md-global-
+	md, ok := metadata.FromServerContext(ctx)
+	if !ok {
+		return ctx
+	}
 	useKV := make([]string, len(kv))
 	for i, v := range kv {
-		if i%2 == 0 {
-			useKV[i] = globalPrefix + v
-		} else {
-			useKV[i] = v
+		if i%2 != 0 {
+			useKV[i-1] = v
+			md.Set(globalPrefix+v, kv[i])
 		}
 	}
-	return metadata.AppendToClientContext(ctx, useKV...)
+
+	return metadata.NewServerContext(ctx, md)
 }
 
 // GetIntValue 获取 int 类型的元数据
