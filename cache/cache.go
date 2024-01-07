@@ -36,4 +36,7 @@ type Cache interface {
 	Close() error
 	// 获取缓存类型
 	GetType() string
+
+	// 获取缓存的 key 前缀
+	GetPrefix() string
 }

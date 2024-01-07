@@ -91,10 +91,11 @@ func SetTableCache[T comparable](ctx context.Context, t *Table, content *TableCo
 
 // MGetTableCache 获取多个缓存
 func MGetTableCache[T comparable](ctx context.Context, t *Table, content *TableContent[T], params ...T) (map[T]string, error) {
+	prefix := t.cache.GetPrefix()
 	keyToParam := make(map[string]T)
 	cacheKeys := lo.Map(params, func(item T, index int) string {
 		key := content.GetKey(item)
-		keyToParam[key] = item
+		keyToParam[prefix+key] = item
 		return key
 	})
 	cacheValues, err := t.cache.MGet(ctx, cacheKeys...)
@@ -115,8 +116,8 @@ func MGetTableCache[T comparable](ctx context.Context, t *Table, content *TableC
 	// 找到缓存中没有的 key
 	var dbParams []T
 	for _, cacheKey := range cacheKeys {
-		if _, ok := cacheValues[cacheKey]; !ok {
-			dbParams = append(dbParams, keyToParam[cacheKey])
+		if _, ok := cacheValues[prefix+cacheKey]; !ok {
+			dbParams = append(dbParams, keyToParam[prefix+cacheKey])
 		}
 	}
 	dbMap, gErr := content.GetValueMap(dbParams...)

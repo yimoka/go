@@ -208,6 +208,11 @@ func (r *RedisCache) GetType() string {
 	return "redis"
 }
 
+// GetPrefix 获取缓存的 key 前缀
+func (r *RedisCache) GetPrefix() string {
+	return r.prefix
+}
+
 // 处理 keys 前缀
 func (r *RedisCache) handleKeys(keys ...string) []string {
 	if r.prefix == "" {
