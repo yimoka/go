@@ -22,7 +22,6 @@ func (Mail) Fields() []ent.Field {
 			Comment("邮箱").
 			MaxLen(63).
 			Optional().
-			Default("").
 			Annotations(
 				ann.Field{
 					PbIndex:     209,
@@ -38,7 +37,6 @@ func (Mail) Fields() []ent.Field {
 		field.String("mailCipher").
 			MaxLen(255).
 			Optional().
-			Default("").
 			Sensitive().
 			Annotations(
 				ann.Field{

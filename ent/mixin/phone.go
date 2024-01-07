@@ -38,7 +38,6 @@ func (Phone) Fields() []ent.Field {
 			Comment("手机号码").
 			MaxLen(15).
 			Optional().
-			Default("").
 			Annotations(
 				ann.Field{
 					PbIndex:     208,
@@ -55,7 +54,6 @@ func (Phone) Fields() []ent.Field {
 			MaxLen(255).
 			Sensitive().
 			Optional().
-			Default("").
 			Annotations(
 				ann.Field{
 					OnlyData: true,

@@ -2,4 +2,4 @@
 package yimoka
 
 // Release is the current yimoko version.
-const Release = "v0.0.21"
+const Release = "v0.0.22"
