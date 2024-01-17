@@ -123,6 +123,7 @@ type WithConfig struct {
 	Rows   bool
 	Add    bool
 	Edit   bool
+	Query  bool
 }
 
 // TableCustom _
