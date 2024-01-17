@@ -1,5 +1,5 @@
-// Package driver ent mysql driver
-package driver
+// Package pg ent postgres driver
+package pg
 
 import (
 	"context"
@@ -14,12 +14,12 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
 
-	// init mysql driver
-	_ "github.com/go-sql-driver/mysql"
+	// init postgres driver
+	_ "github.com/lib/pq"
 )
 
-// GetMySQLDriver _
-func GetMySQLDriver(conf *config.Database) dialect.Driver {
+// GetPostgreSQLDriver _
+func GetPostgreSQLDriver(conf *config.Database) dialect.Driver {
 	drv, err := sql.Open(conf.Driver, conf.Source)
 	if err != nil {
 		log.Fatalf("连接数据库失败: %v", err)
@@ -34,6 +34,7 @@ func GetMySQLDriver(conf *config.Database) dialect.Driver {
 			"Query",
 			trace.WithAttributes(
 				attribute.String("sql", fmt.Sprint(i...)),
+				attribute.String("db.system", "postgres"),
 			),
 			trace.WithSpanKind(kind),
 		)

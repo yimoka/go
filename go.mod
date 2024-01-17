@@ -9,6 +9,7 @@ require (
 	github.com/go-redis/redismock/v9 v9.2.0
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/golang/mock v1.6.0
+	github.com/lib/pq v1.10.9
 	github.com/microcosm-cc/bluemonday v1.0.26
 	github.com/redis/go-redis/extra/redisotel/v9 v9.0.5
 	github.com/redis/go-redis/v9 v9.3.0
