@@ -2,7 +2,6 @@
 package customsql
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
@@ -15,14 +14,24 @@ func GetStrSliceAndQuery(field string, values ...string) func(s *sql.Selector) {
 	if len(values) == 0 {
 		return func(s *sql.Selector) {}
 	}
-	str := `"` + strings.Join(values, `","`) + `"`
+
 	return func(s *sql.Selector) {
-		s.Where(sql.P(func(b *sql.Builder) {
-			b.WriteString("JSON_CONTAINS").Wrap(func(b *sql.Builder) {
-				b.Ident(field).Comma()
-				b.WriteString(`JSON_ARRAY(` + str + `)`)
-			})
-		}))
+		if isPostgres(s) {
+			//nolint:goconst
+			str := `["` + strings.Join(values, `","`) + `"]`
+			s.Where(sql.P(func(b *sql.Builder) {
+				b.Ident(field).WriteString(" @> ").Arg(str)
+			}))
+		} else {
+			str := `"` + strings.Join(values, `","`) + `"`
+			s.Where(sql.P(func(b *sql.Builder) {
+				b.WriteString("JSON_CONTAINS").Wrap(func(b *sql.Builder) {
+					b.Ident(field).Comma()
+					//nolint:goconst
+					b.WriteString(`JSON_ARRAY(` + str + `)`)
+				})
+			}))
+		}
 	}
 }
 
@@ -32,12 +41,17 @@ func GetStrSliceOrQuery(field string, values ...string) func(s *sql.Selector) {
 		return func(s *sql.Selector) {}
 	}
 	return func(s *sql.Selector) {
-		pArr := lo.Map(values, func(val string, i int) *sql.Predicate { return getJSONStrQuery(field, val) })
+		if isPostgres(s) {
+			pArr := lo.Map(values, func(val string, i int) *sql.Predicate { return getPgJSONStrQuery(field, val) })
+			s.Where(sql.Or(pArr...))
+			return
+		}
+		pArr := lo.Map(values, func(val string, i int) *sql.Predicate { return getMysqlJSONStrQuery(field, val) })
 		s.Where(sql.Or(pArr...))
 	}
 }
 
-func getJSONStrQuery(field string, value string) *sql.Predicate {
+func getMysqlJSONStrQuery(field string, value string) *sql.Predicate {
 	return sql.P(func(b *sql.Builder) {
 		b.WriteString("JSON_CONTAINS").Wrap(func(b *sql.Builder) {
 			b.Ident(field).Comma()
@@ -47,20 +61,32 @@ func getJSONStrQuery(field string, value string) *sql.Predicate {
 	})
 }
 
+func getPgJSONStrQuery(field string, value string) *sql.Predicate {
+	return sql.P(func(b *sql.Builder) {
+		b.Ident(field).WriteString(" @> ").Arg(`["` + value + `"]`)
+	})
+}
+
 // GetIntSliceAndQuery 获取整数切片的并查询
 func GetIntSliceAndQuery(field string, values ...int) func(s *sql.Selector) {
-	fmt.Printf("values %+v \n", values)
 	if len(values) == 0 {
 		return func(s *sql.Selector) {}
 	}
-	str := strings.Join(lo.Map(values, func(val int, i int) string { return strconv.Itoa(val) }), `,`)
 	return func(s *sql.Selector) {
-		s.Where(sql.P(func(b *sql.Builder) {
-			b.WriteString("JSON_CONTAINS").Wrap(func(b *sql.Builder) {
-				b.Ident(field).Comma()
-				b.WriteString(`JSON_ARRAY(` + str + `)`)
-			})
-		}))
+		if isPostgres(s) {
+			str := "[" + strings.Join(lo.Map(values, func(val int, i int) string { return strconv.Itoa(val) }), ",") + "]"
+			s.Where(sql.P(func(b *sql.Builder) {
+				b.Ident(field).WriteString(" @> ").Arg(str)
+			}))
+		} else {
+			str := strings.Join(lo.Map(values, func(val int, i int) string { return strconv.Itoa(val) }), `,`)
+			s.Where(sql.P(func(b *sql.Builder) {
+				b.WriteString("JSON_CONTAINS").Wrap(func(b *sql.Builder) {
+					b.Ident(field).Comma()
+					b.WriteString(`JSON_ARRAY(` + str + `)`)
+				})
+			}))
+		}
 	}
 }
 
@@ -70,12 +96,17 @@ func GetIntSliceOrQuery(field string, values ...int) func(s *sql.Selector) {
 		return func(s *sql.Selector) {}
 	}
 	return func(s *sql.Selector) {
-		pArr := lo.Map(values, func(val int, i int) *sql.Predicate { return getJSONIntQuery(field, val) })
+		if isPostgres(s) {
+			pArr := lo.Map(values, func(val int, i int) *sql.Predicate { return getPgJSONIntQuery(field, val) })
+			s.Where(sql.Or(pArr...))
+			return
+		}
+		pArr := lo.Map(values, func(val int, i int) *sql.Predicate { return getMyJSONIntQuery(field, val) })
 		s.Where(sql.Or(pArr...))
 	}
 }
 
-func getJSONIntQuery(field string, value int) *sql.Predicate {
+func getMyJSONIntQuery(field string, value int) *sql.Predicate {
 	return sql.P(func(b *sql.Builder) {
 		b.WriteString("JSON_CONTAINS").Wrap(func(b *sql.Builder) {
 			b.Ident(field).Comma()
@@ -83,4 +114,14 @@ func getJSONIntQuery(field string, value int) *sql.Predicate {
 			b.WriteString(`,"$"`)
 		})
 	})
+}
+
+func getPgJSONIntQuery(field string, value int) *sql.Predicate {
+	return sql.P(func(b *sql.Builder) {
+		b.Ident(field).WriteString(" @> ").Arg(`[` + strconv.Itoa(value) + `]`)
+	})
+}
+
+func isPostgres(s *sql.Selector) bool {
+	return s.Dialect() == "postgres"
 }
