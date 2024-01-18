@@ -21,6 +21,8 @@ type Service struct {
 	PermissionsPath string `yaml:"permissionsPath"`
 	// 权限配置的父级ID
 	PermissionsParentID string `yaml:"permissionsParentID"`
+	// RPC 类型
+	RPCType string `yaml:"rpcType"`
 }
 
 const serviceNameKey = "Service"

@@ -31,6 +31,8 @@ type Table struct {
 	TreeParent string `json:"treeParent"`
 	// 边
 	WithEdge map[string]WithConfig `json:"withEdge"`
+	// json 字段的 ids 带上对应表的数据
+	WithTableByJSON map[string]WithTableByJSON `json:"withTableByJSON"`
 	// 服务
 	WithServices []WithService `json:"withServices"`
 	// 自定义方法配置
@@ -124,6 +126,13 @@ type WithConfig struct {
 	Add    bool
 	Edit   bool
 	Query  bool
+}
+
+// WithTableByJSON json 字段的 ids 带上对应表的数据
+type WithTableByJSON struct {
+	Table  string
+	Detail bool
+	Rows   bool
 }
 
 // TableCustom _
