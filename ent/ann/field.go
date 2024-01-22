@@ -6,6 +6,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/samber/lo"
 	"github.com/yimoka/go/utils"
 
 	"entgo.io/ent/entc/gen"
@@ -15,6 +16,9 @@ import (
 type Field struct {
 	// PB 的序号
 	PbIndex int
+
+	// 表示单字段索引并缓存（可忽略 sass 字段，减少 key 长度，并支持某些场景与 sass 字段无关的查询，例如通过域名/appid 反查配置）
+	OnlyUnique bool
 
 	// 特殊字段定义 之所以放在字段里定义是为了可以直接使用字段的 mixin
 	// 是否是操作字段 一张表只能有一个操作字段 当  false 默认为 ID
@@ -203,6 +207,14 @@ func GetFieldsConfig(node *gen.Type) map[string]*Field {
 			log.Fatalf("字段 %s 的 pbIndex 重复", field.Name)
 		}
 		indexMap[config.PbIndex] = true
+		if config.OnlyUnique {
+			_, iB := lo.Find(node.Indexes, func(item *gen.Index) bool {
+				return len(item.Columns) == 1 && strings.EqualFold(item.Columns[0], field.Name)
+			})
+			if !iB {
+				log.Fatalf("字段 %s 的 onlyUnique 为 true 时必须有单字段 Unique 索引", field.Name)
+			}
+		}
 	}
 	return fields
 }
