@@ -19,6 +19,8 @@ const (
 	OpDisable OpType = "disable"
 	// OpRecover 恢复 从软删除恢复
 	OpRecover OpType = "recover"
+	// OpUnknown 未知
+	OpUnknown OpType = "unknown"
 )
 
 // Values 性别列表
@@ -31,6 +33,7 @@ func (OpType) Values() []string {
 		string(OpEnable),
 		string(OpDisable),
 		string(OpRecover),
+		string(OpUnknown),
 	}
 }
 
@@ -44,5 +47,6 @@ func (OpType) OpTypeLabels() map[string]string {
 		string(OpEnable):  "启用",
 		string(OpDisable): "禁用",
 		string(OpRecover): "恢复",
+		string(OpUnknown): "未知",
 	}
 }
