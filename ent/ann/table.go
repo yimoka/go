@@ -43,6 +43,13 @@ type Table struct {
 	BFFAPI TableFn `json:"bffApi"`
 	// 加密的密钥 Key 如不填则使用默认
 	SecretKey string `json:"secretKey"`
+
+	OpProtectConfig OpProtectConfig `json:"operationProtectionConfig"`
+
+	MutationConfig MutationConfig `json:"mutationConfig"`
+
+	// 是否是日志操作表
+	IsOpLogTable bool `json:"isOpLogTable"`
 }
 
 // Place 代码生成的层
@@ -224,3 +231,29 @@ const (
 	// AggregateTypeMin 聚合类型 min
 	AggregateTypeMin AggregateConfType = "min"
 )
+
+// OpProtectConfig 操作保护的配置 添加 / 编辑 / 删除 / 启用 / 禁用 根据此配置在 biz 层进行插入函数，函数给于用户自行编写
+type OpProtectConfig struct {
+	// 添加配置
+	Add bool `json:"add"`
+	// 编辑配置
+	Edit bool `json:"edit"`
+	// 删除配置
+	Del bool `json:"del"`
+	// 启用配置
+	Enable bool `json:"enable"`
+	// 禁用配置
+	Disable bool `json:"disable"`
+}
+
+// MutationConfig 突变配置
+type MutationConfig struct {
+	// 启用
+	Enable bool `json:"enable"`
+	// 操作记录表 不填则不启用 需手动创建表,会对表进行需要的字段进行检查
+	OpLogTable string `json:"opLogTable"`
+	// 操作者 获取语句 必须以 operator 开头 例如 operator := meta.GetUserID(ctx)
+	OperatorCode string `json:"operatorCode"`
+	// TODO 同步到搜索
+
+}
