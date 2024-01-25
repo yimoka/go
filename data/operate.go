@@ -37,16 +37,6 @@ func OpTypeValues() []string {
 	}
 }
 
-// String _
-func (o OpType) String() string {
-	return string(o)
-}
-
-// Label _
-func (o OpType) Label() string {
-	return OpTypeLabels()[string(o)]
-}
-
 // OpTypeLabels _
 func OpTypeLabels() map[string]string {
 	return map[string]string{
@@ -59,4 +49,19 @@ func OpTypeLabels() map[string]string {
 		string(OpRecover): "恢复",
 		string(OpUnknown): "未知",
 	}
+}
+
+// String _
+func (o OpType) String() string {
+	return string(o)
+}
+
+// Label _
+func (o OpType) Label() string {
+	return OpTypeLabels()[string(o)]
+}
+
+// Values _
+func (o OpType) Values() []string {
+	return OpTypeValues()
 }
