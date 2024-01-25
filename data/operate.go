@@ -23,8 +23,8 @@ const (
 	OpUnknown OpType = "unknown"
 )
 
-// Values 性别列表
-func (OpType) Values() []string {
+// OpTypeValues _
+func OpTypeValues() []string {
 	return []string{
 		string(OpAdd),
 		string(OpDel),
@@ -37,8 +37,18 @@ func (OpType) Values() []string {
 	}
 }
 
+// String _
+func (o OpType) String() string {
+	return string(o)
+}
+
+// Label _
+func (o OpType) Label() string {
+	return OpTypeLabels()[string(o)]
+}
+
 // OpTypeLabels _
-func (OpType) OpTypeLabels() map[string]string {
+func OpTypeLabels() map[string]string {
 	return map[string]string{
 		string(OpAdd):     "添加",
 		string(OpDel):     "删除",
