@@ -51,6 +51,10 @@ message ServerItem {
   repeated string authWhiteList = 8;
   repeated string accessWhiteList = 9;
   string accessPrefix = 10;
+  // 用于区分不同服务的前缀 http bff grpc
+  string tracePrefix = 11;
+  // 用于区分不同服务的后缀 http bff grpc
+  string traceSuffix = 12;
 }
 
 // 数据配置

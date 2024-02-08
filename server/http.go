@@ -7,16 +7,14 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/metadata"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/go-kratos/kratos/v2/middleware/validate"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/yimoka/go/config"
 	"github.com/yimoka/go/middleware/trace"
-	"go.opentelemetry.io/otel"
 )
 
 // CreateHTTPServer new an HTTP server.
-func CreateHTTPServer(conf *config.ServerItem, logger log.Logger, ms ...middleware.Middleware) *http.Server {
+func CreateHTTPServer(conf *config.ServerItem, traceConf *config.Trace, logger log.Logger, ms ...middleware.Middleware) *http.Server {
 	if conf == nil || conf.Addr == "" {
 		return nil
 	}
@@ -30,17 +28,19 @@ func CreateHTTPServer(conf *config.ServerItem, logger log.Logger, ms ...middlewa
 	if conf.Timeout != nil {
 		opts = append(opts, http.Timeout(conf.Timeout.AsDuration()))
 	}
+
 	if conf.IsLog {
 		use = append(use, logging.Server(logger))
 	}
-	if conf.IsTrace {
-		use = append(use, tracing.Server(tracing.WithTracerProvider(otel.GetTracerProvider())))
-		use = append(use, trace.WithReplyMiddleware())
-	}
+
+	use = append(use, trace.CreateMiddleware(conf, traceConf)...)
+
 	use = append(use, metadata.Server(), validate.Validator())
+
 	if len(ms) > 0 {
 		use = append(use, ms...)
 	}
+
 	use = append(use, recovery.Recovery())
 	opts = append(opts, http.Middleware(use...))
 

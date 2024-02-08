@@ -15,9 +15,19 @@ import (
 
 // SetTracerProvider _
 func SetTracerProvider(conf *config.Trace) error {
-	exp, err := otlptracegrpc.New(context.Background(), otlptracegrpc.WithEndpoint(conf.Endpoint), otlptracegrpc.WithInsecure())
+	tp, err := NewTracerProvider(conf)
 	if err != nil {
 		return err
+	}
+	otel.SetTracerProvider(tp)
+	return nil
+}
+
+// NewTracerProvider _
+func NewTracerProvider(conf *config.Trace) (*tracesdk.TracerProvider, error) {
+	exp, err := otlptracegrpc.New(context.Background(), otlptracegrpc.WithEndpoint(conf.Endpoint), otlptracegrpc.WithInsecure())
+	if err != nil {
+		return nil, err
 	}
 	rate := 1.0
 	if conf.SamplingRate > 0 {
@@ -40,11 +50,9 @@ func SetTracerProvider(conf *config.Trace) error {
 		}
 	}
 
-	tp := tracesdk.NewTracerProvider(
+	return tracesdk.NewTracerProvider(
 		tracesdk.WithSampler(tracesdk.ParentBased(tracesdk.TraceIDRatioBased(rate))),
 		tracesdk.WithBatcher(exp),
 		tracesdk.WithResource(resource.NewSchemaless(attrs...)),
-	)
-	otel.SetTracerProvider(tp)
-	return nil
+	), nil
 }
