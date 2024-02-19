@@ -25,6 +25,8 @@ type Field struct {
 	OperationField bool
 	// 是否是 sass 字段 一张表只能有一个 sass 字段
 	SassField bool
+	// sass 只在 bff 服务使用 在 admin 类型的服务中使用，admin 的 bff 层为商户的控制层 api
+	SassOnlyBFF bool
 	// 是否是软删除字段 一张表只能有一个软删除字段 并且必须是 bool 类型
 	SoftDeleteField bool
 	// 是否是行数据开关 停/启用的字段 一张表只能有一个行数据开关字段 并且必须是 bool 类型
