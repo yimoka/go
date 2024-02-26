@@ -33,3 +33,28 @@ func (Switch) Index() []ent.Index {
 		index.Fields("switch"),
 	}
 }
+
+// BFFSwitch  mixin 通常用于表示 停用/启用
+type BFFSwitch struct {
+	mixin.Schema
+}
+
+// Fields _
+func (BFFSwitch) Fields() []ent.Field {
+	return []ent.Field{
+		field.Bool("switch").
+			Default(false).
+			Comment("开关").
+			Annotations(ann.Field{
+				PbIndex:        213,
+				SwitchBFFField: true,
+			}),
+	}
+}
+
+// Index _
+func (BFFSwitch) Index() []ent.Index {
+	return []ent.Index{
+		index.Fields("switch"),
+	}
+}

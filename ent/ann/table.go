@@ -244,6 +244,10 @@ type OpProtectConfig struct {
 	Enable bool `json:"enable"`
 	// 禁用配置
 	Disable bool `json:"disable"`
+	// BFF 启用配置
+	BFFEnable bool `json:"bffEnable"`
+	// BFF 禁用配置
+	BFFDisable bool `json:"bffDisable"`
 }
 
 // MutationConfig 突变配置

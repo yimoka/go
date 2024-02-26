@@ -31,6 +31,8 @@ type Field struct {
 	SoftDeleteField bool
 	// 是否是行数据开关 停/启用的字段 一张表只能有一个行数据开关字段 并且必须是 bool 类型
 	SwitchField bool
+	// 是否是行数据开关的 BFF 字段 BFF 层生成开关相关的方法 用于 admin 类型的服务 提供商户的控制层 开关 api
+	SwitchBFFField bool
 
 	//  用于生成 pb 的 validate 文档 https://github.com/bufbuild/protoc-gen-validate
 	Validate string
