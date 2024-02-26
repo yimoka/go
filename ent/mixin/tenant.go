@@ -43,7 +43,7 @@ type TenantIDOnlyBFF struct {
 // Fields _
 func (TenantIDOnlyBFF) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int32("TenantID").
+		field.Int32("tenantID").
 			Min(1000).
 			Comment("租户 ID").
 			Immutable().
@@ -58,6 +58,6 @@ func (TenantIDOnlyBFF) Fields() []ent.Field {
 // Index _
 func (TenantIDOnlyBFF) Index() []ent.Index {
 	return []ent.Index{
-		index.Fields("TenantID"),
+		index.Fields("tenantID"),
 	}
 }
