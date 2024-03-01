@@ -117,7 +117,8 @@ func (r *RedisCache) MSet(ctx context.Context, data map[string]string, expiratio
 
 // SetEmpty 设置空值 防止缓存穿透
 func (r *RedisCache) SetEmpty(ctx context.Context, key string, expiration time.Duration) error {
-	return r.Set(ctx, r.prefix+key, r.empty, expiration)
+	// 不需要再对 key 添加前缀 set 里添加了
+	return r.Set(ctx, key, r.empty, expiration)
 }
 
 // MSetEmpty 批量设置空值
