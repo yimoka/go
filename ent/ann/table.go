@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"entgo.io/ent/entc/gen"
-	"github.com/yimoka/api/com"
+	"github.com/yimoka/api/common"
 )
 
 // Table 数据库表的注解
@@ -19,7 +19,7 @@ type Table struct {
 	// 最大每页数量 默认 1000
 	MaxPageSize int `json:"maxPageSize"`
 	// 默认排序
-	DefaultSortOrder []*com.SortOrder `json:"defaultSort"`
+	DefaultSortOrder []*common.SortOrder `json:"defaultSort"`
 
 	// 是否启用返回所有记录 默认不启用
 	EnableQueryAll bool `json:"enableQueryAll"`
