@@ -14,7 +14,7 @@ func TestGetCommonBundle(t *testing.T) {
 	assert.NotNil(t, bundle)
 	// Add more assertions here if needed
 
-	bundle = GetCommonBundle(map[string]*config.Lang{
+	l := NewCommonLang(map[string]*config.Lang{
 		"zh": {Messages: []*config.LangMessage{
 			// 新增的
 			{Id: "add", Other: "新增的"},
@@ -22,104 +22,104 @@ func TestGetCommonBundle(t *testing.T) {
 			{Id: dataNotFoundKey, Other: "新的 找不到数据"},
 		}},
 	})
-	localizer := i18n.NewLocalizer(bundle, "zh")
+	localizer := i18n.NewLocalizer(l.Bundle, "zh")
 	value, _ := localizer.Localize(&i18n.LocalizeConfig{MessageID: "add"})
 	assert.Equal(t, "新增的", value)
 	lang := "zh"
 	expected := "新的 找不到数据"
-	actual := GetNotDataFoundMsg(bundle, lang)
+	actual := l.GetNotDataFoundMsg(lang)
 	assert.Equal(t, expected, actual)
-	actual = GetNotDataDuplicateMsg(bundle, "zh")
+	actual = l.GetNotDataDuplicateMsg("zh")
 	assert.Equal(t, "该数据已存在,请勿重复添加", actual)
 }
 
 func TestGetNotDataFoundMsg(t *testing.T) {
-	bundle := GetCommonBundle(nil)
+	l := NewCommonLang(nil)
 	lang := "en-US"
 	expected := "Data not found"
-	actual := GetNotDataFoundMsg(bundle, lang)
+	actual := l.GetNotDataFoundMsg(lang)
 	assert.Equal(t, expected, actual)
 
 	lang = "zh-CN"
 	expected = "找不到数据"
-	actual = GetNotDataFoundMsg(bundle, lang)
+	actual = l.GetNotDataFoundMsg(lang)
 	assert.Equal(t, expected, actual)
 }
 
 func TestGetNotDataDuplicateMsg(t *testing.T) {
-	bundle := GetCommonBundle(nil)
+	l := NewCommonLang(nil)
 	lang := "en-US"
-	expected := "The data already exists, please do not add it repeatedly"
-	actual := GetNotDataDuplicateMsg(bundle, lang)
+	expected := "Data duplicate"
+	actual := l.GetNotDataDuplicateMsg(lang)
 	assert.Equal(t, expected, actual)
 
 	lang = "zh-CN"
 	expected = "该数据已存在,请勿重复添加"
-	actual = GetNotDataDuplicateMsg(bundle, lang)
+	actual = l.GetNotDataDuplicateMsg(lang)
 	assert.Equal(t, expected, actual)
 }
 
 func TestGetNotDataConstraintMsg(t *testing.T) {
-	bundle := GetCommonBundle(nil)
+	l := NewCommonLang(nil)
 	lang := "en-US"
-	expected := "Data constraint check failed, please check your parameters"
-	actual := GetNotDataConstraintMsg(bundle, lang)
+	expected := "Data constraint check failed"
+	actual := l.GetNotDataConstraintMsg(lang)
 	assert.Equal(t, expected, actual)
 
 	lang = "zh-CN"
 	expected = "数据约束检查失败，请检查您的参数"
-	actual = GetNotDataConstraintMsg(bundle, lang)
+	actual = l.GetNotDataConstraintMsg(lang)
 	assert.Equal(t, expected, actual)
 }
 
 func TestGetNotDataNotLoadedMsg(t *testing.T) {
-	bundle := GetCommonBundle(nil)
+	l := NewCommonLang(nil)
 	lang := "en-US"
-	expected := "Database not loaded, please contact the administrator"
-	actual := GetNotDataNotLoadedMsg(bundle, lang)
+	expected := "Database not loaded"
+	actual := l.GetNotDataNotLoadedMsg(lang)
 	assert.Equal(t, expected, actual)
 
 	lang = "zh-CN"
 	expected = "数据库未加载，请联系管理员"
-	actual = GetNotDataNotLoadedMsg(bundle, lang)
+	actual = l.GetNotDataNotLoadedMsg(lang)
 	assert.Equal(t, expected, actual)
 }
 
 func TestGetNotDataNotSingularMsg(t *testing.T) {
-	bundle := GetCommonBundle(nil)
+	l := NewCommonLang(nil)
 	lang := "en-US"
-	expected := "Data error Not Singular, please contact the administrator"
-	actual := GetNotDataNotSingularMsg(bundle, lang)
+	expected := "Data error Not Singular"
+	actual := l.GetNotDataNotSingularMsg(lang)
 	assert.Equal(t, expected, actual)
 
 	lang = "zh-CN"
 	expected = "数据出错了 Not Singular,请联系管理员"
-	actual = GetNotDataNotSingularMsg(bundle, lang)
+	actual = l.GetNotDataNotSingularMsg(lang)
 	assert.Equal(t, expected, actual)
 }
 
 func TestGetNotDataValidationErrorMsg(t *testing.T) {
-	bundle := GetCommonBundle(nil)
+	l := NewCommonLang(nil)
 	lang := "en-US"
-	expected := "Data validation failed, please check your parameters"
-	actual := GetNotDataValidationErrorMsg(bundle, lang)
+	expected := "Data validation failed"
+	actual := l.GetNotDataValidationErrorMsg(lang)
 	assert.Equal(t, expected, actual)
 
 	lang = "zh-CN"
 	expected = "数据校验失败，请检查您的参数"
-	actual = GetNotDataValidationErrorMsg(bundle, lang)
+	actual = l.GetNotDataValidationErrorMsg(lang)
 	assert.Equal(t, expected, actual)
 }
 
 func TestGetNotDataErrorMsg(t *testing.T) {
-	bundle := GetCommonBundle(nil)
+	l := NewCommonLang(nil)
 	lang := "en-US"
-	expected := "Data layer error, please contact the administrator"
-	actual := GetNotDataErrorMsg(bundle, lang)
+	expected := "Data layer error"
+	actual := l.GetNotDataErrorMsg(lang)
 	assert.Equal(t, expected, actual)
 
 	lang = "zh-CN"
 	expected = "数据层出错了,请联系管理员"
-	actual = GetNotDataErrorMsg(bundle, lang)
+	actual = l.GetNotDataErrorMsg(lang)
 	assert.Equal(t, expected, actual)
 }

@@ -7,6 +7,26 @@ import (
 	"golang.org/x/text/language"
 )
 
+// CommonLang 公共语言包
+type CommonLang struct {
+	Bundle *i18n.Bundle
+}
+
+// GetCommonBundle 获取公共语言包
+func GetCommonBundle(langs map[string]*config.Lang) *i18n.Bundle {
+	bundle := i18n.NewBundle(language.English)
+	BundleMessage(bundle, commonLangs)
+	BundleMessage(bundle, langs)
+	return bundle
+}
+
+// NewCommonLang 创建公共语言包
+func NewCommonLang(langs map[string]*config.Lang) *CommonLang {
+	return &CommonLang{
+		Bundle: GetCommonBundle(langs),
+	}
+}
+
 const (
 	dataNotFoundKey        = "data_not_found"
 	dataNotFoundMsg        = "Data not found"
@@ -57,17 +77,9 @@ var commonLangs = map[string]*config.Lang{
 		}},
 }
 
-// GetCommonBundle 获取公共语言包
-func GetCommonBundle(langs map[string]*config.Lang) *i18n.Bundle {
-	bundle := i18n.NewBundle(language.English)
-	BundleMessage(bundle, commonLangs)
-	BundleMessage(bundle, langs)
-	return bundle
-}
-
 // GetNotDataFoundMsg 获取数据未找到消息
-func GetNotDataFoundMsg(bundle *i18n.Bundle, lang string) string {
-	localizer := i18n.NewLocalizer(bundle, lang)
+func (c *CommonLang) GetNotDataFoundMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
 	value, err := localizer.Localize(&i18n.LocalizeConfig{
 		MessageID:      dataNotFoundKey,
 		DefaultMessage: &i18n.Message{ID: dataNotFoundKey, Other: dataNotFoundMsg},
@@ -79,8 +91,8 @@ func GetNotDataFoundMsg(bundle *i18n.Bundle, lang string) string {
 }
 
 // GetNotDataDuplicateMsg 获取数据重复消息
-func GetNotDataDuplicateMsg(bundle *i18n.Bundle, lang string) string {
-	localizer := i18n.NewLocalizer(bundle, lang)
+func (c *CommonLang) GetNotDataDuplicateMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
 	value, err := localizer.Localize(&i18n.LocalizeConfig{
 		MessageID:      dataDuplicateKey,
 		DefaultMessage: &i18n.Message{ID: dataDuplicateKey, Other: dataDuplicateMsg},
@@ -92,8 +104,8 @@ func GetNotDataDuplicateMsg(bundle *i18n.Bundle, lang string) string {
 }
 
 // GetNotDataConstraintMsg 获取数据约束消息
-func GetNotDataConstraintMsg(bundle *i18n.Bundle, lang string) string {
-	localizer := i18n.NewLocalizer(bundle, lang)
+func (c *CommonLang) GetNotDataConstraintMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
 	value, err := localizer.Localize(&i18n.LocalizeConfig{
 		MessageID:      dataConstraintKey,
 		DefaultMessage: &i18n.Message{ID: dataConstraintKey, Other: dataConstraintMsg},
@@ -105,8 +117,8 @@ func GetNotDataConstraintMsg(bundle *i18n.Bundle, lang string) string {
 }
 
 // GetNotDataNotLoadedMsg 获取数据未加载消息
-func GetNotDataNotLoadedMsg(bundle *i18n.Bundle, lang string) string {
-	localizer := i18n.NewLocalizer(bundle, lang)
+func (c *CommonLang) GetNotDataNotLoadedMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
 	value, err := localizer.Localize(&i18n.LocalizeConfig{
 		MessageID:      dataNotLoadedKey,
 		DefaultMessage: &i18n.Message{ID: dataNotLoadedKey, Other: dataNotLoadedMsg},
@@ -118,8 +130,8 @@ func GetNotDataNotLoadedMsg(bundle *i18n.Bundle, lang string) string {
 }
 
 // GetNotDataNotSingularMsg 获取数据不是单数消息
-func GetNotDataNotSingularMsg(bundle *i18n.Bundle, lang string) string {
-	localizer := i18n.NewLocalizer(bundle, lang)
+func (c *CommonLang) GetNotDataNotSingularMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
 	value, err := localizer.Localize(&i18n.LocalizeConfig{
 		MessageID:      dataNotSingularKey,
 		DefaultMessage: &i18n.Message{ID: dataNotSingularKey, Other: dataNotSingularMsg},
@@ -131,8 +143,8 @@ func GetNotDataNotSingularMsg(bundle *i18n.Bundle, lang string) string {
 }
 
 // GetNotDataValidationErrorMsg 获取数据验证错误消息
-func GetNotDataValidationErrorMsg(bundle *i18n.Bundle, lang string) string {
-	localizer := i18n.NewLocalizer(bundle, lang)
+func (c *CommonLang) GetNotDataValidationErrorMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
 	value, err := localizer.Localize(&i18n.LocalizeConfig{
 		MessageID:      dataValidationErrorKey,
 		DefaultMessage: &i18n.Message{ID: dataValidationErrorKey, Other: dataValidationErrorMsg},
@@ -144,8 +156,8 @@ func GetNotDataValidationErrorMsg(bundle *i18n.Bundle, lang string) string {
 }
 
 // GetNotDataErrorMsg 获取数据错误消息
-func GetNotDataErrorMsg(bundle *i18n.Bundle, lang string) string {
-	localizer := i18n.NewLocalizer(bundle, lang)
+func (c *CommonLang) GetNotDataErrorMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
 	value, err := localizer.Localize(&i18n.LocalizeConfig{
 		MessageID:      dataErrorKey,
 		DefaultMessage: &i18n.Message{ID: dataErrorKey, Other: dataErrorMsg},
