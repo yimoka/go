@@ -18,6 +18,10 @@ message Config {
   map<string, string> services = 7; // 连接其他服务
   string callbackURL = 8; // 回调地址 用于与第三方如微信支付宝等 接收回调
   Logger logger = 9;
+  // 多语言配置
+  map<string, Lang> languages = 10;
+  // 公共语言配置 用于替换公共的语言处理器
+  map<string, Lang> commonLangs = 11;
 
   map<string, string> extra = 20; // 扩展配置
 }
@@ -163,4 +167,21 @@ message Upload {
   string secretID = 2;
   string secretKey = 3;
   string cdn = 4;
+}
+
+// 多语言内容配置
+message Lang { repeated LangMessage messages = 1; }
+
+message LangMessage {
+  string id = 1;
+  string hash = 2;
+  string description = 3;
+  string leftDelim = 4;
+  string rightDelim = 5;
+  string zero = 6;
+  string one = 7;
+  string two = 8;
+  string few = 9;
+  string many = 10;
+  string other = 11;
 }
