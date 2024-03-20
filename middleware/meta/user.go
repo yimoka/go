@@ -1,10 +1,14 @@
 // Package meta user
 package meta
 
-import "context"
+import (
+	"context"
+
+	"github.com/go-kratos/kratos/v2/errors"
+)
 
 // GetUserID 获取用户 id
-func GetUserID(ctx context.Context) (string, error) {
+func GetUserID(ctx context.Context) (string, *errors.Error) {
 	return GetValue(ctx, userIDKey)
 }
 
