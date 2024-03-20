@@ -57,6 +57,14 @@ const (
 	getMetadataFailMsg           = "Get metadata failed"
 	getMetadataConversionFailKey = "get_metadata_int_fail"
 	getMetadataConversionFailMsg = "metadata {{.Source}} conversion to {{.Target}} failed"
+	missingMetadataKey           = "missing_metadata"
+	missingMetadataMsg           = "Missing metadata {{.Name}}, please check whether the transmission link is enabled for metadata transmission and pass the value"
+	encryptFailKey               = "encrypt_fail"
+	encryptFailMsg               = "Encryption failed"
+	paramCanNotEmptyKey          = "param_can_not_empty"
+	paramCanNotEmptyMsg          = "Parameter {{.Name}} cannot be empty"
+	notEditableKey               = "not_editable"
+	notEditableMsg               = "The data is not editable"
 
 	// 数据库
 	dataNotFoundKey        = "data_not_found"
@@ -100,6 +108,10 @@ var commonLangs = map[string]*config.Lang{
 			{Id: parameterErrorKey, Other: parameterErrorMsg},
 			{Id: getMetadataFailKey, Other: getMetadataFailMsg},
 			{Id: getMetadataConversionFailKey, Other: getMetadataConversionFailMsg},
+			{Id: missingMetadataKey, Other: missingMetadataMsg},
+			{Id: encryptFailKey, Other: encryptFailMsg},
+			{Id: paramCanNotEmptyKey, Other: paramCanNotEmptyMsg},
+			{Id: notEditableKey, Other: notEditableMsg},
 
 			{Id: dataNotFoundKey, Other: dataNotFoundMsg},
 			{Id: dataDuplicateKey, Other: dataDuplicateMsg},
@@ -124,6 +136,10 @@ var commonLangs = map[string]*config.Lang{
 			{Id: parameterErrorKey, Other: "参数错误,请检查您的参数"},
 			{Id: getMetadataFailKey, Other: "获取元数据失败"},
 			{Id: getMetadataConversionFailKey, Other: "元数据 {{.Source}} 转换为 {{.Target}} 失败"},
+			{Id: missingMetadataKey, Other: "缺少元数据 {{.Name}},请检查传输链路是否启用元数据传递,并传值。"},
+			{Id: encryptFailKey, Other: "加密失败"},
+			{Id: paramCanNotEmptyKey, Other: "参数 {{.Name}} 不能为空"},
+			{Id: notEditableKey, Other: "数据不可编辑"},
 
 			{Id: dataNotFoundKey, Other: "找不到数据"},
 			{Id: dataDuplicateKey, Other: "该数据已存在,请勿重复添加"},
@@ -148,6 +164,10 @@ var commonLangs = map[string]*config.Lang{
 			{Id: parameterErrorKey, Other: "Ошибка параметра, пожалуйста, проверьте ваши параметры"},
 			{Id: getMetadataFailKey, Other: "Ошибка получения метаданных"},
 			{Id: getMetadataConversionFailKey, Other: "Ошибка преобразования метаданных {{.Source}} в {{.Target}}"},
+			{Id: missingMetadataKey, Other: "Отсутствует метаданные {{.Name}}, пожалуйста, проверьте, включена ли передача метаданных в цепи передачи и передайте значение"},
+			{Id: encryptFailKey, Other: "Ошибка шифрования"},
+			{Id: paramCanNotEmptyKey, Other: "Параметр {{.Name}} не может быть пустым"},
+			{Id: notEditableKey, Other: "Данные нельзя редактировать"},
 
 			{Id: dataNotFoundKey, Other: "Данные не найдены"},
 			{Id: dataDuplicateKey, Other: "Эти данные уже существуют, пожалуйста, не добавляйте их повторно"},
@@ -218,7 +238,82 @@ func (c *CommonLang) GetMetadataConversionFailMsg(source string, target string, 
 		return buf.String()
 	}
 	return value
+}
 
+// GetMissingMetadataMsg 获取缺少元数据消息
+func (c *CommonLang) GetMissingMetadataMsg(name string, langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
+	value, err := localizer.Localize(&i18n.LocalizeConfig{
+		MessageID:      missingMetadataKey,
+		DefaultMessage: &i18n.Message{ID: missingMetadataKey, Other: missingMetadataMsg},
+		TemplateData:   map[string]string{"Name": name},
+	})
+	if err != nil {
+		t := template.New("missingMetadataMsg")
+		t, pErr := t.Parse(missingMetadataMsg)
+		if pErr != nil {
+			return missingMetadataMsg
+		}
+		p := map[string]string{"Name": name}
+		var buf bytes.Buffer
+		eErr := t.Execute(&buf, p)
+		if eErr != nil {
+			return missingMetadataMsg
+		}
+		return buf.String()
+	}
+	return value
+}
+
+// GetEncryptFailMsg 获取加密失败消息
+func (c *CommonLang) GetEncryptFailMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
+	value, err := localizer.Localize(&i18n.LocalizeConfig{
+		MessageID:      encryptFailKey,
+		DefaultMessage: &i18n.Message{ID: encryptFailKey, Other: encryptFailMsg},
+	})
+	if err != nil {
+		return encryptFailMsg
+	}
+	return value
+}
+
+// GetParamCanNotEmptyMsg 获取参数不能为空消息
+func (c *CommonLang) GetParamCanNotEmptyMsg(name string, langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
+	value, err := localizer.Localize(&i18n.LocalizeConfig{
+		MessageID:      paramCanNotEmptyKey,
+		DefaultMessage: &i18n.Message{ID: paramCanNotEmptyKey, Other: paramCanNotEmptyMsg},
+		TemplateData:   map[string]string{"Name": name},
+	})
+	if err != nil {
+		t := template.New("paramCanNotEmptyMsg")
+		t, pErr := t.Parse(paramCanNotEmptyMsg)
+		if pErr != nil {
+			return paramCanNotEmptyMsg
+		}
+		p := map[string]string{"Name": name}
+		var buf bytes.Buffer
+		eErr := t.Execute(&buf, p)
+		if eErr != nil {
+			return paramCanNotEmptyMsg
+		}
+		return buf.String()
+	}
+	return value
+}
+
+// GetNotEditableMsg 获取数据不可编辑消息
+func (c *CommonLang) GetNotEditableMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
+	value, err := localizer.Localize(&i18n.LocalizeConfig{
+		MessageID:      notEditableKey,
+		DefaultMessage: &i18n.Message{ID: notEditableKey, Other: notEditableMsg},
+	})
+	if err != nil {
+		return notEditableMsg
+	}
+	return value
 }
 
 // GetDataFoundMsg 获取数据未找到消息

@@ -34,23 +34,6 @@ func TestGetCommonBundle(t *testing.T) {
 	assert.Equal(t, "该数据已存在,请勿重复添加", actual)
 }
 
-// // HandleMetadataError 处理 metadata 错误
-// func (c *CommonLang) HandleMetadataError(err *errors.Error, langs ...string) error {
-// 	if err == nil {
-// 		return nil
-// 	}
-// 	if err.Metadata == nil {
-// 		return fault.ErrorBadRequest(c.GetMetadataFailMsg(langs...))
-// 	}
-// 	source, sOk := err.Metadata["source"]
-// 	target, tOk := err.Metadata["target"]
-
-// 	if !sOk || !tOk {
-// 		return fault.ErrorBadRequest(c.GetMetadataFailMsg(langs...))
-// 	}
-// 	return fault.ErrorBadRequest(c.GetMetadataConversionFailMsg(source, target, langs...))
-// }
-
 func TestHandleMetadataError(t *testing.T) {
 	l := NewCommonLang(nil)
 	lang := "en-US"
@@ -116,6 +99,19 @@ func TestGetMetadataConversionFailMsg(t *testing.T) {
 	lang = "xx"
 	expected = "metadata string conversion to int failed"
 	actual = l.GetMetadataConversionFailMsg("string", "int", lang)
+	assert.Equal(t, expected, actual)
+}
+
+func TestGetMissingMetadataMsg(t *testing.T) {
+	l := NewCommonLang(nil)
+	lang := "en-US"
+	expected := "Missing metadata {.Name}}, please check whether the transmission link is enabled for metadata transmission and pass the value"
+	actual := l.GetMissingMetadataMsg("name", lang)
+	assert.Equal(t, expected, actual)
+
+	lang = "zh-CN"
+	expected = "缺少元数据 xxxx,请检查传输链路是否启用元数据传递,并传值。"
+	actual = l.GetMissingMetadataMsg("xxxx", lang)
 	assert.Equal(t, expected, actual)
 }
 
