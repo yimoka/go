@@ -8,10 +8,6 @@ linters-settings:
     min-occurrences: 2
   gocyclo:
     min-complexity: 30
-  golint:
-    min-confidence: 0
-  govet:
-    check-shadowing: true
   lll:
     line-length: 180
   errcheck:
@@ -26,24 +22,21 @@ linters-settings:
 linters:
   disable-all: true
   enable:
-    - deadcode
     - funlen
     - goconst
     - gocyclo
     - gofmt
     - ineffassign
     - staticcheck
-    - structcheck # 当非导出结构嵌入另一个结构, 前一个结构被使用就不会监测到, 这个需要每个业务自己屏蔽
     - typecheck
     - goimports
-    - golint
+    - revive
     - gosimple
     - govet
     - lll
     - rowserrcheck
     - errcheck
     - unused
-    - varcheck
     - sqlclosecheck
     # - bodyclose https://github.com/timakin/bodyclose/issues 问题太多了，屏蔽都屏蔽不过来，显式不使用它
 
@@ -79,6 +72,10 @@ issues:
     - linters:
         - lll
       source: "^//go:generate " # Exclude lll issues for long lines with go:generate
+    # 忽略所有 以 auto_ 开头的 go 文件 的 unused 问题
+    - path: auto_.*\.go
+      linters:
+        - unused
 
   max-same-issues: 0
   new: false
@@ -86,6 +83,3 @@ issues:
 
 output:
   sort-results: true
-
-service:
-  golangci-lint-version: 1.28.x

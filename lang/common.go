@@ -65,6 +65,16 @@ const (
 	paramCanNotEmptyMsg          = "Parameter {{.Name}} cannot be empty"
 	notEditableKey               = "not_editable"
 	notEditableMsg               = "The data is not editable"
+	requestErrorKey              = "request_error"
+	requestErrorMsg              = "Request error"
+	pleaseLoginKey               = "please_login"
+	pleaseLoginMsg               = "Please login first"
+	accountDisabledKey           = "account_disabled"
+	accountDisabledMsg           = "Account has been disabled"
+	pleaseChangePasswordKey      = "please_change_password"
+	pleaseChangePasswordMsg      = "Please change your password first"
+	noPermissionKey              = "no_permission"
+	noPermissionMsg              = "No permission"
 
 	// 数据库
 	dataNotFoundKey        = "data_not_found"
@@ -112,6 +122,11 @@ var commonLangs = map[string]*config.Lang{
 			{Id: encryptFailKey, Other: encryptFailMsg},
 			{Id: paramCanNotEmptyKey, Other: paramCanNotEmptyMsg},
 			{Id: notEditableKey, Other: notEditableMsg},
+			{Id: requestErrorKey, Other: requestErrorMsg},
+			{Id: pleaseLoginKey, Other: pleaseLoginMsg},
+			{Id: accountDisabledKey, Other: accountDisabledMsg},
+			{Id: pleaseChangePasswordKey, Other: pleaseChangePasswordMsg},
+			{Id: noPermissionKey, Other: noPermissionMsg},
 
 			{Id: dataNotFoundKey, Other: dataNotFoundMsg},
 			{Id: dataDuplicateKey, Other: dataDuplicateMsg},
@@ -140,6 +155,11 @@ var commonLangs = map[string]*config.Lang{
 			{Id: encryptFailKey, Other: "加密失败"},
 			{Id: paramCanNotEmptyKey, Other: "参数 {{.Name}} 不能为空"},
 			{Id: notEditableKey, Other: "数据不可编辑"},
+			{Id: requestErrorKey, Other: "请求出错了"},
+			{Id: pleaseLoginKey, Other: "请先登录"},
+			{Id: accountDisabledKey, Other: "账号已被禁用"},
+			{Id: pleaseChangePasswordKey, Other: "请先修改密码"},
+			{Id: noPermissionKey, Other: "没有权限"},
 
 			{Id: dataNotFoundKey, Other: "找不到数据"},
 			{Id: dataDuplicateKey, Other: "该数据已存在,请勿重复添加"},
@@ -168,6 +188,11 @@ var commonLangs = map[string]*config.Lang{
 			{Id: encryptFailKey, Other: "Ошибка шифрования"},
 			{Id: paramCanNotEmptyKey, Other: "Параметр {{.Name}} не может быть пустым"},
 			{Id: notEditableKey, Other: "Данные нельзя редактировать"},
+			{Id: requestErrorKey, Other: "Ошибка запроса"},
+			{Id: pleaseLoginKey, Other: "Пожалуйста, сначала войдите"},
+			{Id: accountDisabledKey, Other: "Учетная запись отключена"},
+			{Id: pleaseChangePasswordKey, Other: "Пожалуйста, сначала измените пароль"},
+			{Id: noPermissionKey, Other: "Нет разрешения"},
 
 			{Id: dataNotFoundKey, Other: "Данные не найдены"},
 			{Id: dataDuplicateKey, Other: "Эти данные уже существуют, пожалуйста, не добавляйте их повторно"},
@@ -312,6 +337,71 @@ func (c *CommonLang) GetNotEditableMsg(langs ...string) string {
 	})
 	if err != nil {
 		return notEditableMsg
+	}
+	return value
+}
+
+// GetRequestErrorMsg 获取请求错误消息
+func (c *CommonLang) GetRequestErrorMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
+	value, err := localizer.Localize(&i18n.LocalizeConfig{
+		MessageID:      requestErrorKey,
+		DefaultMessage: &i18n.Message{ID: requestErrorKey, Other: requestErrorMsg},
+	})
+	if err != nil {
+		return requestErrorMsg
+	}
+	return value
+}
+
+// GetPleaseLoginMsg 获取请登录消息
+func (c *CommonLang) GetPleaseLoginMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
+	value, err := localizer.Localize(&i18n.LocalizeConfig{
+		MessageID:      pleaseLoginKey,
+		DefaultMessage: &i18n.Message{ID: pleaseLoginKey, Other: pleaseLoginMsg},
+	})
+	if err != nil {
+		return pleaseLoginMsg
+	}
+	return value
+}
+
+// GetAccountDisabledMsg 获取账号已禁用消息
+func (c *CommonLang) GetAccountDisabledMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
+	value, err := localizer.Localize(&i18n.LocalizeConfig{
+		MessageID:      accountDisabledKey,
+		DefaultMessage: &i18n.Message{ID: accountDisabledKey, Other: accountDisabledMsg},
+	})
+	if err != nil {
+		return accountDisabledMsg
+	}
+	return value
+}
+
+// GetPleaseChangePasswordMsg 获取请修改密码消息
+func (c *CommonLang) GetPleaseChangePasswordMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
+	value, err := localizer.Localize(&i18n.LocalizeConfig{
+		MessageID:      pleaseChangePasswordKey,
+		DefaultMessage: &i18n.Message{ID: pleaseChangePasswordKey, Other: pleaseChangePasswordMsg},
+	})
+	if err != nil {
+		return pleaseChangePasswordMsg
+	}
+	return value
+}
+
+// GetNoPermissionMsg 获取没有权限消息
+func (c *CommonLang) GetNoPermissionMsg(langs ...string) string {
+	localizer := i18n.NewLocalizer(c.Bundle, langs...)
+	value, err := localizer.Localize(&i18n.LocalizeConfig{
+		MessageID:      noPermissionKey,
+		DefaultMessage: &i18n.Message{ID: noPermissionKey, Other: noPermissionMsg},
+	})
+	if err != nil {
+		return noPermissionMsg
 	}
 	return value
 }
