@@ -39,4 +39,7 @@ type Cache interface {
 
 	// 获取缓存的 key 前缀
 	GetPrefix() string
+
+	// 获取缓存未找到的提示消息
+	GetNotFoundMsg(langs ...string) string
 }

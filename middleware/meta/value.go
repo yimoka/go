@@ -43,7 +43,10 @@ func GetIntValue(ctx context.Context, key string) (int, error) {
 	}
 	i, err := strconv.Atoi(str)
 	if err != nil {
-		return 0, fault.ErrorBadRequest("获取元数据 %s 转换为 int 失败", key)
+		rErr := fault.ErrorBadRequest("获取元数据 %s 转换为 int 失败", key)
+		metadata := map[string]string{"source": key, "target": "int"}
+		rErr.Metadata = metadata
+		return 0, rErr
 	}
 	return i, nil
 }
@@ -64,7 +67,10 @@ func GetInt8Value(ctx context.Context, key string) (int8, error) {
 	}
 	i, err := strconv.ParseInt(str, 10, 8)
 	if err != nil {
-		return 0, fault.ErrorBadRequest("获取元数据 %s 转换为 int8 失败", key)
+		rErr := fault.ErrorBadRequest("获取元数据 %s 转换为 int8 失败", key)
+		metadata := map[string]string{"source": key, "target": "int8"}
+		rErr.Metadata = metadata
+		return 0, rErr
 	}
 	return int8(i), nil
 }
@@ -85,7 +91,10 @@ func GetInt16Value(ctx context.Context, key string) (int16, error) {
 	}
 	i, err := strconv.ParseInt(str, 10, 16)
 	if err != nil {
-		return 0, fault.ErrorBadRequest("获取元数据 %s 转换为 int16 失败", key)
+		rErr := fault.ErrorBadRequest("获取元数据 %s 转换为 int16 失败", key)
+		metadata := map[string]string{"source": key, "target": "int16"}
+		rErr.Metadata = metadata
+		return 0, rErr
 	}
 	return int16(i), nil
 }
@@ -106,7 +115,10 @@ func GetInt32Value(ctx context.Context, key string) (int32, error) {
 	}
 	i, err := strconv.ParseInt(str, 10, 32)
 	if err != nil {
-		return 0, fault.ErrorBadRequest("获取元数据 %s 转换为 int32 失败", key)
+		rErr := fault.ErrorBadRequest("获取元数据 %s 转换为 int32 失败", key)
+		metadata := map[string]string{"source": key, "target": "int32"}
+		rErr.Metadata = metadata
+		return 0, rErr
 	}
 	return int32(i), nil
 }
@@ -127,7 +139,10 @@ func GetInt64Value(ctx context.Context, key string) (int64, error) {
 	}
 	i, err := strconv.ParseInt(str, 10, 64)
 	if err != nil {
-		return 0, fault.ErrorBadRequest("获取元数据 %s 转换为 int64 失败", key)
+		rErr := fault.ErrorBadRequest("获取元数据 %s 转换为 int64 失败", key)
+		metadata := map[string]string{"source": key, "target": "int64"}
+		rErr.Metadata = metadata
+		return 0, rErr
 	}
 	return i, nil
 }
@@ -166,7 +181,10 @@ func GetLocalIntValue(ctx context.Context, key string) (int, error) {
 	}
 	i, err := strconv.Atoi(str)
 	if err != nil {
-		return 0, fault.ErrorBadRequest("获取元数据 %s 转换为 int 失败", key)
+		rErr := fault.ErrorBadRequest("获取元数据 %s 转换为 int 失败", key)
+		metadata := map[string]string{"source": key, "target": "int"}
+		rErr.Metadata = metadata
+		return 0, rErr
 	}
 	return i, nil
 }
@@ -187,7 +205,10 @@ func GetLocalInt8Value(ctx context.Context, key string) (int8, error) {
 	}
 	i, err := strconv.ParseInt(str, 10, 8)
 	if err != nil {
-		return 0, fault.ErrorBadRequest("获取元数据 %s 转换为 int8 失败", key)
+		rErr := fault.ErrorBadRequest("获取元数据 %s 转换为 int8 失败", key)
+		metadata := map[string]string{"source": key, "target": "int8"}
+		rErr.Metadata = metadata
+		return 0, rErr
 	}
 	return int8(i), nil
 }
@@ -208,7 +229,10 @@ func GetLocalInt16Value(ctx context.Context, key string) (int16, error) {
 	}
 	i, err := strconv.ParseInt(str, 10, 16)
 	if err != nil {
-		return 0, fault.ErrorBadRequest("获取元数据 %s 转换为 int16 失败", key)
+		rErr := fault.ErrorBadRequest("获取元数据 %s 转换为 int16 失败", key)
+		metadata := map[string]string{"source": key, "target": "int16"}
+		rErr.Metadata = metadata
+		return 0, rErr
 	}
 	return int16(i), nil
 }
@@ -229,7 +253,10 @@ func GetLocalInt32Value(ctx context.Context, key string) (int32, error) {
 	}
 	i, err := strconv.ParseInt(str, 10, 32)
 	if err != nil {
-		return 0, fault.ErrorBadRequest("获取元数据 %s 转换为 int32 失败", key)
+		rErr := fault.ErrorBadRequest("获取元数据 %s 转换为 int32 失败", key)
+		metadata := map[string]string{"source": key, "target": "int32"}
+		rErr.Metadata = metadata
+		return 0, rErr
 	}
 	return int32(i), nil
 }
@@ -250,7 +277,10 @@ func GetLocalInt64Value(ctx context.Context, key string) (int64, error) {
 	}
 	i, err := strconv.ParseInt(str, 10, 64)
 	if err != nil {
-		return 0, fault.ErrorBadRequest("获取元数据 %s 转换为 int64 失败", key)
+		rErr := fault.ErrorBadRequest("获取元数据 %s 转换为 int64 失败", key)
+		metadata := map[string]string{"source": key, "target": "int64"}
+		rErr.Metadata = metadata
+		return 0, rErr
 	}
 	return i, nil
 }
