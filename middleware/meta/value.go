@@ -5,12 +5,13 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/metadata"
 	"github.com/yimoka/api/fault"
 )
 
 // GetValue 获取元数据
-func GetValue(ctx context.Context, key string) (string, error) {
+func GetValue(ctx context.Context, key string) (string, *errors.Error) {
 	if md, ok := metadata.FromServerContext(ctx); ok {
 		str := md.Get(globalPrefix + key)
 		return str, nil
@@ -33,7 +34,7 @@ func SetValue(ctx context.Context, kv ...string) context.Context {
 }
 
 // GetIntValue 获取 int 类型的元数据
-func GetIntValue(ctx context.Context, key string) (int, error) {
+func GetIntValue(ctx context.Context, key string) (int, *errors.Error) {
 	str, gErr := GetValue(ctx, key)
 	if gErr != nil {
 		return 0, gErr
@@ -57,7 +58,7 @@ func SetIntValue(ctx context.Context, key string, value int) context.Context {
 }
 
 // GetInt8Value 获取 int8 类型的元数据
-func GetInt8Value(ctx context.Context, key string) (int8, error) {
+func GetInt8Value(ctx context.Context, key string) (int8, *errors.Error) {
 	str, gErr := GetValue(ctx, key)
 	if gErr != nil {
 		return 0, gErr
@@ -81,7 +82,7 @@ func SetInt8Value(ctx context.Context, key string, value int8) context.Context {
 }
 
 // GetInt16Value 获取 int16 类型的元数据
-func GetInt16Value(ctx context.Context, key string) (int16, error) {
+func GetInt16Value(ctx context.Context, key string) (int16, *errors.Error) {
 	str, gErr := GetValue(ctx, key)
 	if gErr != nil {
 		return 0, gErr
@@ -105,7 +106,7 @@ func SetInt16Value(ctx context.Context, key string, value int16) context.Context
 }
 
 // GetInt32Value 获取 int32 类型的元数据
-func GetInt32Value(ctx context.Context, key string) (int32, error) {
+func GetInt32Value(ctx context.Context, key string) (int32, *errors.Error) {
 	str, gErr := GetValue(ctx, key)
 	if gErr != nil {
 		return 0, gErr
@@ -129,7 +130,7 @@ func SetInt32Value(ctx context.Context, key string, value int32) context.Context
 }
 
 // GetInt64Value 获取 int64 类型的元数据
-func GetInt64Value(ctx context.Context, key string) (int64, error) {
+func GetInt64Value(ctx context.Context, key string) (int64, *errors.Error) {
 	str, gErr := GetValue(ctx, key)
 	if gErr != nil {
 		return 0, gErr
@@ -148,7 +149,7 @@ func GetInt64Value(ctx context.Context, key string) (int64, error) {
 }
 
 // GetLocalValue 获取局部元数据
-func GetLocalValue(ctx context.Context, key string) (string, error) {
+func GetLocalValue(ctx context.Context, key string) (string, *errors.Error) {
 	if md, ok := metadata.FromServerContext(ctx); ok {
 		str := md.Get(localPrefix + key)
 		return str, nil
@@ -171,7 +172,7 @@ func SetLocalValue(ctx context.Context, kv ...string) context.Context {
 }
 
 // GetLocalIntValue 获取局部 int 类型的元数据
-func GetLocalIntValue(ctx context.Context, key string) (int, error) {
+func GetLocalIntValue(ctx context.Context, key string) (int, *errors.Error) {
 	str, gErr := GetLocalValue(ctx, key)
 	if gErr != nil {
 		return 0, gErr
@@ -195,7 +196,7 @@ func SetLocalIntValue(ctx context.Context, key string, value int) context.Contex
 }
 
 // GetLocalInt8Value 获取局部 int8 类型的元数据
-func GetLocalInt8Value(ctx context.Context, key string) (int8, error) {
+func GetLocalInt8Value(ctx context.Context, key string) (int8, *errors.Error) {
 	str, gErr := GetLocalValue(ctx, key)
 	if gErr != nil {
 		return 0, gErr
@@ -219,7 +220,7 @@ func SetLocalInt8Value(ctx context.Context, key string, value int8) context.Cont
 }
 
 // GetLocalInt16Value 获取局部 int16 类型的元数据
-func GetLocalInt16Value(ctx context.Context, key string) (int16, error) {
+func GetLocalInt16Value(ctx context.Context, key string) (int16, *errors.Error) {
 	str, gErr := GetLocalValue(ctx, key)
 	if gErr != nil {
 		return 0, gErr
@@ -243,7 +244,7 @@ func SetLocalInt16Value(ctx context.Context, key string, value int16) context.Co
 }
 
 // GetLocalInt32Value 获取局部 int32 类型的元数据
-func GetLocalInt32Value(ctx context.Context, key string) (int32, error) {
+func GetLocalInt32Value(ctx context.Context, key string) (int32, *errors.Error) {
 	str, gErr := GetLocalValue(ctx, key)
 	if gErr != nil {
 		return 0, gErr
@@ -267,7 +268,7 @@ func SetLocalInt32Value(ctx context.Context, key string, value int32) context.Co
 }
 
 // GetLocalInt64Value 获取局部 int64 类型的元数据
-func GetLocalInt64Value(ctx context.Context, key string) (int64, error) {
+func GetLocalInt64Value(ctx context.Context, key string) (int64, *errors.Error) {
 	str, gErr := GetLocalValue(ctx, key)
 	if gErr != nil {
 		return 0, gErr
