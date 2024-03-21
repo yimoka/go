@@ -9,7 +9,6 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/samber/lo"
 	"github.com/yimoka/api/fault"
-	"github.com/yimoka/go/lang"
 	"golang.org/x/sync/singleflight"
 )
 
@@ -71,7 +70,7 @@ func GetTableCache[T comparable](ctx context.Context, t *Table, content *TableCo
 		cacheValue, _ = dbVal.(string)
 	}
 	if t.cache.IsEmpty(cacheValue) {
-		return "", fault.ErrorNotFound(t.cache.GetNotFoundMsg(lang.GetAccept(ctx)))
+		return "", fault.ErrorNotFound(t.cache.GetNotFoundMsg(ctx))
 	}
 	return cacheValue, nil
 }

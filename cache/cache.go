@@ -41,5 +41,5 @@ type Cache interface {
 	GetPrefix() string
 
 	// 获取缓存未找到的提示消息
-	GetNotFoundMsg(langs ...string) string
+	GetNotFoundMsg(ctx context.Context, langs ...string) string
 }
