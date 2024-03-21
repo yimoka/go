@@ -47,7 +47,7 @@ func (r *RedisCache) Get(ctx context.Context, key string) (string, error) {
 	val, err := r.client.Get(ctx, r.prefix+key).Result()
 	if err != nil {
 		if err == redis.Nil {
-			return val, fault.ErrorNotFound(r.lang.GetCacheNotFoundMsg(lang.GetStr(ctx)))
+			return val, fault.ErrorNotFound(r.lang.GetCacheNotFoundMsg(ctx))
 		}
 		r.log.Errorf("redis get key: %s error: %v", key, err)
 	}
@@ -57,7 +57,7 @@ func (r *RedisCache) Get(ctx context.Context, key string) (string, error) {
 // MGet 批量获取缓存
 func (r *RedisCache) MGet(ctx context.Context, keys ...string) (map[string]string, error) {
 	if len(keys) == 0 {
-		return nil, fault.ErrorBadRequest(r.lang.GetParameterErrorMsg(lang.GetStr(ctx)))
+		return nil, fault.ErrorBadRequest(r.lang.GetParameterErrorMsg(ctx))
 	}
 	return r.mGet(ctx, r.handleKeys(keys...)...)
 }
@@ -72,7 +72,7 @@ func (r *RedisCache) PrefixGet(ctx context.Context, prefix string, scanCount int
 		keys, cursor, err = r.client.Scan(ctx, cursor, r.prefix+prefix+"*", scanCount).Result()
 		if err != nil {
 			r.log.Errorf("redis scan prefix: %s error: %v", prefix, err)
-			return nil, fault.ErrorInternalServerError(r.lang.GetCachePreMatchGetFailMsg(lang.GetStr(ctx)))
+			return nil, fault.ErrorInternalServerError(r.lang.GetCachePreMatchGetFailMsg(ctx))
 		}
 		if len(keys) > 0 {
 			values, err := r.mGet(ctx, keys...)
@@ -93,7 +93,7 @@ func (r *RedisCache) Set(ctx context.Context, key string, val string, expiration
 	err := r.client.Set(ctx, r.prefix+key, val, expiration).Err()
 	if err != nil {
 		r.log.Errorf("redis set key: %s error: %v", key, err)
-		return fault.ErrorInternalServerError(r.lang.GetCacheSetFailMsg(lang.GetStr(ctx)))
+		return fault.ErrorInternalServerError(r.lang.GetCacheSetFailMsg(ctx))
 	}
 	return nil
 }
@@ -102,7 +102,7 @@ func (r *RedisCache) Set(ctx context.Context, key string, val string, expiration
 func (r *RedisCache) MSet(ctx context.Context, data map[string]string, expiration time.Duration) error {
 	length := len(data)
 	if length == 0 {
-		return fault.ErrorBadRequest(r.lang.GetParameterErrorMsg(lang.GetStr(ctx)))
+		return fault.ErrorBadRequest(r.lang.GetParameterErrorMsg(ctx))
 	}
 	// 使用 pipeline 批量设置
 	pipe := r.client.Pipeline()
@@ -113,7 +113,7 @@ func (r *RedisCache) MSet(ctx context.Context, data map[string]string, expiratio
 	_, err := pipe.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("redis pipe.Set data: %v error: %v", data, err)
-		return fault.ErrorInternalServerError(r.lang.GetCacheMSetFailMsg(lang.GetStr(ctx)))
+		return fault.ErrorInternalServerError(r.lang.GetCacheMSetFailMsg(ctx))
 	}
 	return nil
 }
@@ -127,7 +127,7 @@ func (r *RedisCache) SetEmpty(ctx context.Context, key string, expiration time.D
 // MSetEmpty 批量设置空值
 func (r *RedisCache) MSetEmpty(ctx context.Context, keys []string, expiration time.Duration) error {
 	if len(keys) == 0 {
-		return fault.ErrorBadRequest(r.lang.GetParameterErrorMsg(lang.GetStr(ctx)))
+		return fault.ErrorBadRequest(r.lang.GetParameterErrorMsg(ctx))
 	}
 	// 使用 pipeline 批量设置
 	pipe := r.client.Pipeline()
@@ -144,7 +144,7 @@ func (r *RedisCache) Del(ctx context.Context, key string) error {
 	err := r.client.Del(ctx, r.prefix+key).Err()
 	if err != nil {
 		r.log.Errorf("redis del key: %s error: %v", key, err)
-		return fault.ErrorInternalServerError(r.lang.GetCacheDelFailMsg(lang.GetStr(ctx)))
+		return fault.ErrorInternalServerError(r.lang.GetCacheDelFailMsg(ctx))
 	}
 	return nil
 }
@@ -163,7 +163,7 @@ func (r *RedisCache) PrefixDel(ctx context.Context, prefix string, scanCount int
 		keys, cursor, err = r.client.Scan(ctx, cursor, r.prefix+prefix+"*", scanCount).Result()
 		if err != nil {
 			r.log.Errorf("redis scan prefix: %s error: %v", prefix, err)
-			return fault.ErrorInternalServerError(r.lang.GetCachePreMatchDelFailMsg(lang.GetStr(ctx)))
+			return fault.ErrorInternalServerError(r.lang.GetCachePreMatchDelFailMsg(ctx))
 		}
 		if len(keys) > 0 {
 			err = r.mDel(ctx, keys...)
@@ -187,7 +187,7 @@ func (r *RedisCache) Clear(ctx context.Context, scanCount int64) error {
 		keys, cursor, err = r.client.Scan(ctx, cursor, r.prefix+"*", scanCount).Result()
 		if err != nil {
 			r.log.Errorf("redis scan error: %v", err)
-			return fault.ErrorInternalServerError(r.lang.GetCacheFlushFailMsg(lang.GetStr(ctx)))
+			return fault.ErrorInternalServerError(r.lang.GetCacheFlushFailMsg(ctx))
 		}
 		if len(keys) > 0 {
 			err = r.mDel(ctx, keys...)
@@ -236,13 +236,13 @@ func (r *RedisCache) handleKeys(keys ...string) []string {
 func (r *RedisCache) mGet(ctx context.Context, keys ...string) (map[string]string, error) {
 	length := len(keys)
 	if length == 0 {
-		return nil, fault.ErrorBadRequest(r.lang.GetParameterErrorMsg(lang.GetStr(ctx)))
+		return nil, fault.ErrorBadRequest(r.lang.GetParameterErrorMsg(ctx))
 	}
 	if length <= 1000 {
 		values, err := r.client.MGet(ctx, keys...).Result()
 		if err != nil {
 			r.log.Errorf("redis mGet keys: %v error: %v", keys, err)
-			return nil, fault.ErrorInternalServerError(r.lang.GetCacheMGetFailMsg(lang.GetStr(ctx)))
+			return nil, fault.ErrorInternalServerError(r.lang.GetCacheMGetFailMsg(ctx))
 		}
 		strMap := map[string]string{}
 		for i, value := range values {
@@ -264,7 +264,7 @@ func (r *RedisCache) mGet(ctx context.Context, keys ...string) (map[string]strin
 		values, err := r.client.MGet(ctx, keys[i:end]...).Result()
 		if err != nil {
 			r.log.Errorf("redis mGet keys: %v error: %v", keys, err)
-			return nil, fault.ErrorInternalServerError(r.lang.GetCacheMGetFailMsg(lang.GetStr(ctx)))
+			return nil, fault.ErrorInternalServerError(r.lang.GetCacheMGetFailMsg(ctx))
 		}
 		for j, value := range values {
 			if value != nil {
@@ -280,17 +280,17 @@ func (r *RedisCache) mGet(ctx context.Context, keys ...string) (map[string]strin
 // mDel 删除不处理前缀
 func (r *RedisCache) mDel(ctx context.Context, keys ...string) error {
 	if len(keys) == 0 {
-		return fault.ErrorBadRequest(r.lang.GetParameterErrorMsg(lang.GetStr(ctx)))
+		return fault.ErrorBadRequest(r.lang.GetParameterErrorMsg(ctx))
 	}
 	err := r.client.Del(ctx, keys...).Err()
 	if err != nil {
 		r.log.Errorf("redis mDel keys: %v error: %v", keys, err)
-		return fault.ErrorInternalServerError(r.lang.GetCacheMDelFailMsg(lang.GetStr(ctx)))
+		return fault.ErrorInternalServerError(r.lang.GetCacheMDelFailMsg(ctx))
 	}
 	return nil
 }
 
 // GetNotFoundMsg 获取缓存未找到的消息
-func (r *RedisCache) GetNotFoundMsg(langs ...string) string {
-	return r.lang.GetCacheNotFoundMsg(langs...)
+func (r *RedisCache) GetNotFoundMsg(ctx context.Context, langs ...string) string {
+	return r.lang.GetCacheNotFoundMsg(ctx, langs...)
 }

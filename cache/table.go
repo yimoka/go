@@ -71,7 +71,7 @@ func GetTableCache[T comparable](ctx context.Context, t *Table, content *TableCo
 		cacheValue, _ = dbVal.(string)
 	}
 	if t.cache.IsEmpty(cacheValue) {
-		return "", fault.ErrorNotFound(t.cache.GetNotFoundMsg(lang.GetStr(ctx)))
+		return "", fault.ErrorNotFound(t.cache.GetNotFoundMsg(lang.GetAccept(ctx)))
 	}
 	return cacheValue, nil
 }

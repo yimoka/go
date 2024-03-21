@@ -3,30 +3,32 @@ package lang
 
 import (
 	"context"
+	"html/template"
 	"sort"
 	"strconv"
 	"strings"
 
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/yimoka/go/middleware/meta"
 )
 
-// GetStr 获取语言字符串
-func GetStr(ctx context.Context) string {
-	lang, err := meta.GetValue(ctx, "lang")
+// GetAccept 获取语言字符串
+func GetAccept(ctx context.Context) string {
+	lang, err := meta.GetValue(ctx, "language")
 	if err == nil && lang != "" {
 		return lang
 	}
 	lang = meta.GetAcceptLanguage(ctx)
 	if lang != "" {
-		meta.SetValue(ctx, "lang", lang)
+		meta.SetValue(ctx, "language", lang)
 		return lang
 	}
 	return ""
 }
 
-// GetArr 获取语言数组
-func GetArr(ctx context.Context) []string {
-	str := GetStr(ctx)
+// GetAcceptArr 获取语言数组
+func GetAcceptArr(ctx context.Context) []string {
+	str := GetAccept(ctx)
 	if str == "" {
 		return []string{}
 	}
@@ -87,4 +89,30 @@ func MatchContent[T any](langMap map[string]T, lang []string) (T, bool) {
 		}
 	}
 	return spareValue, spare
+}
+
+// 错误处理
+func HandleError(key MsgKey, msg *i18n.Message, templateData interface{}) string {
+	keyStr := key.String()
+	if msg == nil {
+		return keyStr
+	}
+
+	if templateData == nil {
+		return msg.Other
+	}
+
+	t := template.New(keyStr)
+	t, err := t.Parse(msg.Other)
+	if err != nil {
+		return keyStr
+	}
+
+	var b strings.Builder
+	err = t.Execute(&b, templateData)
+	if err != nil {
+		return keyStr
+	}
+
+	return b.String()
 }

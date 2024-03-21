@@ -11,21 +11,31 @@ import (
 // GetBundle 获取语言包
 func GetBundle(langs map[string]*config.Lang) *i18n.Bundle {
 	bundle := i18n.NewBundle(language.English)
-	BundleMessage(bundle, langs)
+	LoadMessageForConfig(bundle, langs)
 	return bundle
 }
 
-// BundleMessage 添加语言包
-func BundleMessage(bundle *i18n.Bundle, langs map[string]*config.Lang) {
-	if langs == nil {
+// LoadMessageForConfig 从配置加载语言包
+func LoadMessageForConfig(bundle *i18n.Bundle, langMap map[string]*config.Lang) {
+	if langMap == nil {
 		return
 	}
-	for key, l := range langs {
+	for key, l := range langMap {
 		tag, err := language.Parse(key)
 		if err == nil {
 			msgs := lo.Map(l.Messages, func(item *config.LangMessage, index int) *i18n.Message { return MessageToI18n(item) })
 			_ = bundle.AddMessages(tag, msgs...)
 		}
+	}
+}
+
+// LoadMessage 从加载语言包
+func LoadMessage(bundle *i18n.Bundle, langMap map[language.Tag]map[MsgKey]*i18n.Message) {
+	if langMap == nil {
+		return
+	}
+	for tag, l := range langMap {
+		_ = bundle.AddMessages(tag, lo.Values(l)...)
 	}
 }
 
