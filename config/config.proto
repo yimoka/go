@@ -170,7 +170,10 @@ message Upload {
 }
 
 // 多语言内容配置
-message Lang { repeated LangMessage messages = 1; }
+message Lang {
+  repeated LangMessage messages = 1;
+  map<string, DictData> dict = 2;
+}
 
 message LangMessage {
   string id = 1;
@@ -185,3 +188,5 @@ message LangMessage {
   string many = 10;
   string other = 11;
 }
+
+message DictData { map<string, string> data = 1; }
