@@ -1,5 +1,8 @@
+/* cSpell:disable */
 // Package data operate.go
 package data
+
+import "github.com/yimoka/go/lang"
 
 // OpType 数据操作类型
 type OpType string
@@ -40,6 +43,20 @@ func OpTypeValues() []string {
 // OpTypeLabels _
 func OpTypeLabels() map[string]string {
 	return map[string]string{
+		string(OpAdd):     "add",
+		string(OpDel):     "delete",
+		string(OpSoftDel): "soft delete",
+		string(OpEdit):    "edit",
+		string(OpEnable):  "enable",
+		string(OpDisable): "disable",
+		string(OpRecover): "recover",
+		string(OpUnknown): "unknown",
+	}
+}
+
+// 多语言支持
+var opTypeLangMap = map[string]map[string]string{
+	"zh": {
 		string(OpAdd):     "添加",
 		string(OpDel):     "删除",
 		string(OpSoftDel): "软删除",
@@ -48,7 +65,22 @@ func OpTypeLabels() map[string]string {
 		string(OpDisable): "禁用",
 		string(OpRecover): "恢复",
 		string(OpUnknown): "未知",
-	}
+	},
+	"ru": {
+		string(OpAdd):     "добавить",
+		string(OpDel):     "удалить",
+		string(OpSoftDel): "мягкое удаление",
+		string(OpEdit):    "редактировать",
+		string(OpEnable):  "включить",
+		string(OpDisable): "запретить",
+		string(OpRecover): "восстановить",
+		string(OpUnknown): "неизвестный",
+	},
+}
+
+// OpTypeLangLabels _
+func OpTypeLangLabels(langs ...string) (map[string]string, bool) {
+	return lang.MatchContent(opTypeLangMap, langs)
 }
 
 // String _
@@ -59,6 +91,15 @@ func (o OpType) String() string {
 // Label _
 func (o OpType) Label() string {
 	return OpTypeLabels()[string(o)]
+}
+
+// LangLabel _
+func (o OpType) LangLabel(langs ...string) string {
+	labels, ok := OpTypeLangLabels(langs...)
+	if !ok {
+		return o.Label()
+	}
+	return labels[string(o)]
 }
 
 // Values _
