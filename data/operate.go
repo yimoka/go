@@ -1,6 +1,7 @@
-/* cSpell:disable */
 // Package data operate.go
 package data
+
+/* cSpell:disable */
 
 import "github.com/yimoka/go/lang"
 

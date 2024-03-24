@@ -9,3 +9,8 @@ config:
 				--proto_path=./third_party \
 				--go_out=paths=source_relative:. \
 				${CONFIG_PROTO_FILES}
+
+.PHONY: lint
+# lint
+lint:
+	golangci-lint run

@@ -12,7 +12,7 @@ import (
 // GetStrSliceAndQuery 获取字符串切片的并查询
 func GetStrSliceAndQuery(field string, values ...string) func(s *sql.Selector) {
 	if len(values) == 0 {
-		return func(s *sql.Selector) {}
+		return func(_ *sql.Selector) {}
 	}
 
 	return func(s *sql.Selector) {
@@ -38,15 +38,15 @@ func GetStrSliceAndQuery(field string, values ...string) func(s *sql.Selector) {
 // GetStrSliceOrQuery 获取字符串切片的或查询
 func GetStrSliceOrQuery(field string, values ...string) func(s *sql.Selector) {
 	if len(values) == 0 {
-		return func(s *sql.Selector) {}
+		return func(_ *sql.Selector) {}
 	}
 	return func(s *sql.Selector) {
 		if isPostgres(s) {
-			pArr := lo.Map(values, func(val string, i int) *sql.Predicate { return getPgJSONStrQuery(field, val) })
+			pArr := lo.Map(values, func(val string, _ int) *sql.Predicate { return getPgJSONStrQuery(field, val) })
 			s.Where(sql.Or(pArr...))
 			return
 		}
-		pArr := lo.Map(values, func(val string, i int) *sql.Predicate { return getMysqlJSONStrQuery(field, val) })
+		pArr := lo.Map(values, func(val string, _ int) *sql.Predicate { return getMysqlJSONStrQuery(field, val) })
 		s.Where(sql.Or(pArr...))
 	}
 }
@@ -70,16 +70,16 @@ func getPgJSONStrQuery(field string, value string) *sql.Predicate {
 // GetIntSliceAndQuery 获取整数切片的并查询
 func GetIntSliceAndQuery(field string, values ...int) func(s *sql.Selector) {
 	if len(values) == 0 {
-		return func(s *sql.Selector) {}
+		return func(_ *sql.Selector) {}
 	}
 	return func(s *sql.Selector) {
 		if isPostgres(s) {
-			str := "[" + strings.Join(lo.Map(values, func(val int, i int) string { return strconv.Itoa(val) }), ",") + "]"
+			str := "[" + strings.Join(lo.Map(values, func(val int, _ int) string { return strconv.Itoa(val) }), ",") + "]"
 			s.Where(sql.P(func(b *sql.Builder) {
 				b.Ident(field).WriteString(" @> ").Arg(str)
 			}))
 		} else {
-			str := strings.Join(lo.Map(values, func(val int, i int) string { return strconv.Itoa(val) }), `,`)
+			str := strings.Join(lo.Map(values, func(val int, _ int) string { return strconv.Itoa(val) }), `,`)
 			s.Where(sql.P(func(b *sql.Builder) {
 				b.WriteString("JSON_CONTAINS").Wrap(func(b *sql.Builder) {
 					b.Ident(field).Comma()
@@ -93,15 +93,15 @@ func GetIntSliceAndQuery(field string, values ...int) func(s *sql.Selector) {
 // GetIntSliceOrQuery 获取整数切片的或查询
 func GetIntSliceOrQuery(field string, values ...int) func(s *sql.Selector) {
 	if len(values) == 0 {
-		return func(s *sql.Selector) {}
+		return func(_ *sql.Selector) {}
 	}
 	return func(s *sql.Selector) {
 		if isPostgres(s) {
-			pArr := lo.Map(values, func(val int, i int) *sql.Predicate { return getPgJSONIntQuery(field, val) })
+			pArr := lo.Map(values, func(val int, _ int) *sql.Predicate { return getPgJSONIntQuery(field, val) })
 			s.Where(sql.Or(pArr...))
 			return
 		}
-		pArr := lo.Map(values, func(val int, i int) *sql.Predicate { return getMyJSONIntQuery(field, val) })
+		pArr := lo.Map(values, func(val int, _ int) *sql.Predicate { return getMyJSONIntQuery(field, val) })
 		s.Where(sql.Or(pArr...))
 	}
 }

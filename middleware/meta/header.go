@@ -46,7 +46,7 @@ func GetAcceptLanguage(ctx context.Context) string {
 }
 
 // GetReplyHeader _
-func GetReplyHeader(ctx context.Context, key, value string) (transport.Header, bool) {
+func GetReplyHeader(ctx context.Context) (transport.Header, bool) {
 	t, ok := transport.FromServerContext(ctx)
 	if !ok {
 		return nil, ok

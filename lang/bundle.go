@@ -23,7 +23,7 @@ func LoadMessageForConfig(bundle *i18n.Bundle, langMap map[string]*config.Lang) 
 	for key, l := range langMap {
 		tag, err := language.Parse(key)
 		if err == nil {
-			msgs := lo.Map(l.Messages, func(item *config.LangMessage, index int) *i18n.Message { return MessageToI18n(item) })
+			msgs := lo.Map(l.Messages, func(item *config.LangMessage, _ int) *i18n.Message { return MessageToI18n(item) })
 			_ = bundle.AddMessages(tag, msgs...)
 		}
 	}

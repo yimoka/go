@@ -93,7 +93,7 @@ func SetTableCache[T comparable](ctx context.Context, t *Table, content *TableCo
 func MGetTableCache[T comparable](ctx context.Context, t *Table, content *TableContent[T], params ...T) (map[T]string, error) {
 	prefix := t.cache.GetPrefix()
 	keyToParam := make(map[string]T)
-	cacheKeys := lo.Map(params, func(item T, index int) string {
+	cacheKeys := lo.Map(params, func(item T, _ int) string {
 		key := content.GetKey(item)
 		keyToParam[prefix+key] = item
 		return key
@@ -104,7 +104,7 @@ func MGetTableCache[T comparable](ctx context.Context, t *Table, content *TableC
 	}
 
 	// 去掉空值, cacheKey 转为原来的 param
-	values := lo.MapKeys(lo.OmitBy(cacheValues, func(key string, value string) bool { return t.cache.IsEmpty(value) }),
+	values := lo.MapKeys(lo.OmitBy(cacheValues, func(_ string, value string) bool { return t.cache.IsEmpty(value) }),
 		func(_ string, key string) T { return keyToParam[key] },
 	)
 
@@ -157,14 +157,14 @@ func MSetTableCache[T comparable](ctx context.Context, t *Table, content *TableC
 
 // DelTableCache 删除缓存
 func DelTableCache[T comparable](ctx context.Context, t *Table, content *TableContent[T], params ...T) error {
-	cacheKeys := lo.Map(params, func(item T, index int) string {
+	cacheKeys := lo.Map(params, func(item T, _ int) string {
 		return content.GetKey(item)
 	})
 	return t.cache.MDel(ctx, cacheKeys...)
 }
 
 func mSetTableCache[T comparable](ctx context.Context, t *Table, content *TableContent[T], values map[T]string) error {
-	cacheValues := lo.MapKeys(values, func(value string, key T) string {
+	cacheValues := lo.MapKeys(values, func(_ string, key T) string {
 		return content.GetKey(key)
 	})
 	return t.cache.MSet(ctx, cacheValues, t.expireTime)

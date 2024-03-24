@@ -8,7 +8,7 @@ import (
 	"github.com/forgoer/openssl"
 )
 
-func TestIrreversibleEncrypt(t *testing.T) {
+func TestIrreversibleEncrypt(_ *testing.T) {
 	str := "12311231"
 	secret := "12345678"
 	nonce := "gEtryqKc"
@@ -57,7 +57,7 @@ func TestDecrypt(t *testing.T) {
 		t.Errorf("Error decrypting: %v", err)
 	}
 
-	x, xE := Decrypt("yrjjpmNnBJuzTTNQH2yQ+uOfY2hcaSVJVtWirmRYlkLJbZWYb5baCvQsLn+XzhNcly10qf1IqRIDbmzviE/qjWcIaabAWxwZgUOquODfTobZMl0CG+vEUvEMryY0XRybNOB2ATElLt4tMp97cuV/7/LZxtNKbJW9tl809CYaZbt2UkyoXavS9bnsctVHPu5GgUltqJR+VcNopX8v1OVGtKqyA+BYR3lG3cLHWJgjIoMMskICjIDE7UaiwyoPhEv3reXtWO7blK2VY98P", "XulybtoHUqGPEsxsHfpanXizo1w7Lqwd")
+	x, xE := Decrypt("yrjjpmNnBJuzTTNQH2yQ+uOfY2hcaSVJVtWirmRYlkLJbZWYb5baCvQsLn+XzhNcly10qf1IqRIDbmzviE/qjWcIaabAWxwZgUOquODfTobZMl0CG+vEUvEMryY0XRybNOB2ATElLt4tMp97cuV/7/LZxtNKbJW9tl809CYaZbt2UkyoXavS9bnsctVHPu5GgUltqJR+VcNopX8v1OVGtKqyA+BYR3lG3cLHWJgjIoMMskICjIDE7UaiwyoPhEv3reXtWO7blK2VY98P", "XulybtoHUqGPEsxsHfpanXizo1w7Lqwd") // nolint
 	fmt.Printf("x %v \n", x)
 	fmt.Printf("x %v \n", xE)
 
