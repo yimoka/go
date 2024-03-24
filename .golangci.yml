@@ -1,8 +1,8 @@
 # 完整版本在 https://golangci-lint.run/usage/configuration/
 linters-settings:
   funlen:
-    lines: 120
-    statements: 120
+    lines: 200
+    statements: 200
   goconst:
     min-len: 2
     min-occurrences: 2

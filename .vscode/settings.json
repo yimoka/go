@@ -1,5 +1,7 @@
 {
   "editor.formatOnSave": true,
+  "go.lintTool": "golangci-lint",
+  "go.lintOnSave": "workspace",
   "cSpell.words": [
     "customsql",
     "nicksnyder",
