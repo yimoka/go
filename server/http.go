@@ -19,7 +19,6 @@ func CreateHTTPServer(conf *config.ServerItem, traceConf *config.Trace, logger l
 		return nil
 	}
 	opts := []http.ServerOption{}
-	use := []middleware.Middleware{}
 	opts = append(opts, http.Address(conf.Addr))
 	if conf.Network != "" {
 		opts = append(opts, http.Network(conf.Network))
@@ -29,11 +28,17 @@ func CreateHTTPServer(conf *config.ServerItem, traceConf *config.Trace, logger l
 		opts = append(opts, http.Timeout(conf.Timeout.AsDuration()))
 	}
 
+	use := []middleware.Middleware{}
+
+	use = append(use, recovery.Recovery())
+
+	if conf.IsTrace {
+		use = append(use, trace.CreateMiddleware(conf, traceConf)...)
+	}
+
 	if conf.IsLog {
 		use = append(use, logging.Server(logger))
 	}
-
-	use = append(use, trace.CreateMiddleware(conf, traceConf)...)
 
 	use = append(use, metadata.Server(), validate.Validator())
 
@@ -41,7 +46,6 @@ func CreateHTTPServer(conf *config.ServerItem, traceConf *config.Trace, logger l
 		use = append(use, ms...)
 	}
 
-	use = append(use, recovery.Recovery())
 	opts = append(opts, http.Middleware(use...))
 
 	return http.NewServer(opts...)

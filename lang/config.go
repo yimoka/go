@@ -181,8 +181,52 @@ var ruMsgMap = map[MsgKey]*i18n.Message{
 	cacheMDelFailKey:        {ID: cacheMDelFailKey.String(), Other: "Ошибка удаления кэша"},
 }
 
+// 法语
+var frMsgMap = map[MsgKey]*i18n.Message{
+	parameterErrorKey:            {ID: parameterErrorKey.String(), Other: "Erreur de paramètre, veuillez vérifier vos paramètres"},
+	getMetadataFailKey:           {ID: getMetadataFailKey.String(), Other: "Échec de récupération des métadonnées"},
+	getMetadataConversionFailKey: {ID: getMetadataConversionFailKey.String(), Other: "Échec de la conversion des métadonnées {{.Source}} en {{.Target}}"},
+	missingMetadataKey: {
+		ID:    missingMetadataKey.String(),
+		Other: "Métadonnées manquantes {{.Name}}, veuillez vérifier si la transmission de métadonnées est activée dans la chaîne de transmission et transmettre la valeur",
+	},
+	encryptFailKey:          {ID: encryptFailKey.String(), Other: "Échec de chiffrement"},
+	decryptFailKey:          {ID: decryptFailKey.String(), Other: "Échec de déchiffrement"},
+	paramCanNotEmptyKey:     {ID: paramCanNotEmptyKey.String(), Other: "Le paramètre {{.Name}} ne peut pas être vide"},
+	notEditableKey:          {ID: notEditableKey.String(), Other: "Les données ne sont pas modifiables"},
+	requestErrorKey:         {ID: requestErrorKey.String(), Other: "Erreur de requête"},
+	pleaseLoginKey:          {ID: pleaseLoginKey.String(), Other: "Veuillez vous connecter d'abord"},
+	needReLoginKey:          {ID: needReLoginKey.String(), Other: "Besoin de se reconnecter"},
+	accountDisabledKey:      {ID: accountDisabledKey.String(), Other: "Le compte a été désactivé"},
+	pleaseChangePasswordKey: {ID: pleaseChangePasswordKey.String(), Other: "Veuillez d'abord changer votre mot de passe"},
+	passwordErrorKey:        {ID: passwordErrorKey.String(), Other: "Erreur de mot de passe"},
+	noPermissionKey:         {ID: noPermissionKey.String(), Other: "Pas de permission"},
+	notConfiguredKey:        {ID: notConfiguredKey.String(), Other: "{{.Name}} non configuré"},
+	canNotEmptyKey:          {ID: canNotEmptyKey.String(), Other: "{{.Name}} ne peut pas être vide"},
+	expiredKey:              {ID: expiredKey.String(), Other: "{{.Name}} a expiré"},
+
+	dataAbnormalKey:         {ID: dataAbnormalKey.String(), Other: "{{.Name}} données anormales"},
+	dataNotFoundKey:         {ID: dataNotFoundKey.String(), Other: "Données non trouvées"},
+	dataDuplicateKey:        {ID: dataDuplicateKey.String(), Other: "Les données existent déjà, veuillez ne pas les ajouter à nouveau"},
+	dataConstraintKey:       {ID: dataConstraintKey.String(), Other: "Échec de la vérification des contraintes de données, veuillez vérifier vos paramètres"},
+	dataNotLoadedKey:        {ID: dataNotLoadedKey.String(), Other: "Base de données non chargée, veuillez contacter l'administrateur"},
+	dataNotSingularKey:      {ID: dataNotSingularKey.String(), Other: "Erreur de données Not Singular, veuillez contacter l'administrateur"},
+	dataValidationErrorKey:  {ID: dataValidationErrorKey.String(), Other: "Échec de la validation des données, veuillez vérifier vos paramètres"},
+	dataErrorKey:            {ID: dataErrorKey.String(), Other: "Erreur de couche de données, veuillez contacter l'administrateur"},
+	cacheNotFoundKey:        {ID: cacheNotFoundKey.String(), Other: "Cache introuvable"},
+	cachePreMatchGetFailKey: {ID: cachePreMatchGetFailKey.String(), Other: "Échec de la récupération de la pré-correspondance du cache"},
+	cacheSetFailKey:         {ID: cacheSetFailKey.String(), Other: "Échec de la définition du cache"},
+	cacheMSetFailKey:        {ID: cacheMSetFailKey.String(), Other: "Échec de la définition du cache en masse"},
+	cacheDelFailKey:         {ID: cacheDelFailKey.String(), Other: "Échec de la suppression du cache"},
+	cachePreMatchDelFailKey: {ID: cachePreMatchDelFailKey.String(), Other: "Échec de la suppression de la pré-correspondance du cache"},
+	cacheFlushFailKey:       {ID: cacheFlushFailKey.String(), Other: "Échec du vidage du cache"},
+	cacheMGetFailKey:        {ID: cacheMGetFailKey.String(), Other: "Échec de la récupération en masse du cache"},
+	cacheMDelFailKey:        {ID: cacheMDelFailKey.String(), Other: "Échec de la suppression en masse du cache"},
+}
+
 var langMap = map[language.Tag]map[MsgKey]*i18n.Message{
 	language.English: dfMsgMap,
 	language.Chinese: zhMsgMap,
 	language.Russian: ruMsgMap,
+	language.French:  frMsgMap,
 }

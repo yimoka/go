@@ -34,20 +34,21 @@ func CreateGRPCServer(conf *config.ServerItem, logger log.Logger, ms ...middlewa
 	}
 
 	use := []middleware.Middleware{}
-	if conf.IsLog {
-		use = append(use, logging.Server(logger))
-	}
+
+	use = append(use, recovery.Recovery())
 
 	if conf.IsTrace {
 		use = append(use, tracing.Server(tracing.WithTracerProvider(otel.GetTracerProvider())))
+	}
+
+	if conf.IsLog {
+		use = append(use, logging.Server(logger))
 	}
 
 	use = append(use, metadata.Server(), validate.Validator())
 	if len(ms) > 0 {
 		use = append(use, ms...)
 	}
-
-	use = append(use, recovery.Recovery())
 
 	opts = append(opts, grpc.Middleware(use...))
 
