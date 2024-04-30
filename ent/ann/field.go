@@ -84,6 +84,16 @@ type Field struct {
 
 	// 是否需要 xss 过滤
 	XSSFilter bool
+
+	// 多语言字段，为空则不支持多语言，不为空则表示该字段为值字段的多语言值
+	// 不为空则必须有对应的默认内容字段，必有为 json 类型 且值与值字段相同
+	// 例如：值为 title 时，则必须有 title 字段
+	// 本身字段名默认为 xxxI18n
+	// 值为 json 类型，key 为语言代码，value 为对应的值
+	// 例如：{"zh-CN":"标题","en-US":"title"}
+	I18NFor string
+	// BFF 层仅本地语言,为 true 在 BFF 层的无 I18N 输入，输出默认内容与和本地语言的内容
+	BFFOnlyLocalLang bool
 }
 
 // FnHandleType 处理方式
@@ -217,6 +227,20 @@ func GetFieldsConfig(node *gen.Type) map[string]*Field {
 			})
 			if !iB {
 				log.Fatalf("字段 %s 的 onlyUnique 为 true 时必须有单字段 Unique 索引", field.Name)
+			}
+		}
+		if config.I18NFor != "" {
+			// 必须是一个 json 字段
+			if !field.IsJSON() {
+				log.Fatalf("字段 %s 为多语言字段时时值必须为 json 类型", field.Name)
+			}
+			// 必须是一个 map 并且 key 为 string
+			if !strings.HasPrefix(field.Type.String(), "map[string]") {
+				log.Fatalf("字段 %s 为多语言字段时时值必须为 map[string]* 类型", field.Name)
+			}
+			cField := strings.TrimSuffix(field.Name, "I18n")
+			if _, ok := fields[cField]; !ok {
+				log.Fatalf("字段 %s 为多语言字段时必须有对应的值字段 %s", field.Name, cField)
 			}
 		}
 	}

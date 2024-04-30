@@ -23,4 +23,9 @@
 | title | 219 | 标题 |
 | creatorByStaff |  220 | 创建人 - 员工 |
 | updaterByStaff |  210 | 更新人 - 员工 |
+| extraI18n | 300 | 国际化扩展信息 |
+| contentI18n | 301 | 国际化内容 |
+| summaryI18n | 302 | 国际化简介 |
+| coverI18n | 303 | 国际化封面 |
+| titleI18n | 304 | 国际化标题 |
 

@@ -23,6 +23,8 @@ type Service struct {
 	PermissionsParentID string `yaml:"permissionsParentID"`
 	// RPC 类型
 	RPCType string `yaml:"rpcType"`
+	//  API 前缀
+	APIPrefix string `yaml:"apiPrefix"`
 }
 
 const serviceNameKey = "Service"
