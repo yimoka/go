@@ -91,6 +91,25 @@ func MatchContent[T any](langMap map[string]T, lang []string) (T, bool) {
 	return spareValue, spare
 }
 
+// CreateLocalContentMap
+// 它首先从 ctx 中获取可接受的语言列表，然后为每种语言创建一个本地化内容。
+// 如果语言代码包含 "-"，则会创建两个条目：一个使用完整的语言代码，一个使用 "-" 之前的部分。
+// 最后，函数返回包含所有本地化内容的 map。
+func CreateLocalContentMap[T any](ctx context.Context, localContent T) map[string]T {
+	arr := GetAcceptArr(ctx)
+	m := make(map[string]T)
+	// 反向遍历 优先级高的在前
+	for i := len(arr) - 1; i >= 0; i-- {
+		lang := arr[i]
+		lArr := strings.Split(lang, "-")
+		if len(lArr) == 2 {
+			m[arr[0]] = localContent
+		}
+		m[lang] = localContent
+	}
+	return m
+}
+
 // 错误处理
 func HandleError(key MsgKey, msg *i18n.Message, templateData interface{}) string {
 	keyStr := key.String()
