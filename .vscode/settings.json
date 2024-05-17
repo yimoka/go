@@ -12,6 +12,7 @@
     "redisotel",
     "semconv",
     "stretchr",
+    "structpb",
     "tracesdk"
   ]
 }

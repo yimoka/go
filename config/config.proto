@@ -7,6 +7,7 @@ option java_package = "com.github.yimoko.config";
 option objc_class_prefix = "YimokoConfig";
 
 import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
 
 message Config {
   string name = 1;
@@ -23,7 +24,7 @@ message Config {
   // 公共语言配置 用于替换公共的语言处理器
   map<string, Lang> commonLangs = 11;
 
-  map<string, string> extra = 20; // 扩展配置
+  google.protobuf.Struct extra = 20; // 扩展配置
 }
 
 // 服务配置

@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/mixin"
 	"github.com/yimoka/go/ent/ann"
+	"google.golang.org/protobuf/types/known/structpb"
 )
 
 // Extra  mixin 通常用于表示 扩展信息
@@ -16,12 +17,13 @@ type Extra struct {
 // Fields _
 func (Extra) Fields() []ent.Field {
 	return []ent.Field{
-		field.Text("extra").
+		field.JSON("extra", &structpb.Struct{}).
 			Optional().
-			Default("").
+			Default(&structpb.Struct{}).
 			Comment("扩展信息").
 			Annotations(ann.Field{
 				PbIndex: 215,
+				Query:   ann.FieldQuery{Disabled: true},
 			}),
 	}
 }

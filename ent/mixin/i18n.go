@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/mixin"
 	"github.com/yimoka/go/ent/ann"
+	"google.golang.org/protobuf/types/known/structpb"
 )
 
 type ExtraI18n struct {
@@ -15,8 +16,9 @@ type ExtraI18n struct {
 // Fields _
 func (ExtraI18n) Fields() []ent.Field {
 	return []ent.Field{
-		field.JSON("extraI18n", map[string]string{}).
+		field.JSON("extraI18n", map[string]*structpb.Struct{}).
 			Optional().
+			Default(map[string]*structpb.Struct{}).
 			Comment("国际化扩展信息").
 			Annotations(ann.Field{
 				PbIndex:          300,
