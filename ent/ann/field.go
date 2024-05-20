@@ -94,6 +94,15 @@ type Field struct {
 	I18NFor string
 	// BFF 层仅本地语言,为 true 在 BFF 层的无 I18N 输入，输出默认内容与和本地语言的内容
 	BFFOnlyLocalLang bool
+
+	// 索引
+	// JSON 数组 CAST 索引 item 的长度 为 0 时不生成索引
+	// ALTER TABLE `articles` ADD INDEX category_ids ((CAST(`category_ids` as char(15) ARRAY)))
+	IndexJSONArrItemLen int
+
+	// JSON 对象 keys CAST 索引 item 的长度 为 0 时不生成索引
+	// ALTER TABLE `articles` ADD INDEX title_i18n ((CAST(JSON_KEYS(`title_i18n`) as char(7) ARRAY)))
+	IndexJSONObjKeysLen int
 }
 
 // FnHandleType 处理方式

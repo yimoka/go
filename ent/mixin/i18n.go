@@ -106,9 +106,10 @@ func (TitleI18n) Fields() []ent.Field {
 			Optional().
 			Comment("国际化标题").
 			Annotations(ann.Field{
-				PbIndex:          304,
-				I18NFor:          "title",
-				BFFOnlyLocalLang: true,
+				PbIndex:             304,
+				I18NFor:             "title",
+				BFFOnlyLocalLang:    true,
+				IndexJSONObjKeysLen: 7,
 				Query: ann.FieldQuery{
 					Like:    true,
 					NotLike: true,

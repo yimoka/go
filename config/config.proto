@@ -74,6 +74,8 @@ message Data {
   string secret = 5;
   // 自定义密钥，不同库或者表可以使用不同的密钥
   map<string, string> secrets = 6;
+  // 不创建表结构 通常生产环境账号只给读写数据权限，结果更改走审计
+  bool noCreateSchema = 7;
 }
 
 message Database {
