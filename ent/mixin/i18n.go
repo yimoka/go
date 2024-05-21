@@ -117,3 +117,23 @@ func (TitleI18n) Fields() []ent.Field {
 			}),
 	}
 }
+
+// 副标题国际化
+type SubTitleI18n struct {
+	mixin.Schema
+}
+
+// Fields _
+func (SubTitleI18n) Fields() []ent.Field {
+	return []ent.Field{
+		field.JSON("subTitleI18n", map[string]string{}).
+			Optional().
+			Comment("国际化副标题").
+			Annotations(ann.Field{
+				PbIndex:          305,
+				I18NFor:          "subTitle",
+				BFFOnlyLocalLang: true,
+				Query:            ann.FieldQuery{Disabled: true},
+			}),
+	}
+}

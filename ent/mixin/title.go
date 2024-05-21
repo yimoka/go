@@ -36,3 +36,23 @@ func (Title) Index() []ent.Index {
 		index.Fields("title"),
 	}
 }
+
+// 副标题
+type SubTitle struct {
+	mixin.Schema
+}
+
+// Fields _
+func (SubTitle) Fields() []ent.Field {
+	return []ent.Field{
+		field.String("subTitle").
+			MaxLen(511).
+			Comment("副标题").
+			Annotations(ann.Field{
+				PbIndex: 220,
+				Query: ann.FieldQuery{
+					Disabled: true,
+				},
+			}),
+	}
+}
