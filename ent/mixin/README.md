@@ -21,9 +21,10 @@
 | summary | 217 | 简介 markdown |
 | cover | 218 | 封面 |
 | title | 219 | 标题 |
-| subTitle | 220 | 副标题 |
 | creatorByStaff |  220 | 创建人 - 员工 |
-| updaterByStaff |  210 | 更新人 - 员工 |
+| updaterByStaff |  221 | 更新人 - 员工 |
+| subTitle | 222 | 副标题 |
+
 | extraI18n | 300 | 国际化扩展信息 |
 | contentI18n | 301 | 国际化内容 |
 | summaryI18n | 302 | 国际化简介 |

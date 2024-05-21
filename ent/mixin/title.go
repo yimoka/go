@@ -51,7 +51,7 @@ func (SubTitle) Fields() []ent.Field {
 			Default("").
 			Comment("副标题").
 			Annotations(ann.Field{
-				PbIndex: 220,
+				PbIndex: 222,
 				Query: ann.FieldQuery{
 					Disabled: true,
 				},
