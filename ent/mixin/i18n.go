@@ -39,6 +39,7 @@ func (ContentI18n) Fields() []ent.Field {
 	return []ent.Field{
 		field.JSON("contentI18n", map[string]string{}).
 			Optional().
+			Default(make(map[string]string)).
 			Comment("国际化内容").
 			Annotations(ann.Field{
 				PbIndex:          301,
@@ -63,6 +64,7 @@ func (SummaryI18n) Fields() []ent.Field {
 	return []ent.Field{
 		field.JSON("summaryI18n", map[string]string{}).
 			Optional().
+			Default(make(map[string]string)).
 			Comment("国际化简介").
 			Annotations(ann.Field{
 				PbIndex:          302,
@@ -84,6 +86,7 @@ func (CoverI18n) Fields() []ent.Field {
 	return []ent.Field{
 		field.JSON("coverI18n", map[string]string{}).
 			Optional().
+			Default(make(map[string]string)).
 			Comment("国际化封面").
 			Annotations(ann.Field{
 				PbIndex:          303,
@@ -104,6 +107,7 @@ func (TitleI18n) Fields() []ent.Field {
 	return []ent.Field{
 		field.JSON("titleI18n", map[string]string{}).
 			Optional().
+			Default(make(map[string]string)).
 			Comment("国际化标题").
 			Annotations(ann.Field{
 				PbIndex:             304,
@@ -128,6 +132,7 @@ func (SubTitleI18n) Fields() []ent.Field {
 	return []ent.Field{
 		field.JSON("subTitleI18n", map[string]string{}).
 			Optional().
+			Default(make(map[string]string)).
 			Comment("国际化副标题").
 			Annotations(ann.Field{
 				PbIndex:          305,
