@@ -12,8 +12,12 @@ import (
 	conf "github.com/yimoka/go/config"
 )
 
+// DepsInit 依赖初始化 当前仅用于占位 用于当依赖注入时使用
+type DepsInit struct {
+}
+
 // NewApp http.Server 支持多个 可分别支持后台管理 API 和 BFF API
-func NewApp(logger log.Logger, conf *conf.Config, gs *grpc.Server, hss ...*http.Server) *kratos.App {
+func NewApp(logger log.Logger, conf *conf.Config, _ *DepsInit, gs *grpc.Server, hss ...*http.Server) *kratos.App {
 	servers := []transport.Server{}
 	for _, s := range hss {
 		if s != nil {

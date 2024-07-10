@@ -4,6 +4,7 @@
   "go.lintOnSave": "workspace",
   "cSpell.words": [
     "customsql",
+    "keyvals",
     "nicksnyder",
     "nolint",
     "otlp",
@@ -13,6 +14,7 @@
     "semconv",
     "stretchr",
     "structpb",
+    "tlog",
     "tracesdk"
   ]
 }

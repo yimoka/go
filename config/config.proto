@@ -24,6 +24,8 @@ message Config {
   // 公共语言配置 用于替换公共的语言处理器
   map<string, Lang> commonLangs = 11;
 
+  Workflow workflow = 12;
+
   google.protobuf.Struct extra = 20; // 扩展配置
 }
 
@@ -193,3 +195,44 @@ message LangMessage {
 }
 
 message DictData { map<string, string> data = 1; }
+
+// 工作流配置
+message Workflow {
+  string hostPort = 1;
+  string namespace = 2;
+  string identity = 3;
+  bool disableErrorCodeMetricTags = 4;
+  map<string, Worker> workers = 5;
+}
+
+message Worker {
+  int32 maxConcurrentActivityExecutionSize = 1;
+  float workerActivitiesPerSecond = 2;
+  int32 maxConcurrentLocalActivityExecutionSize = 3;
+  float workerLocalActivitiesPerSecond = 4;
+  float taskQueueActivitiesPerSecond = 5;
+  int32 maxConcurrentActivityTaskPollers = 6;
+  int32 maxConcurrentWorkflowTaskExecutionSize = 7;
+  int32 maxConcurrentWorkflowTaskPollers = 8;
+  bool enableLoggingInReplay = 9;
+  // 单位毫秒
+  int32 stickyScheduleToStartTimeout = 10;
+  // 单位毫秒
+  int32 workerStopTimeout = 11;
+  bool enableSessionWorker = 12;
+  int32 maxConcurrentSessionExecutionSize = 13;
+  bool disableWorkflowWorker = 14;
+  bool localActivityWorkerOnly = 15;
+  string identity = 16;
+  // 单位毫秒
+  int32 deadlockDetectionTimeout = 17;
+  // 单位毫秒
+  int32 maxHeartbeatThrottleInterval = 18;
+  // 单位毫秒
+  int32 defaultHeartbeatThrottleInterval = 19;
+  bool disableEagerActivities = 20;
+  int32 maxConcurrentEagerActivityExecutionSize = 21;
+  bool disableRegistrationAliasing = 22;
+  string buildID = 23;
+  bool useBuildIDForVersioning = 24;
+}
