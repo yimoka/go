@@ -50,6 +50,18 @@ type Table struct {
 
 	// 是否是日志操作表
 	IsOpLogTable bool `json:"isOpLogTable"`
+
+	// 自定义字段 业务逻辑字段 不存在于数据库 仅用于代码生成
+	CustomFields []CustomField `json:"customFields"`
+
+	// 切面编程 用于在代码生成时 对代码进行切面处理
+	// 支持在  service biz 层对自动生成的每个 fn 进行处理
+	ServiceBefore    TableFn `json:"serviceBefore"`
+	ServiceAfter     TableFn `json:"serviceAfter"`
+	ServiceBFFBefore TableFn `json:"serviceBFFBefore"`
+	ServiceBFFAfter  TableFn `json:"serviceBFFAfter"`
+	BizBefore        TableFn `json:"bizBefore"`
+	BizAfter         TableFn `json:"bizAfter"`
 }
 
 // Place 代码生成的层
@@ -100,17 +112,40 @@ func GetTableConfig(node *gen.Type) *Table {
 // TableCache 表缓存配置
 type TableCache struct {
 	// 详情缓存 支持配置多个字段 请确保字段的值唯一
-	Detail []string `json:"detail"`
-	// BFF层详情缓存启用的方法 如 Detail
-	BFFDetailFn map[string]TableCacheFn `json:"bffDetailFn"`
+	Detail          []string                `json:"detail"`
+	DetailBizBefore map[string]TableCacheFn `json:"detailBizBefore"`
+	DetailBizAfter  map[string]TableCacheFn `json:"detailBizAfter"`
+
+	DetailBefore    map[string]TableCacheFn `json:"detailBefore"`
+	DetailAfter     map[string]TableCacheFn `json:"detailAfter"`
+	BFFDetailFn     map[string]TableCacheFn `json:"bffDetailFn"`
+	BFFDetailBefore map[string]TableCacheFn `json:"bffDetailBefore"`
+	BFFDetailAfter  map[string]TableCacheFn `json:"bffDetailAfter"`
+
 	// 启用查询所有缓存
-	QueryAll bool `json:"queryAll"`
+	QueryAll          bool         `json:"queryAll"`
+	QueryAllBizBefore TableCacheFn `json:"queryAllBizBefore"`
+	QueryAllBizAfter  TableCacheFn `json:"queryAllBizAfter"`
+
+	QueryAllBefore TableCacheFn `json:"queryAllBefore"`
+	QueryAllAfter  TableCacheFn `json:"queryAllAfter"`
 	// BFF层查询所有缓存 启用的方法 all 只有三个方法 get set del
-	BFFQueryAllFn TableCacheFn `json:"bffQueryAll"`
+	BFFQueryAllFn     TableCacheFn `json:"bffQueryAll"`
+	BFFQueryAllBefore TableCacheFn `json:"bffQueryAllBefore"`
+	BFFQueryAllAfter  TableCacheFn `json:"bffQueryAllAfter"`
+
 	// 查询缓存 支持配置多个字段
-	Query []string `json:"query"`
+	Query          []string                `json:"query"`
+	QueryBizBefore map[string]TableCacheFn `json:"queryBizBefore"`
+	QueryBizAfter  map[string]TableCacheFn `json:"queryBizAfter"`
+
+	QueryBefore map[string]TableCacheFn `json:"queryBefore"`
+	QueryAfter  map[string]TableCacheFn `json:"queryAfter"`
 	// BFF层查询缓存 启用的方法
-	BFFQueryFn map[string]TableCacheFn `json:"bffQueryFn"`
+	BFFQueryFn     map[string]TableCacheFn `json:"bffQueryFn"`
+	BFFQueryBefore map[string]TableCacheFn `json:"bffQueryBefore"`
+	BFFQueryAfter  map[string]TableCacheFn `json:"bffQueryAfter"`
+
 	// 是否不开启穿透保护
 	// 穿透保护查询不到的数据 会缓存一个空值
 	// 详情缓存 返回 404 列表缓存 返回 空数组
@@ -260,4 +295,18 @@ type MutationConfig struct {
 	OperatorCode string `json:"operatorCode"`
 	// TODO 同步到搜索
 
+}
+
+type CustomField struct {
+	Name           string `json:"name"`
+	Comment        string `json:"comment"`
+	PbType         string `json:"pbType"`
+	PbIndex        int    `json:"pbIndex"`
+	GoType         string `json:"goType"`
+	Biz            bool   `json:"biz"`
+	GoTypeToPb     string `json:"goTypeToPb"` // go 类型转 pb 类型的处理代码 如无则直接 =
+	DetailReply    bool   `json:"detailReply"`
+	QueryReply     bool   `json:"queryReply"`
+	BffDetailReply bool   `json:"bffDetailReply"`
+	BffQueryReply  bool   `json:"bffQueryReply"`
 }
