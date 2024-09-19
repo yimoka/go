@@ -51,6 +51,9 @@ type Table struct {
 	// 是否是日志操作表
 	IsOpLogTable bool `json:"isOpLogTable"`
 
+	// 权限配置的ID
+	PermissionsID string `yaml:"permissionsParentID"`
+
 	// 自定义字段 业务逻辑字段 不存在于数据库 仅用于代码生成
 	CustomFields []CustomField `json:"customFields"`
 
