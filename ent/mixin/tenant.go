@@ -17,8 +17,7 @@ type TenantID struct {
 // Fields _
 func (TenantID) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int32("tenantID").
-			Min(1000).
+		field.String("tenantID").
 			Comment("租户 ID").
 			Immutable().
 			Annotations(ann.Field{
@@ -43,8 +42,7 @@ type TenantIDOnlyBFF struct {
 // Fields _
 func (TenantIDOnlyBFF) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int32("tenantID").
-			Min(1000).
+		field.String("tenantID").
 			Comment("租户 ID").
 			Immutable().
 			Annotations(ann.Field{
