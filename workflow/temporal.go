@@ -1,3 +1,4 @@
+// Package workflow 提供用于处理 Temporal 工作流和活动的功能
 package workflow
 
 import (

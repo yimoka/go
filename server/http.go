@@ -7,7 +7,6 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/metadata"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
-	"github.com/go-kratos/kratos/v2/middleware/validate"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/yimoka/go/config"
 	"github.com/yimoka/go/middleware/trace"
@@ -40,7 +39,7 @@ func CreateHTTPServer(conf *config.ServerItem, traceConf *config.Trace, logger l
 		use = append(use, logging.Server(logger))
 	}
 
-	use = append(use, metadata.Server(), validate.Validator())
+	use = append(use, metadata.Server())
 
 	if len(ms) > 0 {
 		use = append(use, ms...)

@@ -8,7 +8,6 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/metadata"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/middleware/tracing"
-	"github.com/go-kratos/kratos/v2/middleware/validate"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/yimoka/go/config"
 	"go.opentelemetry.io/otel"
@@ -44,8 +43,8 @@ func CreateGRPCServer(conf *config.ServerItem, logger log.Logger, ms ...middlewa
 	if conf.IsLog {
 		use = append(use, logging.Server(logger))
 	}
-
-	use = append(use, metadata.Server(), validate.Validator())
+	//  validate.Validator()
+	use = append(use, metadata.Server())
 	if len(ms) > 0 {
 		use = append(use, ms...)
 	}
