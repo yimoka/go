@@ -21,18 +21,18 @@ type Field struct {
 	OnlyUnique bool
 
 	// 特殊字段定义 之所以放在字段里定义是为了可以直接使用字段的 mixin
-	// 是否是操作字段 一张表只能有一个操作字段 当  false 默认为 ID
+	// 是否是操作字段 一张表只能有一个操作字段 当 false 默认为 ID
 	OperationField bool
 	// 是否是 sass 字段 一张表只能有一个 sass 字段
 	SassField bool
-	// sass 只在 bff 服务使用 在 admin 类型的服务中使用，admin 的 bff 层为商户的控制层 api
-	SassOnlyBFF bool
-	// 是否是软删除字段 一张表只能有一个软删除字段 并且必须是 bool 类型
+	// sass 只在 portal 服务使用
+	SassOnlyPortal bool
+	// 软删除字段 一张表只能有一个软删除字段 并且必须是 bool 类型
 	SoftDeleteField bool
-	// 是否是行数据开关 停/启用的字段 一张表只能有一个行数据开关字段 并且必须是 bool 类型
+	// 行数据开关 停/启用的字段 一张表只能有一个行数据开关字段 并且必须是 bool 类型
 	SwitchField bool
-	// 是否是行数据开关的 BFF 字段 BFF 层生成开关相关的方法 用于 admin 类型的服务 提供商户的控制层 开关 api
-	SwitchBFFField bool
+	// Portal 行数据开关的字段 只在 Portal 生成开关相关的方法
+	SwitchPortalField bool
 
 	//  用于生成 pb 的 validate 文档 https://github.com/bufbuild/protoc-gen-validate
 	Validate string
@@ -41,16 +41,16 @@ type Field struct {
 	NotQueryReply bool
 	// 在详情的 Reply 不返回
 	NotDetailReply bool
-	// 表示在 BFF 层 Add 时 不需要该字段，例如后台的 备注 字段
-	NotBffAdd bool
-	// 表示在 BFF 层 Edit 时 不需要该字段，例如后台的 备注 字段
-	NotBffEdit bool
-	// 表示在 BFF 层 Query 时 不需要该字段，例如后台的 备注 字段
-	NotBffQuery bool
-	// 在 BFF 层的列表 Reply 不返回
-	NotBffQueryReply bool
-	// 在 BFF 层的详情 Reply 不返回
-	NotBffDetailReply bool
+	// 表示在 Portal 层 Add 时 不需要该字段，例如后台的 备注 字段
+	NotPortalAdd bool
+	// 表示在 Portal 层 Edit 时 不需要该字段，例如后台的 备注 字段
+	NotPortalEdit bool
+	// 表示在 Portal 层 Query 时 不需要该字段，例如后台的 备注 字段
+	NotPortalQuery bool
+	// 在 Portal 层的列表 Reply 不返回
+	NotPortalQueryReply bool
+	// 在 Portal 层的详情 Reply 不返回
+	NotPortalDetailReply bool
 
 	// 查询的配置
 	Query FieldQuery
@@ -92,8 +92,8 @@ type Field struct {
 	// 值为 json 类型，key 为语言代码，value 为对应的值
 	// 例如：{"zh-CN":"标题","en-US":"title"}
 	I18NFor string
-	// BFF 层仅本地语言,为 true 在 BFF 层的无 I18N 输入，输出默认内容与和本地语言的内容
-	BFFOnlyLocalLang bool
+	// Portal 层仅本地语言,为 true 在 Portal 层的无 I18N 输入，输出默认内容与和本地语言的内容
+	PortalOnlyLocalLang bool
 
 	// 索引
 	// JSON 数组 CAST 索引 item 的长度 为 0 时不生成索引
@@ -133,20 +133,20 @@ type FieldFunc struct {
 	GetStr string
 	SetStr string
 	// 执行的层  TODO biz 层待支持
-	Place Place
-	BFF   FnBFFType
+	Place  Place
+	Portal FnPortalType
 }
 
-// FnBFFType BFF 层的执行方式
-type FnBFFType string
+// FnPortalType Portal 层的执行方式
+type FnPortalType string
 
 const (
-	// FnBFFTypeDefault 默认 都执行
-	FnBFFTypeDefault FnBFFType = ""
-	// FnBFFTypeOnly 只在 BFF 层执行
-	FnBFFTypeOnly FnBFFType = "only"
-	// FnBFFTypeNot 不在 BFF 层执行
-	FnBFFTypeNot FnBFFType = "not"
+	// FnPortalTypeDefault 默认 都执行
+	FnPortalTypeDefault FnPortalType = ""
+	// FnPortalTypeOnly 只在 Portal 层执行
+	FnPortalTypeOnly FnPortalType = "only"
+	// FnPortalTypeNot 不在 Portal 层执行
+	FnPortalTypeNot FnPortalType = "not"
 )
 
 // PBTimeType pb 的时间类型

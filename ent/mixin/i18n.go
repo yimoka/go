@@ -21,10 +21,10 @@ func (ExtraI18n) Fields() []ent.Field {
 			Default(map[string]*structpb.Struct{}).
 			Comment("国际化扩展信息").
 			Annotations(ann.Field{
-				PbIndex:          300,
-				I18NFor:          "extra",
-				BFFOnlyLocalLang: true,
-				Query:            ann.FieldQuery{Disabled: true},
+				PbIndex:             300,
+				I18NFor:             "extra",
+				PortalOnlyLocalLang: true,
+				Query:               ann.FieldQuery{Disabled: true},
 			}),
 	}
 }
@@ -42,14 +42,14 @@ func (ContentI18n) Fields() []ent.Field {
 			Default(make(map[string]string)).
 			Comment("国际化内容").
 			Annotations(ann.Field{
-				PbIndex:          301,
-				I18NFor:          "content",
-				BFFOnlyLocalLang: true,
-				XSSFilter:        true,
-				Query:            ann.FieldQuery{Disabled: true},
+				PbIndex:             301,
+				I18NFor:             "content",
+				PortalOnlyLocalLang: true,
+				XSSFilter:           true,
+				Query:               ann.FieldQuery{Disabled: true},
 				// 查询不返回 只在详情中返回
-				NotQueryReply:    true,
-				NotBffQueryReply: true,
+				NotQueryReply:       true,
+				NotPortalQueryReply: true,
 			}),
 	}
 }
@@ -67,11 +67,11 @@ func (SummaryI18n) Fields() []ent.Field {
 			Default(make(map[string]string)).
 			Comment("国际化简介").
 			Annotations(ann.Field{
-				PbIndex:          302,
-				I18NFor:          "summary",
-				BFFOnlyLocalLang: true,
-				XSSFilter:        true,
-				Query:            ann.FieldQuery{Disabled: true},
+				PbIndex:             302,
+				I18NFor:             "summary",
+				PortalOnlyLocalLang: true,
+				XSSFilter:           true,
+				Query:               ann.FieldQuery{Disabled: true},
 			}),
 	}
 }
@@ -89,10 +89,10 @@ func (CoverI18n) Fields() []ent.Field {
 			Default(make(map[string]string)).
 			Comment("国际化封面").
 			Annotations(ann.Field{
-				PbIndex:          303,
-				I18NFor:          "cover",
-				BFFOnlyLocalLang: true,
-				Query:            ann.FieldQuery{Disabled: true},
+				PbIndex:             303,
+				I18NFor:             "cover",
+				PortalOnlyLocalLang: true,
+				Query:               ann.FieldQuery{Disabled: true},
 			}),
 	}
 }
@@ -112,7 +112,7 @@ func (TitleI18n) Fields() []ent.Field {
 			Annotations(ann.Field{
 				PbIndex:             304,
 				I18NFor:             "title",
-				BFFOnlyLocalLang:    true,
+				PortalOnlyLocalLang: true,
 				IndexJSONObjKeysLen: 7,
 				Query: ann.FieldQuery{
 					Like:    true,
@@ -135,10 +135,10 @@ func (SubTitleI18n) Fields() []ent.Field {
 			Default(make(map[string]string)).
 			Comment("国际化副标题").
 			Annotations(ann.Field{
-				PbIndex:          305,
-				I18NFor:          "subTitle",
-				BFFOnlyLocalLang: true,
-				Query:            ann.FieldQuery{Disabled: true},
+				PbIndex:             305,
+				I18NFor:             "subTitle",
+				PortalOnlyLocalLang: true,
+				Query:               ann.FieldQuery{Disabled: true},
 			}),
 	}
 }

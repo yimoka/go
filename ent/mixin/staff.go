@@ -23,20 +23,20 @@ func (CreatorByStaff) Fields() []ent.Field {
 			Optional().
 			Immutable().
 			Annotations(ann.Field{
-				PbIndex:           220,
-				AutoCreate:        true,
-				NotBffAdd:         true,
-				NotBffEdit:        true,
-				NotBffQuery:       true,
-				NotBffQueryReply:  true,
-				NotBffDetailReply: true,
+				PbIndex:              220,
+				AutoCreate:           true,
+				NotPortalAdd:         true,
+				NotPortalEdit:        true,
+				NotPortalQuery:       true,
+				NotPortalQueryReply:  true,
+				NotPortalDetailReply: true,
 				DefaultFn: &ann.FieldFunc{
 					PkgPath: []string{"github.com/yimoka/go/middleware/meta"},
 					Place:   ann.PlaceService,
 					GetStr:  "staffID,_:=meta.GetStaffID(ctx)",
 					SetStr:  `if b.CreatorByStaff==nil && staffID != "" {b.CreatorByStaff = &staffID}`,
-					// 员工不在 BFF 层获取
-					BFF: ann.FnBFFTypeNot,
+					// 员工不在 Portal 层获取
+					Portal: ann.FnPortalTypeNot,
 				},
 				Query: ann.FieldQuery{
 					NotEq: true,
@@ -67,21 +67,21 @@ func (UpdaterByStaff) Fields() []ent.Field {
 			MaxLen(15).
 			Optional().
 			Annotations(ann.Field{
-				PbIndex:           221,
-				AutoCreate:        true,
-				AutoUpdate:        true,
-				NotBffAdd:         true,
-				NotBffEdit:        true,
-				NotBffQuery:       true,
-				NotBffQueryReply:  true,
-				NotBffDetailReply: true,
+				PbIndex:              221,
+				AutoCreate:           true,
+				AutoUpdate:           true,
+				NotPortalAdd:         true,
+				NotPortalEdit:        true,
+				NotPortalQuery:       true,
+				NotPortalQueryReply:  true,
+				NotPortalDetailReply: true,
 				UpdateFn: &ann.FieldFunc{
 					PkgPath: []string{"github.com/yimoka/go/middleware/meta"},
 					Place:   ann.PlaceService,
 					GetStr:  "staffID,_:=meta.GetStaffID(ctx)",
 					SetStr:  `if b.UpdaterByStaff==nil && staffID != "" {b.UpdaterByStaff = &staffID}`,
-					// 员工不在 BFF 层获取
-					BFF: ann.FnBFFTypeNot,
+					// 员工不在 Portal 层获取
+					Portal: ann.FnPortalTypeNot,
 				},
 				Query: ann.FieldQuery{
 					NotEq: true,

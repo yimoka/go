@@ -27,9 +27,9 @@ func (Password) Fields() []ent.Field {
 					RowIrreversibleEncrypt: true,
 					NotQueryReply:          true,
 					NotDetailReply:         true,
-					NotBffQuery:            true,
-					NotBffQueryReply:       true,
-					NotBffDetailReply:      true,
+					NotPortalQuery:         true,
+					NotPortalQueryReply:    true,
+					NotPortalDetailReply:   true,
 					Query: ann.FieldQuery{
 						Disabled: true,
 					},

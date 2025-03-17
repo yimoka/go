@@ -39,8 +39,8 @@ type Table struct {
 	Custom TableCustom `json:"custom"`
 	// 是否生成 Http 接口 默认为空不生成 仅提供 rpc 如有值则为接口前缀
 	HTTPAPI string `json:"httpApi"`
-	// BFF 提供给前端的接口, 通过是部分用于管理的字段不返回给前端
-	BFFAPI TableFn `json:"bffApi"`
+	// Portal 提供给前端的接口, 通过是部分用于管理的字段不返回给前端
+	PortalAPI TableFn `json:"portalApi"`
 	// 加密的密钥 Key 如不填则使用默认
 	SecretKey string `json:"secretKey"`
 
@@ -59,12 +59,12 @@ type Table struct {
 
 	// 切面编程 用于在代码生成时 对代码进行切面处理
 	// 支持在  service biz 层对自动生成的每个 fn 进行处理
-	ServiceBefore    TableFn `json:"serviceBefore"`
-	ServiceAfter     TableFn `json:"serviceAfter"`
-	ServiceBFFBefore TableFn `json:"serviceBFFBefore"`
-	ServiceBFFAfter  TableFn `json:"serviceBFFAfter"`
-	BizBefore        TableFn `json:"bizBefore"`
-	BizAfter         TableFn `json:"bizAfter"`
+	ServiceBefore       TableFn `json:"serviceBefore"`
+	ServiceAfter        TableFn `json:"serviceAfter"`
+	ServicePortalBefore TableFn `json:"servicePortalBefore"`
+	ServicePortalAfter  TableFn `json:"servicePortalAfter"`
+	BizBefore           TableFn `json:"bizBefore"`
+	BizAfter            TableFn `json:"bizAfter"`
 }
 
 // Place 代码生成的层
@@ -119,11 +119,11 @@ type TableCache struct {
 	DetailBizBefore map[string]TableCacheFn `json:"detailBizBefore"`
 	DetailBizAfter  map[string]TableCacheFn `json:"detailBizAfter"`
 
-	DetailBefore    map[string]TableCacheFn `json:"detailBefore"`
-	DetailAfter     map[string]TableCacheFn `json:"detailAfter"`
-	BFFDetailFn     map[string]TableCacheFn `json:"bffDetailFn"`
-	BFFDetailBefore map[string]TableCacheFn `json:"bffDetailBefore"`
-	BFFDetailAfter  map[string]TableCacheFn `json:"bffDetailAfter"`
+	DetailBefore       map[string]TableCacheFn `json:"detailBefore"`
+	DetailAfter        map[string]TableCacheFn `json:"detailAfter"`
+	PortalDetailFn     map[string]TableCacheFn `json:"portalDetailFn"`
+	PortalDetailBefore map[string]TableCacheFn `json:"portalDetailBefore"`
+	PortalDetailAfter  map[string]TableCacheFn `json:"portalDetailAfter"`
 
 	// 启用查询所有缓存
 	QueryAll          bool         `json:"queryAll"`
@@ -132,10 +132,10 @@ type TableCache struct {
 
 	QueryAllBefore TableCacheFn `json:"queryAllBefore"`
 	QueryAllAfter  TableCacheFn `json:"queryAllAfter"`
-	// BFF层查询所有缓存 启用的方法 all 只有三个方法 get set del
-	BFFQueryAllFn     TableCacheFn `json:"bffQueryAll"`
-	BFFQueryAllBefore TableCacheFn `json:"bffQueryAllBefore"`
-	BFFQueryAllAfter  TableCacheFn `json:"bffQueryAllAfter"`
+	// Portal层查询所有缓存 启用的方法 all 只有三个方法 get set del
+	PortalQueryAllFn     TableCacheFn `json:"portalQueryAll"`
+	PortalQueryAllBefore TableCacheFn `json:"portalQueryAllBefore"`
+	PortalQueryAllAfter  TableCacheFn `json:"portalQueryAllAfter"`
 
 	// 查询缓存 支持配置多个字段
 	Query          []string                `json:"query"`
@@ -144,10 +144,10 @@ type TableCache struct {
 
 	QueryBefore map[string]TableCacheFn `json:"queryBefore"`
 	QueryAfter  map[string]TableCacheFn `json:"queryAfter"`
-	// BFF层查询缓存 启用的方法
-	BFFQueryFn     map[string]TableCacheFn `json:"bffQueryFn"`
-	BFFQueryBefore map[string]TableCacheFn `json:"bffQueryBefore"`
-	BFFQueryAfter  map[string]TableCacheFn `json:"bffQueryAfter"`
+	// Portal层查询缓存 启用的方法
+	PortalQueryFn     map[string]TableCacheFn `json:"portalQueryFn"`
+	PortalQueryBefore map[string]TableCacheFn `json:"portalQueryBefore"`
+	PortalQueryAfter  map[string]TableCacheFn `json:"portalQueryAfter"`
 
 	// 是否不开启穿透保护
 	// 穿透保护查询不到的数据 会缓存一个空值
@@ -282,10 +282,10 @@ type OpProtectConfig struct {
 	Enable bool `json:"enable"`
 	// 禁用配置
 	Disable bool `json:"disable"`
-	// BFF 启用配置
-	BFFEnable bool `json:"bffEnable"`
-	// BFF 禁用配置
-	BFFDisable bool `json:"bffDisable"`
+	// Portal 启用配置
+	PortalEnable bool `json:"portalEnable"`
+	// Portal 禁用配置
+	PortalDisable bool `json:"portalDisable"`
 }
 
 // MutationConfig 突变配置
@@ -301,15 +301,15 @@ type MutationConfig struct {
 }
 
 type CustomField struct {
-	Name           string `json:"name"`
-	Comment        string `json:"comment"`
-	PbType         string `json:"pbType"`
-	PbIndex        int    `json:"pbIndex"`
-	GoType         string `json:"goType"`
-	Biz            bool   `json:"biz"`
-	GoTypeToPb     string `json:"goTypeToPb"` // go 类型转 pb 类型的处理代码 如无则直接 =
-	DetailReply    bool   `json:"detailReply"`
-	QueryReply     bool   `json:"queryReply"`
-	BffDetailReply bool   `json:"bffDetailReply"`
-	BffQueryReply  bool   `json:"bffQueryReply"`
+	Name              string `json:"name"`
+	Comment           string `json:"comment"`
+	PbType            string `json:"pbType"`
+	PbIndex           int    `json:"pbIndex"`
+	GoType            string `json:"goType"`
+	Biz               bool   `json:"biz"`
+	GoTypeToPb        string `json:"goTypeToPb"` // go 类型转 pb 类型的处理代码 如无则直接 =
+	DetailReply       bool   `json:"detailReply"`
+	QueryReply        bool   `json:"queryReply"`
+	PortalDetailReply bool   `json:"portalDetailReply"`
+	PortalQueryReply  bool   `json:"portalQueryReply"`
 }

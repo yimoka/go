@@ -34,27 +34,27 @@ func (TenantID) Index() []ent.Index {
 	}
 }
 
-// TenantIDOnlyBFF mixin 通常用于 sass 场景中标识不同的 租户
-type TenantIDOnlyBFF struct {
+// TenantIDOnlyPortal mixin 通常用于 sass 场景中标识不同的 租户
+type TenantIDOnlyPortal struct {
 	mixin.Schema
 }
 
 // Fields _
-func (TenantIDOnlyBFF) Fields() []ent.Field {
+func (TenantIDOnlyPortal) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("tenantID").
 			Comment("租户 ID").
 			Immutable().
 			Annotations(ann.Field{
-				PbIndex:     205,
-				SassField:   true,
-				SassOnlyBFF: true,
+				PbIndex:        205,
+				SassField:      true,
+				SassOnlyPortal: true,
 			}),
 	}
 }
 
 // Index _
-func (TenantIDOnlyBFF) Index() []ent.Index {
+func (TenantIDOnlyPortal) Index() []ent.Index {
 	return []ent.Index{
 		index.Fields("tenantID"),
 	}

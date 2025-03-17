@@ -34,26 +34,26 @@ func (Switch) Index() []ent.Index {
 	}
 }
 
-// BFFSwitch  mixin 通常用于表示 停用/启用
-type BFFSwitch struct {
+// PortalSwitch  mixin 通常用于表示 停用/启用
+type PortalSwitch struct {
 	mixin.Schema
 }
 
 // Fields _
-func (BFFSwitch) Fields() []ent.Field {
+func (PortalSwitch) Fields() []ent.Field {
 	return []ent.Field{
 		field.Bool("switch").
 			Default(false).
 			Comment("开关").
 			Annotations(ann.Field{
-				PbIndex:        213,
-				SwitchBFFField: true,
+				PbIndex:           213,
+				SwitchPortalField: true,
 			}),
 	}
 }
 
 // Index _
-func (BFFSwitch) Index() []ent.Index {
+func (PortalSwitch) Index() []ent.Index {
 	return []ent.Index{
 		index.Fields("switch"),
 	}

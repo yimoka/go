@@ -3,11 +3,13 @@
   "go.lintTool": "golangci-lint",
   "go.lintOnSave": "workspace",
   "cSpell.words": [
+    "bluemonday",
     "bufbuild",
     "customsql",
     "keyvals",
     "nicksnyder",
     "nolint",
+    "objc",
     "otlp",
     "otlptrace",
     "otlptracegrpc",

@@ -29,6 +29,13 @@ message Config {
   google.protobuf.Struct extra = 20; // 扩展配置
 }
 
+// 为了区分 manage（管理后台）和 portal（门户/用户）接口
+// 一个微服务可提供 2 个 http 服务
+// manage 通常管理接口用于管理后台
+// portal 接口用于前端(通常指的是 C 端用户，如 app、小程序之类的调用)
+
+// grpc 服务 默认用于微服务内部通信 不对象暴露 所以不区分 manage 和 portal
+
 // 服务配置
 message Server {
   string id = 1;
@@ -37,13 +44,14 @@ message Server {
   string appid = 4;
   // grpc 服务 默认用于微服务内部通信
   ServerItem grpc = 5;
-  // http 服务 默认用于管理后台 API
-  ServerItem http = 6;
-  // bff 服务 默认用于前端(通常指的是 C 端用户，如 app、小程序之类的调用) API
-  // 如果有独立的 bff 服务，建议不开启，
+  // 管理后台 API 服务
+  ServerItem httpManage = 6;
+  // 门户/用户 API 服务
+  // portal 服务 默认用于前端(通常指的是 C 端用户，如 app、小程序之类的调用) API
+  // 如果有独立的 portal 服务，建议不开启，
   // 如果是单体服务，建议开启，用于前端调用
-  // 如果是微服务，又相对比较独立，BFF 层只是单纯的转发，可配合网关开启使用。
-  ServerItem bff = 7;
+  // 如果是微服务，又相对比较独立，portal 层只是单纯的转发，可配合网关开启使用。
+  ServerItem httpPortal = 7;
 }
 
 // 服务配置项 当不配置 addr 时，默认不开启服务
@@ -58,9 +66,9 @@ message ServerItem {
   repeated string authWhiteList = 8;
   repeated string accessWhiteList = 9;
   string accessPrefix = 10;
-  // 用于区分不同服务的前缀 http bff grpc
+  // 用于区分不同服务的前缀 httpManage httpPortal grpc
   string tracePrefix = 11;
-  // 用于区分不同服务的后缀 http bff grpc
+  // 用于区分不同服务的后缀 httpManage httpPortal grpc
   string traceSuffix = 12;
 }
 

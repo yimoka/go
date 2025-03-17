@@ -16,7 +16,7 @@ import (
 type DepsInit struct {
 }
 
-// NewApp http.Server 支持多个 可分别支持后台管理 API 和 BFF API
+// NewApp http.Server 支持多个 可分别支持 manage 和 portal API
 func NewApp(logger log.Logger, conf *conf.Config, _ *DepsInit, gs *grpc.Server, hss ...*http.Server) *kratos.App {
 	servers := []transport.Server{}
 	for _, s := range hss {

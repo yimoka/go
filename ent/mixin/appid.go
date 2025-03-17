@@ -1,4 +1,4 @@
-// Package mixin appid
+// Package mixin provides appid mixin functionality
 package mixin
 
 import (
@@ -17,8 +17,7 @@ type Appid struct {
 // Fields _
 func (Appid) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int32("appid").
-			Min(1000).
+		field.String("appid").
 			Comment("appid").
 			Immutable().
 			Annotations(ann.Field{
@@ -35,28 +34,27 @@ func (Appid) Index() []ent.Index {
 	}
 }
 
-// AppidOnlyBFF mixin 通常用于 sass 场景中标识不同的 app
-type AppidOnlyBFF struct {
+// AppidOnlyPortal mixin 通常用于 sass 场景中标识不同的 app
+type AppidOnlyPortal struct {
 	mixin.Schema
 }
 
 // Fields _
-func (AppidOnlyBFF) Fields() []ent.Field {
+func (AppidOnlyPortal) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int32("appid").
-			Min(1000).
+		field.String("appid").
 			Comment("appid").
 			Immutable().
 			Annotations(ann.Field{
-				PbIndex:     205,
-				SassField:   true,
-				SassOnlyBFF: true,
+				PbIndex:        205,
+				SassField:      true,
+				SassOnlyPortal: true,
 			}),
 	}
 }
 
 // Index _
-func (AppidOnlyBFF) Index() []ent.Index {
+func (AppidOnlyPortal) Index() []ent.Index {
 	return []ent.Index{
 		index.Fields("appid"),
 	}

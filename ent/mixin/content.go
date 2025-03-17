@@ -28,8 +28,8 @@ func (Content) Fields() []ent.Field {
 					Disabled: true,
 				},
 				// 查询不返回 只在详情中返回
-				NotQueryReply:    true,
-				NotBffQueryReply: true,
+				NotQueryReply:       true,
+				NotPortalQueryReply: true,
 			}),
 	}
 }

@@ -30,8 +30,8 @@ func (Creator) Fields() []ent.Field {
 					Place:   ann.PlaceService,
 					GetStr:  "userID,_:=meta.GetUserID(ctx)",
 					SetStr:  `if b.Creator==nil && userID != "" {b.Creator = &userID}`,
-					// 用户 ID 只在 BFF 层获取
-					BFF: ann.FnBFFTypeOnly,
+					// 用户 ID 只在 Portal 层获取
+					Portal: ann.FnPortalTypeOnly,
 				},
 				Query: ann.FieldQuery{
 					NotEq: true,
@@ -70,14 +70,14 @@ func (Updater) Fields() []ent.Field {
 					Place:   ann.PlaceService,
 					GetStr:  "userID,_:=meta.GetUserID(ctx)",
 					SetStr:  `if b.Updater==nil && userID != "" {b.Updater = &userID}`,
-					BFF:     ann.FnBFFTypeOnly,
+					Portal:  ann.FnPortalTypeOnly,
 				},
 				DefaultFn: &ann.FieldFunc{
 					PkgPath: []string{"github.com/yimoka/go/middleware/meta"},
 					Place:   ann.PlaceService,
 					GetStr:  "userID,_:=meta.GetUserID(ctx)",
 					SetStr:  `if b.Updater==nil && userID != "" {b.Updater = &userID}`,
-					BFF:     ann.FnBFFTypeOnly,
+					Portal:  ann.FnPortalTypeOnly,
 				},
 				Query: ann.FieldQuery{
 					NotEq: true,
