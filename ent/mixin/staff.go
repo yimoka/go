@@ -24,6 +24,7 @@ func (CreatorByStaff) Fields() []ent.Field {
 			Immutable().
 			Annotations(ann.Field{
 				PbIndex:              220,
+				Validate:             "{max_len:15}",
 				AutoCreate:           true,
 				NotPortalAdd:         true,
 				NotPortalEdit:        true,
@@ -68,6 +69,7 @@ func (UpdaterByStaff) Fields() []ent.Field {
 			Optional().
 			Annotations(ann.Field{
 				PbIndex:              221,
+				Validate:             "{max_len:15}",
 				AutoCreate:           true,
 				AutoUpdate:           true,
 				NotPortalAdd:         true,

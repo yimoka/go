@@ -21,7 +21,8 @@ func (Title) Fields() []ent.Field {
 			MaxLen(511).
 			Comment("标题").
 			Annotations(ann.Field{
-				PbIndex: 219,
+				PbIndex:  219,
+				Validate: "{max_len:511}",
 				Query: ann.FieldQuery{
 					Like:    true,
 					NotLike: true,
@@ -51,7 +52,8 @@ func (SubTitle) Fields() []ent.Field {
 			Default("").
 			Comment("副标题").
 			Annotations(ann.Field{
-				PbIndex: 222,
+				PbIndex:  222,
+				Validate: "{max_len:511}",
 				Query: ann.FieldQuery{
 					Disabled: true,
 				},

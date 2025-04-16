@@ -25,6 +25,7 @@ func (Mail) Fields() []ent.Field {
 			Annotations(
 				ann.Field{
 					PbIndex:     209,
+					Validate:    "{ max_len:63, email:true }",
 					MaskEncrypt: utils.MaskTypeEmail,
 					Query: ann.FieldQuery{
 						NotEq: true,

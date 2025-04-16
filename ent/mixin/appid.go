@@ -18,11 +18,13 @@ type Appid struct {
 func (Appid) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("appid").
+			MaxLen(63).
 			Comment("appid").
 			Immutable().
 			Annotations(ann.Field{
 				PbIndex:   205,
 				SassField: true,
+				Validate:  "{max_len:63}",
 			}),
 	}
 }

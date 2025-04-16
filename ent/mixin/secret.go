@@ -21,7 +21,8 @@ func (Secret) Fields() []ent.Field {
 			Comment("密钥ID").
 			MaxLen(127).
 			Annotations(ann.Field{
-				PbIndex: 211,
+				PbIndex:  211,
+				Validate: "{max_len:127}",
 				Query: ann.FieldQuery{
 					NotEq: true,
 					In:    true,
@@ -36,6 +37,7 @@ func (Secret) Fields() []ent.Field {
 			Comment("密钥Key").
 			Annotations(ann.Field{
 				PbIndex:        212,
+				Validate:       "{max_len:255}",
 				Encrypt:        true,
 				NotQueryReply:  true,
 				NotDetailReply: true,

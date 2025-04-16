@@ -23,7 +23,8 @@ func (Remark) Fields() []ent.Field {
 			Default("").
 			Annotations(
 				ann.Field{
-					PbIndex: 214,
+					PbIndex:  214,
+					Validate: "{max_len:511}",
 					Query: ann.FieldQuery{
 						Like: true,
 					},

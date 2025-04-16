@@ -24,6 +24,7 @@ func (Password) Fields() []ent.Field {
 			Annotations(
 				ann.Field{
 					PbIndex:                210,
+					Validate:               "{max_len:255}",
 					RowIrreversibleEncrypt: true,
 					NotQueryReply:          true,
 					NotDetailReply:         true,

@@ -22,7 +22,8 @@ func (Cover) Fields() []ent.Field {
 			Default("").
 			Comment("封面").
 			Annotations(ann.Field{
-				PbIndex: 218,
+				PbIndex:  218,
+				Validate: "{max_len:2047}",
 				Query: ann.FieldQuery{
 					// 图片地址不允许查询
 					Disabled: true,

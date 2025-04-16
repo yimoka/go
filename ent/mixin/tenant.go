@@ -18,11 +18,13 @@ type TenantID struct {
 func (TenantID) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("tenantID").
+			MaxLen(63).
 			Comment("租户 ID").
 			Immutable().
 			Annotations(ann.Field{
 				PbIndex:   205,
 				SassField: true,
+				Validate:  "{max_len:63}",
 			}),
 	}
 }
@@ -43,12 +45,14 @@ type TenantIDOnlyPortal struct {
 func (TenantIDOnlyPortal) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("tenantID").
+			MaxLen(63).
 			Comment("租户 ID").
 			Immutable().
 			Annotations(ann.Field{
 				PbIndex:        205,
 				SassField:      true,
 				SassOnlyPortal: true,
+				Validate:       "{max_len:63}",
 			}),
 	}
 }

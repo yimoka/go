@@ -25,7 +25,8 @@ func (Phone) Fields() []ent.Field {
 			Default("").
 			Annotations(
 				ann.Field{
-					PbIndex: 207,
+					PbIndex:  207,
+					Validate: "{max_len:7}",
 					Query: ann.FieldQuery{
 						NotEq: true,
 						In:    true,
@@ -42,6 +43,7 @@ func (Phone) Fields() []ent.Field {
 				ann.Field{
 					PbIndex:     208,
 					MaskEncrypt: utils.MaskTypePhone,
+					Validate:    "{max_len:15}",
 					Query: ann.FieldQuery{
 						NotEq: true,
 						In:    true,

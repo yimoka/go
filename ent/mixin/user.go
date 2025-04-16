@@ -24,6 +24,7 @@ func (Creator) Fields() []ent.Field {
 			Immutable().
 			Annotations(ann.Field{
 				PbIndex:    203,
+				Validate:   "{max_len:15}",
 				AutoCreate: true,
 				DefaultFn: &ann.FieldFunc{
 					PkgPath: []string{"github.com/yimoka/go/middleware/meta"},
@@ -63,6 +64,7 @@ func (Updater) Fields() []ent.Field {
 			Optional().
 			Annotations(ann.Field{
 				PbIndex:    204,
+				Validate:   "{max_len:15}",
 				AutoCreate: true,
 				AutoUpdate: true,
 				UpdateFn: &ann.FieldFunc{
