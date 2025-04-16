@@ -96,7 +96,12 @@ func ProtoValidate(opts ...Option) middleware.Middleware {
 					// 处理每个验证违规
 					metadata := make(map[string]string)
 					for _, v := range valErr.Violations {
-						field := v.Proto.Field.String()
+						elements := v.Proto.Field.Elements
+						field := ""
+						eLen := len(elements)
+						if eLen > 0 {
+							field = *elements[eLen-1].FieldName
+						}
 						constraintID := v.Proto.GetConstraintId()
 						// 如果约束ID为空，则使用默认的错误消息
 						if constraintID == "" {

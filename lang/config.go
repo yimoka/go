@@ -88,6 +88,8 @@ const (
 	cacheMGetFailKey        MsgKey = "cache_mget_fail"          // 缓存批量获取失败
 	cacheMDelFailKey        MsgKey = "cache_mdel_fail"          // 缓存批量删除失败
 
+	// 必填
+	validateRequiredKey MsgKey = validatePrefix + "required" // 必填验证
 	// 字符串验证消息键
 	validateStringConstKey             MsgKey = validatePrefix + "string.const"               // 字符串常量验证
 	validateStringLenKey               MsgKey = validatePrefix + "string.len"                 // 字符串长度验证
@@ -339,6 +341,7 @@ var dfMsgMap = map[MsgKey]*i18n.Message{
 	cacheMGetFailKey:        {ID: cacheMGetFailKey.String(), Other: "Batch get cache failed"},
 	cacheMDelFailKey:        {ID: cacheMDelFailKey.String(), Other: "Batch delete cache failed"},
 
+	validateRequiredKey: {ID: validateRequiredKey.String(), Other: "This field is required"},
 	// String validation messages
 	validateStringConstKey:             {ID: validateStringConstKey.String(), Other: "Must be exactly '{{.Rule}}'"},
 	validateStringLenKey:               {ID: validateStringLenKey.String(), Other: "Length must be exactly {{.Rule}} characters"},
@@ -586,6 +589,7 @@ var zhMsgMap = map[MsgKey]*i18n.Message{
 	cacheMGetFailKey:        {ID: cacheMGetFailKey.String(), Other: "批量获取缓存失败"},
 	cacheMDelFailKey:        {ID: cacheMDelFailKey.String(), Other: "批量删除缓存失败"},
 
+	validateRequiredKey: {ID: validateRequiredKey.String(), Other: "该字段是必填的"},
 	// String validation messages
 	validateStringConstKey:             {ID: validateStringConstKey.String(), Other: "必须等于 '{{.Rule}}'"},
 	validateStringLenKey:               {ID: validateStringLenKey.String(), Other: "长度必须等于 {{.Rule}} 个字符"},
@@ -835,6 +839,7 @@ var ruMsgMap = map[MsgKey]*i18n.Message{
 	cacheMGetFailKey:        {ID: cacheMGetFailKey.String(), Other: "Ошибка получения кэша"},
 	cacheMDelFailKey:        {ID: cacheMDelFailKey.String(), Other: "Ошибка удаления кэша"},
 
+	validateRequiredKey: {ID: validateRequiredKey.String(), Other: "Это поле обязательное"},
 	// String validation messages
 	validateStringConstKey:             {ID: validateStringConstKey.String(), Other: "Должно быть равно '{{.Rule}}'"},
 	validateStringLenKey:               {ID: validateStringLenKey.String(), Other: "Длина должна быть равна {{.Rule}} символам"},
