@@ -35,11 +35,20 @@ func XSS(s string) string {
 
 	// 富文本的常见样式属性
 	p.AllowStyles(
-		"color", "font-family", "font-size", "font-weight", "font-style",
-		"text-decoration", "text-align", "background-color", "width",
-		"height", "margin", "padding", "border", "border-radius",
-		"min-width", "max-width", "min-height", "max-height",
-		"box-shadow", "text-shadow", "line-height",
+		"color", "opacity",
+		"font-family", "font-size", "font-weight", "font-style",
+		"text-decoration", "text-align", "text-shadow", "text-indent", "text-transform", "text-overflow", "text-wrap", "text-justify", "text-line-clamp",
+		"background-color", "background-image", "background-size", "background-position", "background-repeat", "background-attachment", "background-blend-mode",
+		"border", "border-radius", "border-color", "border-width", "border-style", "border-top", "border-top-color", "border-top-width", "border-top-style",
+		"min-width", "max-width", "min-height", "max-height", "width", "height",
+		"margin", "margin-top", "margin-right", "margin-bottom", "margin-left",
+		"padding", "padding-top", "padding-right", "padding-bottom", "padding-left",
+		"box-shadow", "box-sizing", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "box-reflect",
+		"line-height", "letter-spacing",
+		"list-style", "list-style-type", "list-style-position", "list-style-image",
+		"outline", "outline-color", "outline-width", "outline-style", "outline-offset",
+		"vertical-align", "white-space", "word-break", "word-spacing", "word-wrap",
+		"z-index",
 	).Globally()
 
 	return p.Sanitize(s)
