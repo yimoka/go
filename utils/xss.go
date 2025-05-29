@@ -23,7 +23,7 @@ func XSS(s string) string {
 		"preload", "width", "height", "controlsList", "playsinline",
 		"webkit-playsinline", "crossorigin", "allowfullscreen",
 		"allowpaymentrequest", "disablepictureinpicture",
-		"disableRemotePlayback",
+		"disableRemotePlayback", "type",
 	).OnElements("img", "video", "audio", "source")
 	p.AllowStandardAttributes()
 	p.AllowStandardURLs()
