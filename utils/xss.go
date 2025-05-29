@@ -26,6 +26,7 @@ func XSS(s string) string {
 		"disableRemotePlayback", "type",
 	).OnElements("img", "video", "audio", "source")
 	p.AllowStandardAttributes()
+	p.AllowDataAttributes()
 	p.AllowStandardURLs()
 	p.AllowImages()
 	p.AllowDataURIImages()
