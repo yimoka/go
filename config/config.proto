@@ -26,6 +26,11 @@ message Config {
 
   Workflow workflow = 12;
 
+  // 管理认证配置
+  Auth manageAuth = 13;
+  // 门户/用户认证配置
+  Auth portalAuth = 14;
+
   google.protobuf.Struct extra = 20; // 扩展配置
 }
 
@@ -243,4 +248,12 @@ message Worker {
   bool disableRegistrationAliasing = 22;
   string buildID = 23;
   bool useBuildIDForVersioning = 24;
+}
+
+// 认证的配置
+message Auth {
+  // 类型 iam 或者 用户
+  string type = 1;
+  // 认证服务地址
+  string addr = 2;
 }
