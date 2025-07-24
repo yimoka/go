@@ -164,6 +164,20 @@ message Logger {
   string accessKey = 3;
   string accessSecret = 4;
   string endpoint = 5;
+  // 认证配置
+  string token = 6;
+  string username = 7;
+  string password = 8;
+  // 是否同时输出到标准输出
+  bool alsoStd = 9;
+  // 日志过滤的级别 字符串
+  string filterLevel = 10;
+  // 日志过滤的 keys
+  repeated string filterKeys = 11;
+  // 日志过滤的 values
+  repeated string filterValues = 12;
+  // 按正则屏蔽/脱敏 不是过滤
+  repeated string sensitiveRegex = 13;
 }
 
 message Trace {
