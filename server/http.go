@@ -6,9 +6,11 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/metadata"
+	"github.com/go-kratos/kratos/v2/middleware/metrics"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/yimoka/go/config"
+	ymetrics "github.com/yimoka/go/middleware/metrics"
 	"github.com/yimoka/go/middleware/trace"
 )
 
@@ -37,6 +39,14 @@ func CreateHTTPServer(conf *config.ServerItem, traceConf *config.Trace, logger l
 
 	if conf.IsLog {
 		use = append(use, logging.Server(logger))
+	}
+
+	if conf.IsMetrics {
+		metricRequests, metricSeconds := ymetrics.GetDefaultMetrics(nil)
+		use = append(use, metrics.Server(
+			metrics.WithSeconds(metricSeconds),
+			metrics.WithRequests(metricRequests),
+		))
 	}
 
 	use = append(use, metadata.Server())

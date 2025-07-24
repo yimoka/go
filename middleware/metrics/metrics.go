@@ -18,7 +18,7 @@ var (
 )
 
 func CreateServerMiddleware(conf *config.Metrics) middleware.Middleware {
-	requests, seconds := getDefaultMetrics(conf)
+	requests, seconds := GetDefaultMetrics(conf)
 	return metrics.Server(
 		metrics.WithSeconds(seconds),
 		metrics.WithRequests(requests),
@@ -26,15 +26,15 @@ func CreateServerMiddleware(conf *config.Metrics) middleware.Middleware {
 }
 
 func CreateClientMiddleware(conf *config.Metrics) middleware.Middleware {
-	requests, seconds := getDefaultMetrics(conf)
+	requests, seconds := GetDefaultMetrics(conf)
 	return metrics.Client(
 		metrics.WithSeconds(seconds),
 		metrics.WithRequests(requests),
 	)
 }
 
-// getDefaultMetrics 使用单例模式获取默认的请求计数器和耗时直方图
-func getDefaultMetrics(conf *config.Metrics) (metric.Int64Counter, metric.Float64Histogram) {
+// GetDefaultMetrics 使用单例模式获取默认的请求计数器和耗时直方图
+func GetDefaultMetrics(conf *config.Metrics) (metric.Int64Counter, metric.Float64Histogram) {
 	once.Do(func() {
 		meter := ymetrics.GetMeter(conf)
 		var err error

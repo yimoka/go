@@ -24,6 +24,7 @@
     "stretchr",
     "structpb",
     "tlog",
-    "tracesdk"
+    "tracesdk",
+    "ymetrics"
   ]
 }

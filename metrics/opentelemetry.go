@@ -63,6 +63,9 @@ func GetMeter(conf *config.Metrics) metric.Meter {
 	if provider != nil {
 		return provider.Meter(conf.Service)
 	}
+	if conf == nil || conf.Endpoint == "" {
+		panic("conf is nil or endpoint is empty")
+	}
 	provider, err := NewMeterProvider(conf)
 	if err != nil {
 		panic(err)
