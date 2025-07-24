@@ -13,12 +13,17 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 )
 
+var (
+	MeterProviderName = ""
+)
+
 // SetMeterProvider 设置全局 MeterProvider
 func SetMeterProvider(conf *config.Metrics) error {
 	mp, err := NewMeterProvider(conf)
 	if err != nil {
 		return err
 	}
+	MeterProviderName = conf.Service
 	otel.SetMeterProvider(mp)
 	return nil
 }
@@ -61,7 +66,11 @@ func NewMeterProvider(conf *config.Metrics) (*sdkmetric.MeterProvider, error) {
 func GetMeter(conf *config.Metrics) metric.Meter {
 	provider := otel.GetMeterProvider()
 	if provider != nil {
-		return provider.Meter(conf.Service)
+		name := MeterProviderName
+		if conf != nil && conf.Service != "" {
+			name = conf.Service
+		}
+		return provider.Meter(name)
 	}
 	if conf == nil || conf.Endpoint == "" {
 		panic("conf is nil or endpoint is empty")

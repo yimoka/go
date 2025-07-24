@@ -59,6 +59,11 @@ func UpdateDefaultConfig(conf *conf.Config, id string, name string, version stri
 			conf.Trace.Service = name
 		}
 	}
+	if conf.Metrics != nil {
+		if conf.Metrics.Service == "" {
+			conf.Metrics.Service = name
+		}
+	}
 
 	return conf
 }
