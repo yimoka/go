@@ -14,6 +14,7 @@ message Config {
   Server server = 2;
   Data data = 3;
   Trace trace = 4;
+  Metrics metrics = 15;
   MQ mq = 5;
   Upload upload = 6;
   map<string, string> services = 7; // 连接其他服务
@@ -66,6 +67,7 @@ message ServerItem {
   google.protobuf.Duration timeout = 3;
   bool isLog = 4;
   bool isTrace = 5;
+  bool isMetrics = 13;
   string authServer = 6;
   string accessServer = 7;
   repeated string authWhiteList = 8;
@@ -192,6 +194,19 @@ message TraceAuth {
   string token = 1;
   string name = 2;
   string password = 3;
+}
+
+message Metrics {
+  string endpoint = 1;
+  string service = 2;
+  // 环境标识
+  string env = 3;
+  // 命名空间
+  string namespace = 4;
+  // 子系统
+  string subsystem = 5;
+  // 自定义标签
+  map<string, string> labels = 6;
 }
 
 message Upload {
