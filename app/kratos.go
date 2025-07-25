@@ -43,6 +43,7 @@ func NewApp(logger log.Logger, conf *conf.Config, _ *DepsInit, gs *grpc.Server, 
 
 // UpdateDefaultConfig 根据启动参数更新配置文件
 func UpdateDefaultConfig(conf *conf.Config, id string, name string, version string) *conf.Config {
+	serverName := name
 	if conf.Server != nil {
 		if conf.Server.Id == "" {
 			conf.Server.Id = id
@@ -50,18 +51,19 @@ func UpdateDefaultConfig(conf *conf.Config, id string, name string, version stri
 		if conf.Server.Name == "" {
 			conf.Server.Name = name
 		}
+		serverName = conf.Server.Name
 		if conf.Server.Version == "" {
 			conf.Server.Version = version
 		}
 	}
 	if conf.Trace != nil {
 		if conf.Trace.Service == "" {
-			conf.Trace.Service = name
+			conf.Trace.Service = serverName
 		}
 	}
 	if conf.Metrics != nil {
 		if conf.Metrics.Service == "" {
-			conf.Metrics.Service = name
+			conf.Metrics.Service = serverName
 		}
 	}
 
