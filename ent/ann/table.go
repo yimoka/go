@@ -300,16 +300,47 @@ type MutationConfig struct {
 
 }
 
+// CustomField 自定义字段配置
+// 用于定义业务逻辑字段，这些字段不存在于数据库中，仅用于代码生成
 type CustomField struct {
-	Name              string `json:"name"`
-	Comment           string `json:"comment"`
-	PbType            string `json:"pbType"`
-	PbIndex           int    `json:"pbIndex"`
-	GoType            string `json:"goType"`
-	Biz               bool   `json:"biz"`
-	GoTypeToPb        string `json:"goTypeToPb"` // go 类型转 pb 类型的处理代码 如无则直接 =
-	DetailReply       bool   `json:"detailReply"`
-	QueryReply        bool   `json:"queryReply"`
-	PortalDetailReply bool   `json:"portalDetailReply"`
-	PortalQueryReply  bool   `json:"portalQueryReply"`
+	// Name 字段名称，用于生成结构体字段名和 JSON 标签
+	Name string `json:"name"`
+
+	// Comment 字段注释，用于生成代码注释和 proto 文件中的注释
+	Comment string `json:"comment"`
+
+	// PbType protobuf 类型定义，用于生成 proto 文件中的字段类型
+	PbType string `json:"pbType"`
+
+	// PbIndex protobuf 字段序号，用于生成 proto 文件中的字段编号
+	PbIndex int `json:"pbIndex"`
+
+	// GoType Go 语言类型定义，用于生成 Go 结构体中的字段类型
+	GoType string `json:"goType"`
+
+	// GoTypeToPb Go 类型转 protobuf 类型的处理代码，如无则直接使用 = 赋值
+	// 例如：当需要特殊转换逻辑时，可以指定转换代码
+	GoTypeToPb string `json:"goTypeToPb"`
+
+	// DetailReply 是否在详情接口的响应中包含此字段
+	DetailReply bool `json:"detailReply"`
+
+	// QueryReply 是否在查询接口的响应中包含此字段
+	QueryReply bool `json:"queryReply"`
+
+	// PortalDetailReply 是否在 Portal 层详情接口的响应中包含此字段
+	PortalDetailReply bool `json:"portalDetailReply"`
+
+	// PortalQueryReply 是否在 Portal 层查询接口的响应中包含此字段
+	PortalQueryReply bool `json:"portalQueryReply"`
+
+	// Biz 是否在业务层（biz）生成该字段，true 表示在 biz 层结构体中包含此字段
+	Biz bool `json:"biz"`
+	// BizDetailGetCode 业务层详情接口获取值的代码
+	BizDetailGetCode string `json:"bizDetailGetCode"`
+	// BizQueryGetCode 业务层查询接口获取值的代码
+	BizQueryGetCode string `json:"bizQueryGetCode"`
+	// DataGetCode 字段在数据层获取值的代码
+	// 用于在数据层生成该字段的值，通常用于计算字段或从其他数据源获取数据
+	DataGetCode string `json:"dataGetCode"`
 }
