@@ -336,10 +336,12 @@ type CustomField struct {
 
 	// Biz 是否在业务层（biz）生成该字段，true 表示在 biz 层结构体中包含此字段
 	Biz bool `json:"biz"`
-	// BizDetailGetCode 业务层详情接口获取值的代码
-	BizDetailGetCode string `json:"bizDetailGetCode"`
-	// BizQueryGetCode 业务层查询接口获取值的代码
-	BizQueryGetCode string `json:"bizQueryGetCode"`
+	// BizDetail 是否在业务层详情接口获取值
+	BizDetail bool `json:"bizDetail"`
+	// BizQuery 是否在业务层查询接口获取值
+	BizQuery bool `json:"bizQuery"`
+	// BizGetCode 业务层查询接口获取值的代码
+	BizGetCode string `json:"bizGetCode"`
 	// DataGetCode 字段在数据层获取值的代码
 	// 用于在数据层生成该字段的值，通常用于计算字段或从其他数据源获取数据
 	DataGetCode string `json:"dataGetCode"`
