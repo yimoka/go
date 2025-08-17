@@ -180,6 +180,10 @@ message Logger {
   repeated string filterValues = 12;
   // 按正则屏蔽/脱敏 不是过滤
   repeated string sensitiveRegex = 13;
+  // otel 时有些需要配置 headers
+  map<string, string> headers = 14;
+  // 是否使用 insecure 连接
+  optional bool insecure = 15;
 }
 
 message Trace {
@@ -188,6 +192,8 @@ message Trace {
   string service = 3;
   string env = 4;
   TraceAuth auth = 5;
+  optional bool insecure = 6;
+  map<string, string> headers = 7;
 }
 
 message TraceAuth {
@@ -207,6 +213,8 @@ message Metrics {
   string subsystem = 5;
   // 自定义标签
   map<string, string> labels = 6;
+  optional bool insecure = 7;
+  map<string, string> headers = 8;
 }
 
 message Upload {

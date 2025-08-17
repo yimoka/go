@@ -25,7 +25,18 @@ func SetTracerProvider(conf *config.Trace) error {
 
 // NewTracerProvider _
 func NewTracerProvider(conf *config.Trace) (*tracesdk.TracerProvider, error) {
-	exp, err := otlptracegrpc.New(context.Background(), otlptracegrpc.WithEndpoint(conf.Endpoint), otlptracegrpc.WithInsecure())
+	serviceName := conf.Service
+	opts := []otlptracegrpc.Option{
+		otlptracegrpc.WithEndpoint(conf.Endpoint),
+	}
+	if conf.Insecure == nil || !*conf.Insecure {
+		opts = append(opts, otlptracegrpc.WithInsecure())
+	}
+	if len(conf.Headers) > 0 {
+		opts = append(opts, otlptracegrpc.WithHeaders(conf.Headers))
+	}
+
+	exp, err := otlptracegrpc.New(context.Background(), opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -35,8 +46,11 @@ func NewTracerProvider(conf *config.Trace) (*tracesdk.TracerProvider, error) {
 	}
 
 	attrs := []attribute.KeyValue{
-		semconv.ServiceNameKey.String(conf.Service),
+		semconv.ServiceNameKey.String(serviceName),
 		attribute.String("env", conf.Env),
+		attribute.String("service", serviceName),
+		attribute.String("service_name", serviceName),
+		attribute.String("serviceName", serviceName),
 	}
 
 	auth := conf.Auth
