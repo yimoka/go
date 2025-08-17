@@ -26,5 +26,6 @@
     "tlog",
     "tracesdk",
     "ymetrics"
-  ]
+  ],
+  "makefile.configureOnOpen": false
 }
