@@ -147,8 +147,13 @@ func NewOtelLogger(conf *config.Config, serverConfig *config.Server) (OtelLogger
 	// 准备 OTLP 日志导出器选项
 	otlpOptions := []otlploggrpc.Option{
 		otlploggrpc.WithEndpoint(endpoint),
-		otlploggrpc.WithInsecure(),
 		otlploggrpc.WithDialOption(grpc.WithTransportCredentials(insecure.NewCredentials())),
+	}
+	if opts.Insecure == nil || !*opts.Insecure {
+		otlpOptions = append(otlpOptions, otlploggrpc.WithInsecure())
+	}
+	if len(opts.Headers) > 0 {
+		otlpOptions = append(otlpOptions, otlploggrpc.WithHeaders(opts.Headers))
 	}
 
 	// 添加认证配置
