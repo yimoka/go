@@ -48,9 +48,6 @@ func NewTracerProvider(conf *config.Trace) (*tracesdk.TracerProvider, error) {
 	attrs := []attribute.KeyValue{
 		semconv.ServiceNameKey.String(serviceName),
 		attribute.String("env", conf.Env),
-		attribute.String("service", serviceName),
-		attribute.String("service_name", serviceName),
-		attribute.String("serviceName", serviceName),
 	}
 
 	auth := conf.Auth
