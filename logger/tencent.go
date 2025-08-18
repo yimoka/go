@@ -18,7 +18,7 @@ func GetTencentLogger(conf *config.Config) log.Logger {
 		panic(fmt.Sprintf("init tencent logger error: %v", err))
 	}
 
-	return getLogger(conf.Server, tencentLogger, conf.Logger)
+	return getLogger(conf.Server, tencentLogger, conf.Logger, false)
 }
 
 // TencentLogger _

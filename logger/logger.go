@@ -1,15 +1,25 @@
-// Package logger  logger.go
+// Package logger logger.go
 package logger
 
 import (
+	"context"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/yimoka/go/config"
 )
+
+const (
+	GetCtxKey = "get_ctx"
+)
+
+func getCtx() log.Valuer {
+	return func(ctx context.Context) any {
+		return ctx
+	}
+}
 
 // GetLogger _
 func GetLogger(conf *config.Config) log.Logger {
@@ -29,18 +39,18 @@ func GetLogger(conf *config.Config) log.Logger {
 // GetStdLogger _
 func GetStdLogger(conf *config.Config) log.Logger {
 	logger := log.NewStdLogger(os.Stdout)
-	return getLogger(conf.Server, logger, conf.Logger)
+	return getLogger(conf.Server, logger, conf.Logger, false)
 }
 
 // GetLogger _
-func getLogger(service *config.Server, logger log.Logger, loggerConf *config.Logger) log.Logger {
+func getLogger(service *config.Server, logger log.Logger, loggerConf *config.Logger, isWithCtx bool) log.Logger {
 	// 应用日志过滤
 	if loggerConf != nil {
 		var filterOptions []log.FilterOption
 
 		// 按日志级别过滤
 		if loggerConf.FilterLevel != "" {
-			level := parseLogLevel(loggerConf.FilterLevel)
+			level := log.ParseLevel(loggerConf.FilterLevel)
 			filterOptions = append(filterOptions, log.FilterLevel(level))
 		}
 
@@ -87,31 +97,16 @@ func getLogger(service *config.Server, logger log.Logger, loggerConf *config.Log
 		}
 	}
 
-	return log.With(logger,
+	kvs := []any{
 		"ts", log.DefaultTimestamp,
-		"caller", log.DefaultCaller,
+		"caller", log.Caller(8),
 		"service.id", service.Id,
 		"service.name", service.Name,
 		"service.version", service.Version,
-		"trace_id", tracing.TraceID(),
-		"span_id", tracing.SpanID(),
-	)
-}
-
-// parseLogLevel 解析日志级别字符串为log.Level
-func parseLogLevel(level string) log.Level {
-	switch level {
-	case "debug":
-		return log.LevelDebug
-	case "info":
-		return log.LevelInfo
-	case "warn":
-		return log.LevelWarn
-	case "error":
-		return log.LevelError
-	case "fatal":
-		return log.LevelFatal
-	default:
-		return log.LevelInfo
 	}
+	if isWithCtx {
+		kvs = append(kvs, GetCtxKey, getCtx())
+	}
+
+	return log.With(logger, kvs...)
 }

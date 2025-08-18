@@ -24,8 +24,7 @@ func GetOtelLogger(conf *config.Config) log.Logger {
 	if err != nil {
 		panic(fmt.Sprintf("init otel logger error: %v", err))
 	}
-
-	return getLogger(conf.Server, otelLogger, conf.Logger)
+	return getLogger(conf.Server, otelLogger, conf.Logger, true)
 }
 
 // OtelLogger _
@@ -36,9 +35,6 @@ type OtelLogger interface {
 
 type otelLog struct {
 	loggerProvider *sdklog.LoggerProvider
-	resource       *resource.Resource
-	opts           *config.Logger
-	ctx            context.Context
 	stdLogger      log.Logger
 }
 
@@ -63,24 +59,34 @@ func (l *otelLog) Log(level log.Level, keyValues ...interface{}) error {
 	record.SetSeverity(convertLogLevel(level))
 	record.SetBody(otellog.StringValue(extractMessage(keyValues)))
 
+	var ctx context.Context
+
 	// 添加属性
+	kv := make(map[string]string)
 	attrs := make([]otellog.KeyValue, 0, len(keyValues)/2)
 	for i := 0; i < len(keyValues); i += 2 {
 		if i+1 < len(keyValues) {
 			key := toString(keyValues[i])
-			value := toString(keyValues[i+1])
-			attrs = append(attrs, otellog.String(key, value))
+			if key == GetCtxKey {
+				oldCtx, ok := keyValues[i+1].(context.Context)
+				if ok {
+					ctx = oldCtx
+				}
+			} else {
+				value := toString(keyValues[i+1])
+				kv[key] = value
+				attrs = append(attrs, otellog.String(key, value))
+			}
 		}
 	}
 	record.AddAttributes(attrs...)
-
 	// 发送日志记录
 	if l.loggerProvider != nil {
 		logger := l.loggerProvider.Logger("logger")
-		if l.ctx == nil {
-			logger.Emit(context.Background(), record)
+		if ctx != nil {
+			logger.Emit(ctx, record)
 		} else {
-			logger.Emit(l.ctx, record)
+			logger.Emit(context.Background(), record)
 		}
 		if l.stdLogger != nil {
 			_ = l.stdLogger.Log(level, keyValues...)
@@ -131,6 +137,8 @@ func NewOtelLogger(conf *config.Config, serverConfig *config.Server) (OtelLogger
 			semconv.ServiceName(serverConfig.Name),
 			semconv.ServiceVersion(serverConfig.Version),
 			semconv.ServiceInstanceID(serverConfig.Id),
+			semconv.ContainerID(serverConfig.Id),
+			semconv.HostName(serverConfig.Id),
 		),
 	)
 	if err != nil {
@@ -191,8 +199,6 @@ func NewOtelLogger(conf *config.Config, serverConfig *config.Server) (OtelLogger
 
 	otelLog := &otelLog{
 		loggerProvider: loggerProvider,
-		resource:       res,
-		opts:           opts,
 	}
 	if opts.AlsoStd {
 		stdLogger := GetStdLogger(conf)
@@ -200,3 +206,23 @@ func NewOtelLogger(conf *config.Config, serverConfig *config.Server) (OtelLogger
 	}
 	return otelLog, nil
 }
+
+// // BuildCtxWithOTEL 构建一个包含链路追踪 ID 的 Context
+// // 符合 OpenTelemetry 的链路追踪规范
+// func BuildCtxWithOTEL(kv map[string]string) context.Context {
+// 	ctx := context.Background()
+// 	spanContext := trace.NewSpanContext(trace.SpanContextConfig{})
+// 	// 使用 OpenTelemetry 的标准属性键
+// 	if traceID, exists := kv["trace_id"]; exists && traceID != "" {
+// 		if tid, err := trace.TraceIDFromHex(traceID); err == nil {
+// 			spanContext = spanContext.WithTraceID(tid)
+// 		}
+// 		if spanID, exists := kv["span_id"]; exists && spanID != "" {
+// 			if sid, err := trace.SpanIDFromHex(spanID); err == nil {
+// 				spanContext = spanContext.WithSpanID(sid)
+// 			}
+// 		}
+// 	}
+// 	ctx = trace.ContextWithSpanContext(ctx, spanContext)
+// 	return ctx
+// }

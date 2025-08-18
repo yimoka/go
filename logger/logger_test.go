@@ -89,7 +89,7 @@ func TestLoggerFilter(t *testing.T) {
 
 			// 测试parseLogLevel函数
 			if tt.loggerConf != nil && tt.loggerConf.FilterLevel != "" {
-				level := parseLogLevel(tt.loggerConf.FilterLevel)
+				level := log.ParseLevel(tt.loggerConf.FilterLevel)
 				if level == log.LevelInfo && tt.loggerConf.FilterLevel != "info" {
 					t.Errorf("parseLogLevel failed for level: %s", tt.loggerConf.FilterLevel)
 				}
@@ -120,7 +120,7 @@ func TestParseLogLevel(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.input, func(t *testing.T) {
-			result := parseLogLevel(tt.input)
+			result := log.ParseLevel(tt.input)
 			if result != tt.expected {
 				t.Errorf("parseLogLevel(%s) = %v, want %v", tt.input, result, tt.expected)
 			}
