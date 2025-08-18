@@ -1413,9 +1413,13 @@ type Metrics struct {
 	// 子系统
 	Subsystem string `protobuf:"bytes,5,opt,name=subsystem,proto3" json:"subsystem,omitempty"`
 	// 自定义标签
-	Labels        map[string]string `protobuf:"bytes,6,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Insecure      *bool             `protobuf:"varint,7,opt,name=insecure,proto3,oneof" json:"insecure,omitempty"`
-	Headers       map[string]string `protobuf:"bytes,8,rep,name=headers,proto3" json:"headers,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Labels   map[string]string `protobuf:"bytes,6,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Insecure *bool             `protobuf:"varint,7,opt,name=insecure,proto3,oneof" json:"insecure,omitempty"`
+	Headers  map[string]string `protobuf:"bytes,8,rep,name=headers,proto3" json:"headers,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// 超时时间 秒
+	Timeout int32 `protobuf:"varint,9,opt,name=timeout,proto3" json:"timeout,omitempty"`
+	// 上报间隔 秒
+	Interval      int32 `protobuf:"varint,10,opt,name=interval,proto3" json:"interval,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1504,6 +1508,20 @@ func (x *Metrics) GetHeaders() map[string]string {
 		return x.Headers
 	}
 	return nil
+}
+
+func (x *Metrics) GetTimeout() int32 {
+	if x != nil {
+		return x.Timeout
+	}
+	return 0
+}
+
+func (x *Metrics) GetInterval() int32 {
+	if x != nil {
+		return x.Interval
+	}
+	return 0
 }
 
 type Upload struct {
@@ -2390,7 +2408,7 @@ const file_config_config_proto_rawDesc = "" +
 	"\tTraceAuth\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1a\n" +
-	"\bpassword\x18\x03 \x01(\tR\bpassword\"\xad\x03\n" +
+	"\bpassword\x18\x03 \x01(\tR\bpassword\"\xe3\x03\n" +
 	"\aMetrics\x12\x1a\n" +
 	"\bendpoint\x18\x01 \x01(\tR\bendpoint\x12\x18\n" +
 	"\aservice\x18\x02 \x01(\tR\aservice\x12\x10\n" +
@@ -2399,7 +2417,10 @@ const file_config_config_proto_rawDesc = "" +
 	"\tsubsystem\x18\x05 \x01(\tR\tsubsystem\x12:\n" +
 	"\x06labels\x18\x06 \x03(\v2\".yimoko.config.Metrics.LabelsEntryR\x06labels\x12\x1f\n" +
 	"\binsecure\x18\a \x01(\bH\x00R\binsecure\x88\x01\x01\x12=\n" +
-	"\aheaders\x18\b \x03(\v2#.yimoko.config.Metrics.HeadersEntryR\aheaders\x1a9\n" +
+	"\aheaders\x18\b \x03(\v2#.yimoko.config.Metrics.HeadersEntryR\aheaders\x12\x18\n" +
+	"\atimeout\x18\t \x01(\x05R\atimeout\x12\x1a\n" +
+	"\binterval\x18\n" +
+	" \x01(\x05R\binterval\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a:\n" +

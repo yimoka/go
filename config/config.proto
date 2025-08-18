@@ -215,6 +215,10 @@ message Metrics {
   map<string, string> labels = 6;
   optional bool insecure = 7;
   map<string, string> headers = 8;
+  // 超时时间 秒
+  int32 timeout = 9;
+  // 上报间隔 秒
+  int32 interval = 10;
 }
 
 message Upload {
