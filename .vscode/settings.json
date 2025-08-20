@@ -7,6 +7,7 @@
     "bufbuild",
     "customsql",
     "keyvals",
+    "kratos",
     "nicksnyder",
     "nolint",
     "objc",
@@ -14,6 +15,7 @@
     "otlp",
     "otlplog",
     "otlploggrpc",
+    "otlpmetric",
     "otlpmetricgrpc",
     "otlptrace",
     "otlptracegrpc",
@@ -26,6 +28,7 @@
     "structpb",
     "tlog",
     "tracesdk",
+    "yimoka",
     "ymetrics"
   ],
   "makefile.configureOnOpen": false

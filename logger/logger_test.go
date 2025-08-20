@@ -1,3 +1,4 @@
+// cSpell:disable
 package logger
 
 import (
@@ -235,6 +236,7 @@ func TestRegexFilter(t *testing.T) {
 			logLevel: log.LevelInfo,
 			keyValues: []interface{}{
 				"msg", "API调用",
+				// nolint
 				"args", "token:\"LSbglXIKpiuYyukUCCp4zpXgplU1No9dEU73/yHNPB6Op9eCSqKUlSU1UcOmWqFFR6E6+VUiPChCHSoRAIFw3BPR4HFY/y9aMQHfTsPHud1uFK4lfwHxS4FDTenke75oZ6Urcoc0yBN5ehs+7hwO+b/44ikJbz22t/mVjnE4qRDOpB9Xq+Fv+hE0XOUUSQLYl6NNdH1UYtq9CndIOmj7sBdYMeytCtrSQ5NOlbVmcc2hI2SThtE/b+fUz9qBQOUBALuuDhkP17tfHpNNIRnlY6dropeeGR10SBBYoLg0kxtp/yPD3nML3gIswP31Q6fCKGB8kDnoz2dqRaeC6Rry97ty/d4VGLB/nl/t9jkhGo9MhtcrfOVrscEHwX6hmTTh3unvSmtQjeTMUvkXlhjbhpptEFqqlT3dZgfMp9sKc+WtJVNSSqE5Jmy3ktmcs1iHaACnpqawdf6HPYHWhoBi0MyjWVA2+y29SXK92pqfNykEbeevvq8rRIS95kPtexMF7CQRq16Op233vTxSWiL2HUPBaeZYaNzzwGsg6SuARrzIscHJ38VPseeL3I8FekBfh2BdUOTcDG4wRFdlfxTyCHuEy/k7fBRVqWBsr2oLkKqsmghsmoJYrnikjypJZxuPuR4caOLyvsPYDGvk1wiIDzsqPpSTr43r8MtyOjPnuSaJu5GCH/EakPw/jNjtUwQ/BJFIbgvTg+ndO6R5GE0gLjLpwmteZl1IQAbynAOvdxmqNeB5BLa/zwxRy3K4i5yjML4191VA9iaP60BmFhiQzsvaMuI8bWoijb9FjQ==\" userAgent:\"Mozilla/5.0\"",
 				"code", 200,
 			},
@@ -437,6 +439,7 @@ func TestArgsTokenReplacement(t *testing.T) {
 
 	// 测试1: args中包含token和其他参数
 	t.Run("args包含token和其他参数", func(t *testing.T) {
+		// nolint
 		args := `token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" userAgent:"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" method:"POST" path:"/api/auth/login"`
 
 		err := logger.Log(log.LevelInfo,
@@ -451,6 +454,7 @@ func TestArgsTokenReplacement(t *testing.T) {
 
 	// 测试2: args中包含多个token
 	t.Run("args包含多个token", func(t *testing.T) {
+		// nolint
 		args := `token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" userAgent:"Mozilla/5.0"`
 
 		err := logger.Log(log.LevelInfo,
@@ -479,6 +483,7 @@ func TestArgsTokenReplacement(t *testing.T) {
 
 	// 测试4: 复杂的args字符串
 	t.Run("复杂的args字符串", func(t *testing.T) {
+		// nolint
 		args := `token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" userAgent:"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" method:"POST" path:"/api/auth/login" userId:"12345" timestamp:"2025-07-24T09:30:00Z" ip:"192.168.1.100"`
 
 		err := logger.Log(log.LevelInfo,

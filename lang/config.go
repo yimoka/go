@@ -103,6 +103,7 @@ const (
 	validateStringInKey                MsgKey = validatePrefix + "string.in"                  // 字符串枚举验证
 	validateStringNotInKey             MsgKey = validatePrefix + "string.not_in"              // 字符串非枚举验证
 	validateStringEmailKey             MsgKey = validatePrefix + "string.email"               // 邮箱格式验证
+	validateStringEmailEmptyKey        MsgKey = validatePrefix + "string.email_empty"         // 邮箱不能为空验证
 	validateStringHostnameKey          MsgKey = validatePrefix + "string.hostname"            // 主机名验证
 	validateStringIPKey                MsgKey = validatePrefix + "string.ip"                  // IP地址验证
 	validateStringIPv4Key              MsgKey = validatePrefix + "string.ipv4"                // IPv4地址验证
@@ -355,6 +356,7 @@ var dfMsgMap = map[MsgKey]*i18n.Message{
 	validateStringInKey:                {ID: validateStringInKey.String(), Other: "Must be one of [{{.Rule}}]"},
 	validateStringNotInKey:             {ID: validateStringNotInKey.String(), Other: "Must not be one of [{{.Rule}}]"},
 	validateStringEmailKey:             {ID: validateStringEmailKey.String(), Other: "Must be a valid email address"},
+	validateStringEmailEmptyKey:        {ID: validateStringEmailEmptyKey.String(), Other: "Email cannot be empty"},
 	validateStringHostnameKey:          {ID: validateStringHostnameKey.String(), Other: "Must be a valid hostname"},
 	validateStringIPKey:                {ID: validateStringIPKey.String(), Other: "Must be a valid IP address"},
 	validateStringIPv4Key:              {ID: validateStringIPv4Key.String(), Other: "Must be a valid IPv4 address"},
@@ -603,6 +605,7 @@ var zhMsgMap = map[MsgKey]*i18n.Message{
 	validateStringInKey:                {ID: validateStringInKey.String(), Other: "必须是 [{{.Rule}}] 其中之一"},
 	validateStringNotInKey:             {ID: validateStringNotInKey.String(), Other: "不能是 [{{.Rule}}] 其中之一"},
 	validateStringEmailKey:             {ID: validateStringEmailKey.String(), Other: "必须是有效的电子邮件地址"},
+	validateStringEmailEmptyKey:        {ID: validateStringEmailEmptyKey.String(), Other: "电子邮件不能为空"},
 	validateStringHostnameKey:          {ID: validateStringHostnameKey.String(), Other: "必须是有效的主机名"},
 	validateStringIPKey:                {ID: validateStringIPKey.String(), Other: "必须是有效的IP地址"},
 	validateStringIPv4Key:              {ID: validateStringIPv4Key.String(), Other: "必须是有效的IPv4地址"},
@@ -853,6 +856,7 @@ var ruMsgMap = map[MsgKey]*i18n.Message{
 	validateStringInKey:                {ID: validateStringInKey.String(), Other: "Должно быть одним из [{{.Rule}}]"},
 	validateStringNotInKey:             {ID: validateStringNotInKey.String(), Other: "Не должно быть одним из [{{.Rule}}]"},
 	validateStringEmailKey:             {ID: validateStringEmailKey.String(), Other: "Должно быть действительным email адресом"},
+	validateStringEmailEmptyKey:        {ID: validateStringEmailEmptyKey.String(), Other: "Email не может быть пустым"},
 	validateStringHostnameKey:          {ID: validateStringHostnameKey.String(), Other: "Должно быть действительным именем хоста"},
 	validateStringIPKey:                {ID: validateStringIPKey.String(), Other: "Должно быть действительным IP адресом"},
 	validateStringIPv4Key:              {ID: validateStringIPv4Key.String(), Other: "Должно быть действительным IPv4 адресом"},
@@ -1102,6 +1106,7 @@ var frMsgMap = map[MsgKey]*i18n.Message{
 	validateStringInKey:                {ID: validateStringInKey.String(), Other: "Doit être l'un de [{{.Rule}}]"},
 	validateStringNotInKey:             {ID: validateStringNotInKey.String(), Other: "Ne doit pas être l'un de [{{.Rule}}]"},
 	validateStringEmailKey:             {ID: validateStringEmailKey.String(), Other: "Doit être une adresse email valide"},
+	validateStringEmailEmptyKey:        {ID: validateStringEmailEmptyKey.String(), Other: "L'email ne peut pas être vide"},
 	validateStringHostnameKey:          {ID: validateStringHostnameKey.String(), Other: "Doit être un nom d'hôte valide"},
 	validateStringIPKey:                {ID: validateStringIPKey.String(), Other: "Doit être une adresse IP valide"},
 	validateStringIPv4Key:              {ID: validateStringIPv4Key.String(), Other: "Doit être une adresse IPv4 valide"},
