@@ -28,12 +28,12 @@ func GetPostgreSQLDriver(conf *config.Database) dialect.Driver {
 		return dialect.Driver(drv)
 	}
 	return dialect.DebugWithContext(drv, func(ctx context.Context, i ...interface{}) {
-		tracer := otel.Tracer("ent.")
+		tracer := otel.Tracer("ent")
 		kind := trace.SpanKindServer
 		_, span := tracer.Start(ctx,
-			"Query",
+			"postgres",
 			trace.WithAttributes(
-				attribute.String("sql", fmt.Sprint(i...)),
+				attribute.String("db.statement", fmt.Sprint(i...)),
 				attribute.String("db.system", "postgres"),
 			),
 			trace.WithSpanKind(kind),
