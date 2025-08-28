@@ -109,6 +109,9 @@ message Redis {
   google.protobuf.Duration read_timeout = 5;
   google.protobuf.Duration write_timeout = 6;
   bool isTrace = 7;
+  // 单机模式
+  bool isSingle = 8;
+  repeated string addrs = 9;
 }
 
 message Cache {

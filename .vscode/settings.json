@@ -3,6 +3,7 @@
   "go.lintTool": "golangci-lint",
   "go.lintOnSave": "workspace",
   "cSpell.words": [
+    "addrs",
     "bluemonday",
     "bufbuild",
     "customsql",
@@ -22,6 +23,7 @@
     "otlptracegrpc",
     "protovalidate",
     "redisotel",
+    "samber",
     "sdklog",
     "sdkmetric",
     "semconv",

@@ -16,7 +16,7 @@ import (
 type RedisCache struct {
 	lang *lang.CommonLang
 	// redis 连接池
-	client *redis.Client
+	client redis.UniversalClient
 	log    *log.Helper
 	// 缓存前缀
 	prefix string
@@ -25,7 +25,7 @@ type RedisCache struct {
 }
 
 // NewRedisCache 创建 RedisCache
-func NewRedisCache(client *redis.Client, prefix string, lang *lang.CommonLang, logger log.Logger) *RedisCache {
+func NewRedisCache(client redis.UniversalClient, prefix string, lang *lang.CommonLang, logger log.Logger) *RedisCache {
 	if client == nil {
 		panic("redis client 不能为空")
 	}
